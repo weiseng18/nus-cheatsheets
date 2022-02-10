@@ -24,4 +24,4 @@ Written for AY21/22 Sem 1 Test 3. Only hard copy notes allowed, but no restricti
 
 ### MA2001
 
-Written for AY21/22 Sem 1 Finals. The finals were held online and you could use any amount of notes, but I made a 5 page summary to make it easier to find theorems. You can find the PDF [here](MA2001/MA2001-AY2122S1-Finals.pdf).
+Written for AY21/22 Sem 1 Finals. No restriction on notes, but I made a summary to make it easier to find theorems. You can find the PDF [here](MA2001/MA2001-AY2122S1-Finals.pdf).
