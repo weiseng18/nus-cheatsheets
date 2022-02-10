@@ -1,0 +1,20 @@
+\newcommand{\limit}[3]{\lim_{#1 \rightarrow #2} \left( #3 \right)}
+\newcommand{\limitnb}[3]{\lim_{#1 \rightarrow #2} #3}
+\newcommand{\limitnbne}[4]{\lim_{#1 \underset{#2}{\rightarrow} #3} #4} % limit no bracket not equal
+
+\newcommand{\dd}[2]{\dfrac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pdd}[2]{\dfrac{\partial#1}{\partial#2}}
+\newcommand{\dydx}{\dd{y}{x}}
+\newcommand{\ddn}[3]{\dfrac{\mathrm{d}^{#1}#2}{\mathrm{d}#3^{#1}}}
+
+\newcommand{\integ}[2]{\int #1 \; d#2} % indefinite integral
+\newcommand{\integnd}[1]{\int #1 \;} % indefinite integral no d
+\newcommand{\dinteg}[4]{\int_{#1}^{#2} #3 \; d#4} % definite integral
+\newcommand{\dintegnd}[3]{\int_{#1}^{#2} #3 \;} % definite integral no d
+
+\newcommand{\dbinteg}[3]{\iint_{#1} #2 \; #3} % double indefinite integral. region must be specified
+\newcommand{\dbdinteg}[7]{\int_{#1}^{#2} \int_{#3}^{#4} #5 \; #6 #7} % double definite integral
+
+\newcommand{\eval}[3]{\left.#1\;\right\rvert_{#2}^{#3}} % eval integral
+\newcommand{\evalb}[3]{\left(\left.#1\;\right\rvert_{#2}^{#3}\right)} % eval integral with brackets
+\newcommand{\evalib}[3]{\left.\left(#1\right)\;\right\rvert_{#2}^{#3}} % eval integral with inner brackets

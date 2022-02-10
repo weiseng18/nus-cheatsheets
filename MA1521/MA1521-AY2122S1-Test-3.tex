@@ -1,0 +1,197 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,margin=0.6in,landscape]{geometry}
+
+\input{"../headers/cheat_sheet.tex"}
+\input{"../headers/calculus.tex"}
+
+\newcommand{\convergent}{\text{ convergent}}
+\newcommand{\divergent}{\text{ divergent}}
+
+\begin{document}
+\begin{multicols*}{3}
+  \section*{1-var Calculus}
+    \subsection*{Integration by parts}
+      \begin{equation*}
+        \integ{u}{v} = uv - \integ{v}{u}
+      \end{equation*}
+    \subsection*{Quotient rule}
+      \begin{equation*}
+        \dd{}{x} \left( \dfrac{u}{v} \right)
+        = \dfrac{v \dd{u}{x} - u \dd{v}{x}}{v^2}
+      \end{equation*}
+    \subsection*{Fundamental theorem}
+      Suppose $f$ is continuous on $[a, b]$.
+      \paragraph{Part 1}
+        $F(x) = \dinteg{a}{x}{f(t)}{t}$ is continuous on $[a,b]$ and differentiable on $(a,b)$, and its derivative is $f(x)$.
+        \begin{equation*}
+          F'(x) = \dd{}{x} \dinteg{a}{x}{f(t)}{t} = f(x)
+        \end{equation*}
+      \paragraph{Part 2}
+        Let $F$ be an antiderivatve of $f$ on $[a,b]$. Then
+        \begin{equation*}
+          \dinteg{a}{b}{f(x)}{x} = F(b) - F(a)
+        \end{equation*}
+    \subsection*{Mean value theorem}
+      Suppose $f$ is continuous on $[a,b]$, and $f$ is differentiable on $(a,b)$. Then there exists a $c$ such that
+      \begin{equation*}
+        f'(c) = \dfrac{f(b)-f(a)}{b-a}
+      \end{equation*}
+    \subsection*{Limit definition of derivative}
+      \begin{equation*}
+        f'(x) = \limitnb{h}{0}{\dfrac{f(x+h)-f(x)}{h}}
+      \end{equation*}
+      and letting $z = x+h$,
+      \begin{equation*}
+        f'(x) = \limitnb{z}{x}{\dfrac{f(z)-f(x)}{z-x}}
+      \end{equation*}
+  \section*{2-var Calculus}
+    \subsection*{Local extrema}
+      \paragraph{Critical point}
+        is an interior point of the domain of a function $f(x,y)$ where $f_x = f_y = 0$ or where one or both of $f_x$ and $f_y$ do not exist.
+      \paragraph{Solve for local extrema}
+        Solve $f_x = 0$ and $f_y = 0$ simultaneously.
+      \paragraph{Second derivative test}
+        Suppose $f$ and its first and second partial derivatives are continuous throughout a disk centered at (a,b) and that $f_x(a,b) = f_y(a,b) = 0$. Then,
+        \begin{enumerate}
+          \item Local max at $(a,b)$ if $f_{xx} < 0$ and discriminant $> 0$.
+          \item Local min at $(a,b)$ if $f_{xx} > 0$ and discriminant $> 0$.
+          \item Saddle point at $(a,b)$ if discriminant $< 0$.
+          \item Inconclusive at $(a,b)$ if discriminant $= 0$.
+        \end{enumerate}
+        Discriminant is defined as $f_{xx} f_{yy} - f_{xy}^2$.
+      \paragraph{Fubini's theorem}
+        Let $f(x,y)$ be continuous on a region $R$.
+        \begin{enumerate}
+          \item If $R$ is defined by $a \leq x \leq b$, $g_1(x) \leq y \leq g_2(x)$, with $g_1$ and $g_2$ continuous on $[a,b]$, then
+            \begin{equation*}
+              \dbinteg{R}{f(x,y)}{dA} = \dbdinteg{a}{b}{g_1(x)}{g_2(x)}{f(x,y)}{dy}{dx}
+            \end{equation*}
+          \item If $R$ is defined by $c \leq y \leq d$, $h_1(y) \leq x \leq h_2(y)$, with $h_1$ and $h_2$ continuous on $[c,d]$, then
+            \begin{equation*}
+              \dbinteg{R}{f(x,y)}{dA} = \dbdinteg{c}{d}{h_1(x)}{h_2(x)}{f(x,y)}{dx}{dy}
+            \end{equation*}
+        \end{enumerate}
+  \section*{Series}
+    \subsection*{Useful inequalities}
+      \begin{equation*}
+        n! < n^n \quad
+        \sqrt{n} < n \quad
+        \ln n < n^c
+      \end{equation*}
+    \subsection*{Cauchy-Schwarz inequality}
+      \begin{equation*}
+        \left( \sum_{i=1}^n a_i b_i \right)^2 \leq \left(\sum_{i=1}^n a_i^2\right) \left(\sum_{i=1}^n b_i^2\right)
+      \end{equation*}
+    \subsection*{Convergence of some series}
+      \begin{enumerate}
+        \item $\displaystyle \sum_{n=0}^\infty \dfrac{1}{\sqrt{n}}$ diverges using comparison test with harmonic series.
+        \item $\displaystyle \sum_{n=0}^\infty \dfrac{\ln n}{n^k}$, where $k>2$, converges using comparison test with $p$-series. Start with $\ln n < n$.
+      \end{enumerate}
+    \subsection*{Absolute and conditional convergence}
+      \paragraph{Absolutely convergent}
+        $\sum_{n=1}^\infty a_n$ is absolutely convergent if $\sum_{n=1}^\infty \abs{a_n}$ converges.
+      \paragraph{Conditionally convergent}
+        $\sum_{n=1}^\infty a_n$ is conditionally convergent if $\sum_{n=1}^\infty a_n$ converges, but $\sum_{n=1}^\infty \abs{a_n}$ diverges.
+    \subsection*{Convergence tests}
+      \paragraph{Geometric series}
+        $\sum ar^n$ converges if $\abs{r} < 1$; otherwise it diverges.
+      \paragraph{$p$-series}
+        $\sum 1/n^p$ converges if $p > 1$; otherwise it diverges.
+      \paragraph{$n$-th term test}
+        If $\displaystyle \limitnb{n}{\infty}{a_n}$ does not exist or $\neq 0$, then $\sum_{n=1}^\infty a_n$ diverges.
+      \paragraph{Alternating Series test}
+        If $a_{n+1} \leq a_n$ and $\displaystyle \limitnb{n}{\infty}{a_n} = 0$, then $\sum_{n=1}^\infty (-1)^{n+1} a_n$ is convergent.
+      \paragraph{Absolute convergence}
+        If a series is absolutely convergent, then it is convergent.
+\pagebreak
+    \subsection*{Convergence tests for series with positive terms}
+      $a_n$ and $b_n$ are all positive.
+      \paragraph{Integral test}
+        Suppose $f$ is continuous, positive, decreasing on $[1, \infty)$ such that $a_n = f(n)$ for all $n$. Then
+        \begin{equation*}
+          \sum_{n=1}^\infty a_n \convergent \Leftrightarrow \dinteg{1}{\infty}{f(x)}{x} \convergent
+        \end{equation*}
+        and the biconditional holds for divergence as well.
+      \paragraph{Comparison test}
+        Suppose $a_n \leq b_n$ for all $n$.
+        \begin{enumerate}[label=(\roman*)]
+          \item $\sum b_n \convergent \Rightarrow \sum a_n \convergent$
+          \item $\sum a_n \divergent \Rightarrow \sum b_n \divergent$
+        \end{enumerate}
+      \paragraph{Limit Comparison test}
+        If $\displaystyle \limitnb{n}{\infty}{\dfrac{a_n}{b_n}} = c$ where $c > 0$, then both series converge, or both series diverge.
+      \paragraph{Ratio test}
+        Let $\displaystyle \limitnb{n}{\infty} \abs{\dfrac{a_{n+1}}{a_n}} = L$.
+        \begin{enumerate}[label=(\roman*)]
+          \item $0 \leq L < 1 \Rightarrow \sum a_n$ is absolutely convergent (and convergent).
+          \item $L > 1 \Rightarrow \sum a_n$ is divergent.
+        \end{enumerate}
+      \paragraph{Root test}
+        Let $\displaystyle \limitnb{n}{\infty} \sqrt[n]{\abs{a_n}}$ = L.
+        \begin{enumerate}[label=(\roman*)]
+          \item $0 \leq L < 1 \Rightarrow \sum a_n$ is absolutely convergent (and convergent).
+          \item $L > 1 \Rightarrow \sum a_n$ is divergent.
+        \end{enumerate}
+    \subsection*{Power series}
+      \paragraph{Radius of convergence}
+        Given a power series $\sum_{n=0}^\infty c_n (x-a)^n$, exactly one of the following possibilities holds:
+        \begin{enumerate}[label=(\alph*)]
+          \item The series converges at $x=a$ only ($R=0$)
+          \item The series converges for all $x$ ($R=\infty$)
+          \item There is a positive $R$ such that the series converges if $\abs{x-a} < R$ and diverges if $\abs{x-a} > R$.
+        \end{enumerate}
+        $R$ is the radius of convergence. We can compute $R$ by the following methods:
+        \begin{enumerate}[label=(\roman*)]
+          \item If $\displaystyle \limitnb{n}{\infty} \sqrt[n]{\abs{c_n}} = L$, then $R = 1/L$.
+          \item If $\displaystyle \limitnb{n}{\infty} \abs{\dfrac{c_{n+1}}{c_n}} = L$, then $R = 1/L$.
+        \end{enumerate}
+      \paragraph{Interval of convergence}
+        The interval of convergence is the interval that consists of all values of $x$ for which the series converges. Usually, the interval of convergence is
+        \begin{equation*}
+          (a-R, a+R)
+        \end{equation*}
+        but the series might converge at endpoints, which need to be tested separately.
+      \paragraph{Differentiation/Integration}
+        Let
+        \begin{equation*}
+          f(x) = \sum_{n=0}^\infty c_n (x-a)^n
+        \end{equation*}
+        such that the power series has radius of convergence $R > 0$. Then $f$ is differentiable on the interval $\abs{x-a} < R$ and
+        \begin{enumerate}[label=(\roman*)]
+          \item $\displaystyle f'(x) = \sum_{n=1}^\infty n c_n (x-a)^{n-1}$
+          \item $\displaystyle \integ{f(x)}{x} = \sum_{n=0}^\infty c_n \dfrac{(x-a)^{n+1}}{n+1} + C$
+        \end{enumerate}
+      \paragraph{Taylor series}
+        The Taylor series generated by $f$ at $x=a$ is
+        \begin{equation*}
+          \sum_{k=0}^\infty \dfrac{f^{(k)}(a)}{k!} (x-a)^k
+        \end{equation*}
+      \paragraph{Maclaurin series}
+        The Maclaurin series generated by $f$ is the Taylor series at $x=0$.
+    \subsection*{Standard Taylor series}
+      \footnotesize
+      \begin{flalign*}
+        \dfrac{1}{1-x} &= 1 + x + x^2 + \cdots = \sum_{n=0}^\infty x^n & \abs{x} < 1 \\
+        \dfrac{1}{1+x} &= 1 - x + x^2 - \cdots = \sum_{n=0}^\infty (-1)^n x^n & \abs{x} < 1 \\
+        e^x &= 1 + x + \dfrac{x^2}{2!} + \cdots = \sum_{n=0}^\infty \dfrac{x^n}{n!} \\
+        \sin x &= x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \cdots = \sum_{n=0}^\infty \dfrac{(-1)^n x^{2n+1}}{(2n+1)!} \\
+        \cos x &= x - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} - \cdots = \sum_{n=0}^\infty \dfrac{(-1)^n x^{2n}}{(2n)!} \\
+        \ln (1+x) &= x - \dfrac{x^2}{2!} + \dfrac{x^3}{3!} - \cdots = \sum_{n=1}^\infty \dfrac{(-1)^{n-1} x^n}{n} & -1 < x \leq 1 \\
+        \ln \dfrac{1+x}{1-x} &= 2 \tanh^{-1} x \\
+                             &= 2 \left( x + \dfrac{x^3}{3} + \dfrac{x^5}{5} + \cdots \right)  = 2 \sum_{n=0}^\infty \dfrac{x^{2n+1}}{2n+1} & \abs{x} < 1 \\
+        \tan^{-1} x &= x - \dfrac{x^3}{3} + \dfrac{x^5}{5} - \cdots = \sum_{n=0} \dfrac{(-1)^n x^{2n+1}}{(2n+1)!} & \abs{x} \leq 1
+      \end{flalign*}
+      \normalsize
+    \subsection*{Limits relating to $e^x$}
+      \begin{align*}
+        L &= \limitnb{n}{\infty}{\left(\dfrac{n+k}{n}\right)^n} \\
+          &= \limitnb{n}{\infty}{\left(1 + \dfrac{k}{n}\right)^n} \\
+        \ln L &= \limit{n}{\infty}{n \ln \left(1 + \dfrac{k}{n}\right)} \\
+              &= \limit{n}{\infty}{\ln \left(1 + \dfrac{k}{n}\right) \div \dfrac{1}{n}} \quad\quad \dfrac{0}{0} \\
+              &= \limit{n}{\infty}{ \dfrac{-\tfrac{k}{n^2}}{1+\tfrac{k}{n}} \div \dfrac{-1}{n^2} } \\
+              &= \limit{n}{\infty}{ \dfrac{k}{1+\tfrac{k}{n}} } \\
+              &= k \\
+            L &= e^k
+      \end{align*}
+\end{multicols*}
+\end{document}
