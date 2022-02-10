@@ -11,3 +11,9 @@ Cheatsheets made for NUS CS
 
 - My `.tex` source files depend on "header" files I maintain for all `.tex` files - considering to decouple them
 - Create a Makefile so that the compilation is reproducible
+
+## Modules
+
+### CS2030S
+
+Written for AY21/22 Sem 1 Finals. The notes are incomplete, because the finals for that particular semester was basically a practical assessment, so it was only important to know how Java works (and of course, OOP & FP concepts). You can find the PDF [here](pdf/CS2030S-AY2122S1-Finals.pdf).
