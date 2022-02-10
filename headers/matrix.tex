@@ -1,0 +1,51 @@
+\usepackage{spalign}
+
+\let\mat=\spalignmat
+\let\amat=\spalignaugmat
+
+\newcommand{\detmat}[1]{\spaligndelims\vert\vert\spalignmat{#1}\spaligndelims()}
+
+\newcommand{\ro}[1]{\xrightarrow{\begin{subarray}{l}#1\end{subarray}}}
+\newcommand{\roTwo}[2]{\xrightarrow{\begin{subarray}{l}#1\\#2\end{subarray}}}
+\newcommand{\roThree}[3]{\xrightarrow{\begin{subarray}{l}#1\\#2\\#3\end{subarray}}}
+
+% matrix operations
+\newcommand{\rref}{\mathrm{rref}}
+
+\newcommand{\transpose}{^{\text{T}}}
+\newcommand{\tr}{^{\text{T}}}
+
+\newcommand{\GJE}{\ro{\text{GJE}}}
+\newcommand{\matdim}[1]{\mathrm{dim}(#1)}
+\newcommand{\matrank}[1]{\mathrm{rank}(#1)}
+\newcommand{\matnullity}[1]{\mathrm{nullity}(#1)}
+
+\newcommand{\minrank}[1]{\mathrm{min}\{#1\}}
+
+\newcommand{\vabs}[1]{\abs{\abs{#1}}}
+
+\newcommand{\by}[2]{$#1 \times #2$}
+\newcommand{\laspan}[1]{\mathrm{span}\left\{#1\right\}}
+
+\newcommand{\spc}{\spaligndelims..} % spalign cancel brackets
+\newcommand{\spv}{\spaligndelims\vert\vert} % spalign vert
+\newcommand{\spr}{\spaligndelims()} % spalign reset
+
+% vector bold
+\newcommand{\vb}[1]{\boldsymbol{#1}}
+\newcommand{\I}{\vb{I}}
+\newcommand{\vz}{\vb{0}}
+
+% expand to row vector
+% #1 is the vector, #2 is the length
+% refer to MA2001 Tutorial 5 for sample usage
+\newcommand{\exprow}[2]{
+  \rule[.4ex]{#2}{0.5pt}
+  \hspace{0.2cm}
+  #1
+  \hspace{0.2cm}
+  \rule[.4ex]{#2}{0.5pt}
+}
+
+% set of column vectors
+\newcommand{\vset}[1]{\left\{#1\right\}}

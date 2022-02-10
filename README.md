@@ -17,3 +17,7 @@ Cheatsheets made for NUS CS
 ### CS2030S
 
 Written for AY21/22 Sem 1 Finals. The notes are incomplete, because the finals for that particular semester was basically a practical assessment, so it was only important to know how Java works (and of course, OOP & FP concepts). You can find the PDF [here](pdf/CS2030S-AY2122S1-Finals.pdf).
+
+### MA2001
+
+Written for AY21/22 Sem 1 Finals. The finals were held online and you could use any amount of notes, but I made a 5 page summary to make it easier to find theorems. You can find the PDF [here](pdf/MA2001-AY2122S1-Finals.pdf).

@@ -1,0 +1,481 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,
+            top=0.4in,
+            bottom=0.6in,
+            left=0.4in,
+            right=0.4in,
+            landscape]{geometry}
+
+\input{"$NOTES_CONFIG/cheat_sheet.tex"}
+\input{"$NOTES_CONFIG/matrix.tex"}
+\input{"$NOTES_CONFIG/matrix_v2.tex"}
+
+% math and misc
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\inv}{^{-1}}
+
+\begin{document}
+\begin{multicols*}{3}
+  \small
+  \section*{Matrices}
+    \paragraph{Definition 2.2.19} Let $\A = \mat{a_{ij}}$ be \by{m}{n}. Then the transpose of $\A$, $\A\tr = \mat{a_{ji}}$ is \by{n}{m}.
+    \paragraph{Remark 2.2.21} Let $\A = \mat{a_{ij}}$. It is symmetric if $a_{ij} = a_{ji}$ for all $i,j$.
+    \paragraph{Theorem 2.2.22} Let $\A$ be \by{m}{n}. Let $c$ be a scalar.
+      \ol {
+        \item $(\A\tr)\tr = \A$.
+        \item If $\B$ is \by{m}{n}, then $(\A+\B)\tr = \A\tr + \B\tr$.
+        \item $(c\A)\tr = c\A\tr$.
+        \item If $\B$ is \by{n}{p}, then $(\A\B)\tr = \B\tr \A\tr$.
+      }
+    \paragraph{Definition 2.3.2} Let $\A$ be \by{n}{n}. It is invertible there exists a \by{n}{n} $\B$ such that $\A\B = \I$ and $\B\A = \I$. By Theorem 2.3.5, $\B$ is uniquely defined by $\A$. By Theorem 2.4.12, we only need to verify either one of $\A\B = \I$ or $\B\A = \I$.
+    \paragraph{Theorem 2.3.9} Let $\A, \B$ be two invertible matrices of the same size. Let $c$ be a scalar.
+      \ol {
+        \item $c\A$ is invertible, $(c\A)\inv = \tfrac{1}{c} \A\inv$.
+        \item $\A\tr$ is invertible, $(\A\tr)\inv = (\A\inv)\tr$.
+        \item $\A\inv$ is invertible, $(\A\inv)\inv = \A$.
+        \item $\A\B$ is invertible, $(\A\B)\inv = \B\inv \A\inv$.
+      }
+    \paragraph{Remark} Let $\A, \B, \cdots, \vb{Z}$ be invertible matrices. Then
+      \begin{equation*}
+        (\A\B \cdots \vb{Z})\inv = \vb{Z}\inv \cdots \B\inv \A\inv
+      \end{equation*}
+    \paragraph{Definition 2.4.3} A square matrix is an elementary matrix if it can be obtained from $\I$ with a single ero. Elementary matrices are invertible and their inverses are also elementary matrices.
+    \subsection*{Determinants}
+      \paragraph{Theorem 2.4.14} Let $\A, \B$ be two square matrices of the same order. If $\A$ is singular, then $\A\B$ and $\B\A$ are singular.
+      \paragraph{Definition 2.5.2} The determinant of a \by{n}{n} square matrix $\A$ is defined as:
+        \begin{equation*}
+          \det(\A) =
+          \begin{cases}
+            a_{11} & \text{if } n=1 \\
+            a_{11}A_{11} + a_{12}A_{12} + \cdots + a_{1n}A_{1n} & \text{if } n>1
+          \end{cases}
+        \end{equation*}
+        where
+        \begin{equation*}
+          A_{ij} = (-1)^{i+j}\det(\vb{M_{ij}})
+        \end{equation*}
+        where $\vb{M_{ij}}$ is a \by{(n-1)}{(n-1)} matrix obtained from $\A$ by deleting the $i$th row and $j$th column. The scalar value $A_{ij}$ is called the $(i,j)$-cofactor of $\A$.
+      \paragraph{Theorem 2.5.8} If $\A$ is triangular, then $\det(\A)$ is the product of diagonal entries along $\A$.
+      \paragraph{Theorem 2.5.10} If $\A$ is a square matrix, then $\det(\A) = \det(\A\tr)$.
+      \paragraph{Theorem 2.5.15} Let $\A, \B$ be square matrices of the same order.
+        \ol {
+          \item If $\B$ is obtained from $\A$ by multiplying one row of $\A$ by a constant $k$, then $\det(\B) = k \det(\A)$.
+          \item If $\B$ is obtained from $\A$ by interchanging two rows of $\A$, then $\det(\B) = -\det(\A)$.
+          \item If $\B$ is obtained from $\A$ by adding a multiple of one row of $\A$ to another row, then $\det(\B) = \det(\A)$.
+          \item Let $\E$ be an elementary matrix of the same size as $\A$. Then $\det(\E\A) = \det(\E) \det(\A)$.
+        }
+      \paragraph{Remark 2.5.18} By Theorem 2.5.10, Theorem 2.5.15 holds for eco.
+      \paragraph{Theorem 2.5.22} Let $\A, \B$ be square matrices of order $n$, and $c$ a scalar. Then
+        \ol {
+          \item $\det(c\A) = c^n \det(\A)$.
+          \item $\det(\A\B) = \det(\A) \det(\B)$.
+          \item If $\A$ invertible, then $\det(\A\inv) = \dfrac{1}{\det(\A)}$.
+        }
+      \paragraph{Definition 2.5.24} The adjoint of a square matrix $\A$ is defined as:
+        \begin{equation*}
+          \mathrm{adj}(\A) = (A_{ij})\tr_{n \times n}
+        \end{equation*}
+        where $A_{ij}$ is the $(i,j)$-cofactor of $\A$.
+      \paragraph{Theorem 2.5.25} If $\A$ is invertible, then $\A\inv = \tfrac{1}{\det(\A)} \mathrm{adj}(\A)$.
+      \paragraph{Theorem 2.5.27 (Cramer's Rule)} Suppose $\A\x = \b$ is a linear system where $\A$ is \by{n}{n}. Let $\A[i]$ be the matrix obtained from $\A$, by replacing the $i$th column of $\A$ by $\b$. If $\A$ is invertible, then the system has only one solution
+      \begin{equation*}
+        \x = \dfrac{1}{\det(\A)} \mat{\det(\A[1]); \det(\A[2]); \vdots; \det(\A[n])}
+      \end{equation*}
+  \section*{Vector Spaces}
+    \paragraph{Definition 3.2.3} Let $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ be a set of vectors in $\R^n$. Then the set of all linear combinations of $\u[1], \u[2], \cdots, \u[k]$,
+      \begin{equation*}
+        \{ c_1 \u[1] + c_2 \u[2] + \cdots + c_k \u[k] \;\vert\; c_1, c_2, \cdots, c_k \in \R \}
+      \end{equation*}
+      is the linear span of $S$, and is denoted by $\spn{S}$.
+    \paragraph{Theorem 3.2.10} Let $S_1 = \vset{\u[1], \u[2], \cdots, \u[k]}$ and $S_2 = \vset{\v[1], \v[2], \cdots, \v[m]}$. Then $\spn{S_1} \subseteq \spn{S_2} \Leftrightarrow$ each $\u[i]$ is a linear combination of $\v[1], \v[2], \cdots, \v[m]$. We verify by ensuring the following augmented matrix is consistent:
+    \begin{equation*}
+      \spalignarray{cccc|c|c|c|c}{\v[1], \v[2], \cdots, \v[m], \u[1], \u[2], \cdots, \u[k]}
+    \end{equation*}
+    \paragraph{Definition 3.3.1} Let $V$ be a subset of $\R^n$. Then $V$ is a subspace of $\R^n$ if $V = \spn{S}$, where $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ for some vectors $\u[1], \u[2], \cdots, \u[k] \in \R^n$.
+    \paragraph{Remark 3.3.8} A subspace is alternatively defined as a non-empty subset of $\R^n$ that is closed under vector addition and scalar multiplication.
+    \paragraph{Definition 3.4.2} Let $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ be a set of vectors in $\R^n$. Consider the equation
+      \begin{equation*}
+        c_1 \u[1] + c_2 \u[2] + \cdots + c_k \u[k] = \vz
+      \end{equation*}
+      where $c_1, c_2, \cdots, c_k$ are variables. Then
+      \ol {
+        \item $S$ is a \textit{linearly independent set} and $\vb{u_1}, \vb{u_2}, \cdots, \vb{u_k}$ are said to be \textit{linearly independent} if the above equation has only the trivial solution.
+        \item $S$ is a \textit{linearly dependent set} and $\vb{u_1}, \vb{u_2}, \cdots, \vb{u_k}$ are said to be \textit{linearly dependent} if the above equation has non-trivial solutions.
+      }
+    \paragraph{Definition 3.5.4} Let $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ be a subset of a vector space $V$. Then $S$ is a basis for $V$ if $S$ is linearly independent and $S$ spans $V$.
+    \paragraph{Theorem 3.6.1} Let $V$ be a vector space which has a basis with $k$ vectors. Then
+      \ol {
+        \item any subset of $V$ with more than $k$ vectors is always linearly dependent;
+        \item any subset of $V$ with less than $k$ vectors cannot span $V$.
+      }
+    \paragraph{Definition 3.6.3} The dimension of a vector space $V$, denoted by $\matdim{V}$, is defined to be the number of vectors in a basis for $V$. In addition, we define the dimension of the zero space to be zero.
+    \paragraph{Theorem 3.6.7} Let $V$ be a vector space of dimension $k$ and $S \subseteq V$. TFAE:
+      \ol {
+        \item $S$ is a basis for $V$.
+        \item $S$ is linearly independent and $\abs{S} = k$.
+        \item $S$ spans $V$ and $\abs{S} = k$.
+      }
+      \paragraph{Theorem 3.6.9} Let $U$ be a subspace of a vector space $V$.
+        \ol {
+          \item $\dim(U) \leq \dim(V)$.
+          \item If $U \neq V$, then $\dim(U) < \dim(V)$.
+          \item If $\dim(U) = \dim(V)$, then $U = V$.
+        }
+    \paragraph{Notation} Let $S = \{\v[1], \v[2], \cdots, \v[k]\}$ so that $V = \spn{S}$ and $T = \{\w[1], \w[2], \cdots, \w[k]\}$ so that $W = \spn{T}$. Then
+        \begin{equation*}
+          V + W = \spn{S \cup T}
+        \end{equation*}
+    \paragraph{Exercise 3.43} Let $V$ and $W$ be subspaces of $\R^n$. Then
+      \begin{equation*}
+        \matdim{V + W} = \matdim{V} + \matdim{W} - \matdim{V \cap W}
+      \end{equation*}
+      \paragraph{Algorithm} Let $S$ be a linearly independent set, consisting of vectors from $\R^n$. Let $\abs{S} < N$. To extend a basis $S$ to $\R^n$,
+      \ol {
+        \item Form a matrix $\A$ using the vectors in $S$ as rows
+        \item Reduce $\A$ to a row-echelon form $\vb{R}$
+        \item Identify non-pivot columns
+        \item For each non-pivot column, pick a vector from the standard basis of $\R^n$ such that the `1' is exactly at the position of the non-pivot column
+        \item $S \cup \text{(vectors obtained in Step 4)}$ is a basis for $\R^n$.
+      }
+    \subsection*{Transition Matrices}
+      \paragraph{Definition 3.5.8} Let $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ be a basis for a vector space $V$, and let $\v \in V$. By Theorem 3.5.7, $\v$ is expressed uniquely as a linear combination
+        \begin{equation*}
+          \v = c_1 \u[1] + c_2 \u[2] + \cdots + c_k \u[k]
+        \end{equation*}
+        and $c_1, c_2, \cdots, c_k$ are the coordinates of $\v$ relative to the basis $S$.
+        \begin{equation*}
+          (\v)_S = (c_1, c_2, \cdots, c_k) \in \R^k
+        \end{equation*}
+        is the coordinate vector of $\v$ relative to the basis $S$.
+      \paragraph{Remark 3.5.10} Let $S$ be a basis for a vector space $V$.
+        \ol {
+          \item For any $\u, \v \in V$, $\u = \v \Leftrightarrow (\u)_S = (\v)_S$.
+          \item For any $\v[1], \v[2], \cdots, \v[r] \in V$ and $c_1, c_2, \cdots, c_r \in \R$,
+            \begin{align*}
+              & (c_1 \v[1] + c_2 \v[2] + \cdots + c_r \v[r])_S \\
+              &= c_1 (\v[1])_S + c_2 (\v[2])_S + \cdots + c_r (\v[r])_S
+            \end{align*}
+        }
+      \paragraph{Notation 3.7.1} Sometimes, it is more conveient to write the coordinate vector in the form of a column vector. Thus we define
+        \begin{equation*}
+          [\v]_S = \mat{c_1; c_2; \vdots; c_k}
+        \end{equation*}
+        and it is also the coordinate vector of $\v$ relative to $S$. Note the difference in notation from Definition 3.5.8.
+        \paragraph{Discussion 3.7.2} (Excerpt) Let $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ and $T = \vset{\v[1], \v[2], \cdots, \v[k]}$ be two bases for a vector space $V$. Since they are both bases, then we can write each $\u[i]$ as a linear combination of $\v[1], \v[2], \cdots, \v[k]$, i.e.
+          \begin{align*}
+            \u[1] &= a_{11} \v[1] + a_{21} \v[2] + \cdots + a_{k1} \v[k] \\
+            \u[2] &= a_{12} \v[1] + a_{22} \v[2] + \cdots + a_{k2} \v[k] \\
+                  & \vdots \\
+            \u[k] &= a_{1k} \v[1] + a_{2k} \v[2] + \cdots + a_{kk} \v[k]
+          \end{align*}
+          Then
+          \begin{align*}
+            \P &= \mat{
+              a_{11} a_{21} \cdots, a_{k1};
+              a_{12} a_{22} \cdots, a_{k2};
+              \vdots, \vdots, , \vdots;
+              a_{1k} a_{2k} \cdots, a_{kk};
+            } \\
+            &= \mat{[\u[1]]_T [\u[2]]_T \cdots, [\u[k]]_T}
+          \end{align*}
+          is the transition matrix from $S$ to $T$, and for every $\w \in V$,
+          \begin{equation*}
+            [\w]_T = \P [\w]_S
+          \end{equation*}
+        \paragraph{Remark} Alternatively, we can do the following to find $\P$.
+          \begin{align*}
+            &\spalignarray{cccc|c|c|c|c}{\v[1], \v[2], \cdots, \v[k], \u[1], \u[2], \cdots, \u[k]} \\
+            \GJE &\spalignarray{ccc|ccc}{,\I,,,\P,; 0 \cdots, 0 0, \cdots, 0}
+          \end{align*}
+          There may or may not be zero rows at the bottom of the augmented matrix after GJE.
+          \ol {
+            \item If $\u[1], \u[2], \cdots, \u[k], \v[1], \v[2], \cdots, \v[k] \in \R^m$ where $m > k$, then there are zero rows. Just take the square matrix bounded to the right by the augmented line and the number of columns.
+            \item If $\u[1], \u[2], \cdots, \u[k], \v[1], \v[2], \cdots, \v[k] \in \R^k$  then there are no zero rows.
+          }
+  \section*{Vector Spaces of Matrices}
+    \paragraph{Definition 4.1.2} Let $\A = \mat{a_{ij}}$ be \by{m}{n}. The row space of $\A$ is the subspace of $\R^n$ spanned by the rows of $\A$. The column space of $\A$ is the subspace of $\R^m$ spanned by the columns of $\A$.
+    \paragraph{Theorem 4.1.17} Let $\A$ and $\B$ be row equivalent matrices. Then the row space of $\A$ and the row space of $\B$ are identical, i.e. elementary row operations preserve the row space of a matrix.
+    \paragraph{Theorem 4.1.11} Let $\A$ and $\B$ be row equivalent matrices. Then
+      \ol {
+        \item A given set of columns of $\A$ is linearly independent if and only if the set of corresponding columns of $\B$ is linearly independent.
+        \item A given set of columns of $\A$ forms a basis for the column space of $\A$ if and only if the set of corresponding columns of $\B$ forms a basis for the column space of $\B$.
+      }
+      \paragraph{Theorem 4.1.16} Let $\A$ be \by{m}{n}. Then
+        \begin{equation*}
+          \text{the column space of } \A = \{ \A\u \;\vert\; \u \in \R^n \}
+        \end{equation*}
+        Hence a system of linear equations $\A\x = \b$ is consistent if and only if $\b$ lies in the column space of $\A$.
+      \paragraph{Theorem 4.2.1} The row space and column space of a matrix have the same dimension.
+      \paragraph{Definition 4.2.3} The rank of a matrix is the dimension of its row space (or column space). We denote the rank of a matrix $\A$ by $\matrank{\A}$. Note that $\matrank{\A}$ is equal to the number of nonzero rows as well as the number of pivot columns in a row-echelon form of $\A$.
+      \paragraph{Remark 4.2.5}
+        \ol {
+          \item For a \by{m}{n} matrix $\A$, $\matrank{\A} \leq \minrank{m,n}$. If equal, then $\A$ has full rank.
+          \item A square matrix $\A$ has full rank if and only if $\det{\A} \neq 0$.
+          \item $\matrank{\A} = \matrank{\A\tr}$ because the row space of $\A$ is the column space of $\A\tr$.
+        }
+      \paragraph{Theorem 4.2.8} Let $\A$ be \by{m}{n}, and $\B$ be \by{n}{p}. Then
+        \begin{equation*}
+          \matrank{\A\B} \leq \minrank{ \matrank{\A}, \matrank{\B} }
+        \end{equation*}
+      \paragraph{Definition 4.3.1} Let $\A$ be \by{m}{n}. The solution space of $\A\x = \vz$ is the null space of $\A$.
+      \paragraph{Theorem 4.3.4} Let $\A$ be a matrix with $n$ columns. Then
+        \begin{equation*}
+          \matrank{\A} + \matnullity{\A} = n
+        \end{equation*}
+      \paragraph{Theorem 4.3.6} Suppose $\A\x = \b$ has a solution $\v$. Then the solution set of the system is given by
+      \begin{equation*}
+        M = \{ \u + \v \;\vert\; \u \text{ is an element of the null space of } \A \}
+      \end{equation*}
+      \paragraph{Exercise 4.22} Let $\A$ be \by{m}{n} and $\P$ be an invertible matrix of order $m$. Then $\matrank{\P\A} = \matrank{\A}$.
+      \paragraph{Exercise 4.23} Let $\A$ and $\B$ be two matrices of the same size. Then
+        \begin{equation*}
+          \matrank{\A + \B} \leq \matrank{\A} + \matrank{\B}
+        \end{equation*}
+      \paragraph{Exercise 4.25} Let $\A$ be \by{m}{n}.
+        \ol {
+          \item null space of $\A = $ null space of $\A\tr\A$
+          \item $\matnullity{\A} = \matnullity{\A\tr\A}$
+          \item $\matrank{\A} = \matrank{\A\tr\A}$
+        }
+  \section*{Orthogonality}
+    \paragraph{Definition 5.1.2} Let $\u = (u_1, u_2, \cdots, u_n)$ and $\v = (v_1, v_2, \cdots, v_n)$ be two vectors in $\R^n$.
+      \ol {
+      \item The dot product (or inner product) of $\u$ and $\v$ is
+          \begin{equation*}
+            \u \cdot \v = u_1 v_1 + u_2 v_2 + \cdots + u_n v_n
+          \end{equation*}
+        \item The norm (or length) of $\u$ is
+          \begin{equation*}
+            \vabs{\u} = \sqrt{\u \cdot \u} = \sqrt{u_1^2 + u_2^2 + \cdots + u_n^2}
+          \end{equation*}
+          Vectors of norm 1 are called unit vectors.
+        \item The distance between $\u$ and $\v$ is
+          \begin{align*}
+            d(\u,\v) &= \vabs{\u-\v} \\
+                     &= \sqrt{ (u_1-v_1)^2 + (u_2-v_2)^2 + \cdots + (u_n-v_n)^2 }
+          \end{align*}
+        \item The angle between $\u$ and $\v$ is
+          \begin{equation*}
+            \cos\inv \left( \dfrac{\u\cdot\v}{\vabs{\u}\vabs{\v}} \right)
+          \end{equation*}
+          The angle is well defined because $\displaystyle -1 \leq \dfrac{\u\cdot\v}{\vabs{\u}\vabs{\v}} \leq 1$.
+      }
+    \paragraph{Remark 5.1.3} Let $\u, \v \in \R^n$. Then $\u\tr \v = \u \cdot \v = \u \v\tr$.
+    \paragraph{Definition 5.2.1}
+      \ol {
+        \item Two vectors $\u$ and $\v$ in $\R^n$ are orthogonal if $\u \cdot \v = 0$.
+        \item A set $S$ of vectors in $\R^n$ is called orthogonal if every pair of distinct vectors in $S$ are orthogonal.
+        \item A set $S$ of vectors in $\R^n$ is called orthonormal if $S$ is orthogonal and every vector in $S$ is a unit vector.
+      }
+    \paragraph{Theorem 5.2.4} Let $S$ be an orthogonal set of nonzero vectors in a vector space. Then $S$ is linearly independent.
+    \paragraph{Definition 5.2.5}
+      \ol {
+        \item A basis $S$ for a vector space is called an orthogonal basis if $S$ is orthogonal.
+        \item A basis $S$ for a vector space is called an orthonormal basis if $S$ is orthonormal.
+      }
+    \paragraph{Theorem 5.2.8}
+      \ol {
+        \item If $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ is an orthogonal basis for a vector space $V$, then for any $\w$ \underline{in $V$},
+          \begin{equation*}
+            \w = \dfrac{\w \cdot \u[1]}{\u[1] \cdot \u[1]} \u[1] + \dfrac{\w \cdot \u[2]}{\u[2] \cdot \u[2]} \u[2] + \cdots + \dfrac{\w \cdot \u[k]}{\u[k] \cdot \u[k]} \u[k]
+          \end{equation*}
+          i.e. $\displaystyle (\w)_S = \left( \dfrac{\w \cdot \u[1]}{\u[1] \cdot \u[1]}, \dfrac{\w \cdot \u[2]}{\u[2] \cdot \u[2]}, \cdots, \dfrac{\w \cdot \u[k]}{\u[k] \cdot \u[k]} \right)$.
+        \item If $T = \vset{\v[1], \v[2], \cdots, \v[k]}$ is an orthonormal basis for a vector space $V$, then for any vector $\w$ in $V$,
+          \begin{equation*}
+            \w = (\w \cdot \v[1]) \v[1] + (\w \cdot \v[2]) \v[2] + \cdots + (\w \cdot \v[k]) \v[k]
+          \end{equation*}
+          i.e. $(\w)_T = (\w \cdot \v[1], \w \cdot \v[2], \cdots, \w \cdot \v[k])$.
+      }
+    \paragraph{Remark} Declare two orthonormal bases $S$ and $T$, with $S = \vset{\u[1], \u[2], \cdots, \u[k]}$ and $T = \vset{\v[1], \v[2], \cdots, \v[k]}$. By Discussion 3.7.2,
+      \begin{equation*}
+        \P = \mat{[\u[1]]_T [\u[2]]_T \cdots, [\u[k]]_T}
+      \end{equation*}
+      is the transition matrix from $S$ to $T$. By Theorem 5.2.8.2, we can write $\P$ in the following manner:
+      \begin{equation*}
+        \P = \mat{
+          \u[1]\cdot\v[1] \u[2]\cdot\v[1] \cdots, \u[k]\cdot\v[1];
+          \u[1]\cdot\v[2] \u[2]\cdot\v[2] \cdots, \u[k]\cdot\v[2];
+          \vdots, \vdots,, \vdots;
+          \u[1]\cdot\v[k] \u[2]\cdot\v[k] \cdots, \u[k]\cdot\v[k];
+        } = C_S\tr C_T
+      \end{equation*}
+      where $C_S, C_T$ are matrices whose columns are vectors from $S, T$ respectively.
+      Also note that $\P\tr = \P\inv$ so the transition matrix from $T$ to $S$ can easily be found.
+    \paragraph{Definition 5.2.10} Let $V$ be a subspace of $\R^n$. A vector $\u \in \R^n$ is orthogonal to $V$ if $\u$ is orthogonal to all vectors in $V$.
+    \paragraph{Definition 5.2.13} Let $V$ be a subspace of $\R^n$. Every vector $\u \in \R^n$ can be written uniquely as $\u = \n + \p$ such that $\n$ is orthogonal to $V$, and $\p \in V$. The vector $\p$ is the (orthogonal) projection of $\u$ onto $V$.
+    \paragraph{Theorem 5.2.15} Let $V$ be a subspace of $\R^n$, and $\w$ a vector \underline{in $\R^n$}. If $\vset{\u[1], \u[2], \cdots, \u[k]}$ is an orthogonal basis for $V$, then
+      \begin{equation*}
+        \dfrac{\w \cdot \u[1]}{\u[1] \cdot \u[1]} \u[1] + \dfrac{\w \cdot \u[2]}{\u[2] \cdot \u[2]} \u[2] + \cdots + \dfrac{\w \cdot \u[k]}{\u[k] \cdot \u[k]} \u[k]
+      \end{equation*}
+      is the projection of $\w$ onto $V$.
+    \paragraph{Theorem 5.2.19} Let $\{\u[1], \u[2], \cdots, \u[k]\}$ be a basis for a vector space $V$. Let
+      \begin{align*}
+        \v[1] &= \u[1] \\
+        \v[2] &= \u[2] - \dfrac{\u[2] \cdot \v[1]}{\v[1] \cdot \v[1]} \v[1] \\
+              &\vdots \\
+        \v[k] &= \u[k] - \dfrac{\u[k] \cdot \v[1]}{\v[1] \cdot \v[1]} \v[1] - \dfrac{\u[k] \cdot \v[2]}{\v[2] \cdot \v[2]} \v[2] - \cdots - \dfrac{\u[k] \cdot \v[k-1]}{\v[k-1] \cdot \v[k-1]} \v[k-1]
+      \end{align*}
+      Then $\{\u[1], \u[2], \cdots, \u[k]\}$ is an orthogonal basis for $V$. We can normalize the vectors if we want an orthonormal basis.
+    \paragraph{Theorem 5.3.2} Let $V$ be a subspace in $\R^n$. If $\u$ is a vector in $\R^n$ and $\p$ is the projection of $\u$ onto $V$, then
+      \begin{equation*}
+        d(\u, \p) \leq d(\u, \v) \quad \text{for all } \v \in V
+      \end{equation*}
+      i.e. $\p$ is the best approximation of $\u$ in $V$.
+    \paragraph{Theorem 5.3.8} Let $\A\x = \b$ be a linear system where $\A$ is \by{m}{n}. Let $\p$ be the projection of $\b$ onto the column space of $\A$. Then
+      \begin{equation*}
+        \vabs{\b-\p} \leq \vabs{\b - \A\v} \quad \text{for all } \v \in V
+      \end{equation*}
+      i.e. $\u$ is a least squares solution to $\A\x = \b$ if and only if $\A\u = \p$.
+    \paragraph{Theorem 5.3.10} Let $\A\x = \b$ be a linear system. Then $\u$ is a least squares solution to $\A\x = \b$ if and only if $\u$ is a solution to $\A\tr\A\x = \A\tr\b$.
+    \paragraph{Definition 5.4.3} A square matrix $\A$ is orthogonal if $\A\inv = \A\tr$.
+    \paragraph{Theorem 5.4.6} Let $\A$ be a square matrix of order $n$. TFAE:
+      \ol {
+        \item $\A$ is orthogonal.
+        \item The rows of $\A$ form an orthonormal basis for $\R^n$.
+        \item The columns of $\A$ form an orthonormal basis for $\R^n$.
+      }
+    \paragraph{Exercise 5.7} Let $W$ be a subspace of $\R^n$. Define $W^\perp = \{\u \in \R^n \;\vert\; \u \text{ is orthogonal to } W\}$. Then $W^\perp$ is a subspace of $\R^n$. From HW3, $W$ and $W^\perp$ are disjoint and $W + W^\perp = \R^n$.
+  \section*{Eigenvalues and Eigenvectors}
+    \paragraph{Definition 6.1.3} Let $\A$ be a square matrix of order $n$. Let $\u \in \R^n$ be a non-zero column vector. If $\A\u = \lm\u$ for some scalar $\lm$, then $\u$ is an eigenvector of $\A$ associated with the eigenvalue $\lm$.
+    \paragraph{Definition 6.1.6} Let $\A$ be a square matrix of order $n$. The equation $\det (\lm\I - \A) = 0$ is the characteristic equation of $\A$. The polynomial $\det (\lm\I - \A)$ is the characteristic polynomial of $\A$.
+    \paragraph{Theorem 6.1.8} Let $\A$ be \by{n}{n}. TFAE:
+      \ol {
+        \item $\A$ is invertible.
+        \item $\A\x = \vz$ has only the trivial solution.
+        \item RREF of $\A$ is the identity matrix.
+        \item $\A$ can be expressed as a product of elementary matrices.
+        \item $\det(\A) \neq 0$.
+        \item The rows of $\A$ form a basis for $\R^n$.
+        \item The columns of $\A$ form a basis for $\R^n$.
+        \item $\matrank{\A} = n$ (i.e. $\matnullity{\A} = 0$).
+        \item 0 is not an eigenvalue of $\A$.
+      }
+    \paragraph{Theorem 6.1.9} If $\A$ is triangular, the eigenvalues of $\A$ are the diagonal entries of $\A$.
+    \paragraph{Definition 6.1.11} Let $\A$ be a square matrix of order $n$ and $\lm$ an eigenvalue of $\A$. Then the solution space of $(\lm\I-\A)\x=\vz$ is the eigenspace of $\A$ associated with the eigenvalue $\lm$ and it is denoted by $E_\lm$.
+    \paragraph{Definition 6.2.1} A square matrix $\A$ is diagonalizable if there exists an invertible matrix $\P$ such that $\P\inv\A\P$ is a diagonal matrix.
+    \paragraph{Theorem 6.2.3} Let $\A$ be a square matrix of order $n$. Then $\A$ is diagonalizable if and only if $\A$ has $n$ linearly independent eigenvectors.
+    \paragraph{Remark 6.2.5.2} Suppose the characteristic polynomial of the matrix $\A$ can be factorized as
+      \begin{equation*}
+        \det(\lm\I-\A) = (\lm-\lm_1)^{r_1}(\lm-\lm_2)^{r_2} \cdots (\lm-\lm_k)^{r_k}
+      \end{equation*}
+      where $\lm_1, \lm_2, \cdots, \lm_k$ are distinct eigenvalues of $\A$. For each eigenvalue $\lm_i$,
+      \begin{equation*}
+        \matdim{E_{\lm_i}} \leq r_i
+      \end{equation*}
+      and $\A$ is diagonalizable if and only if for each $i$, $\matdim{E_{\lm_i}} = r_i$. Note that $r_i$ is called the multiplicity of eigenvalue $\lm_i$.
+    \paragraph{Theorem 6.2.7} Let $\A$ be a square matrix of order $n$. If $\A$ has $n$ distinct eigenvalues, then $\A$ is diagonalizable.
+    \paragraph{Example 6.2.11.2} Let $a_n = a_{n-1} + a_{n-2}$, where $a_0 = 0, a_1 = 1$. Then
+      \begin{equation*}
+        \mat{a_n; a_{n+1}} = \mat{0 1; 1 1} \mat{a_{n-1}; a_n}
+      \end{equation*}
+      Let $\x[n] = \mat{a_n; a_{n+1}}$ and $\A = \mat{0 1; 1 1}$. Then
+      \begin{equation*}
+        \x[n] = \A\x[n-1] = \A^2\x[n-2] = \cdots = \A^n\x[0] = \A^n \mat{0; 1}
+      \end{equation*}
+      Then diagonalize $\A$ to obtained closed form for $\x[n]$ and thus $a_n$.
+    \paragraph{Definition 6.3.2} A square matrix $\A$ is orthogonally diagonalizable if there exists an orthogonal matrix $\P$ such that $\P\tr\A\P$ is a diagonal matrix.
+    \paragraph{Theorem 6.3.4} A square matrix is orthogonally diagonalizable if and only if it is symmetric.
+  \section*{Linear Transformations}
+    \paragraph{Definition 7.1.1} A linear transformation is a mapping $T: \R^n \rightarrow \R^m$ of the form
+      \begin{equation*}
+        T \left( \mat{x_1;x_2;\vdots;x_n} \right) = \mat{a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n; a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n; \vdots; a_{n1}x_1+a_{n2}x_2+\cdots+a_{nn}x_n}
+      \end{equation*}
+      where $a_{ij}$ are scalars. In particular, if $n=m$, $T$ is also called a linear operator on $\R^n$. We can rewrite the formula of $T$ as
+      \begin{equation*}
+        T \left( \mat{x_1;x_2;\vdots;x_n} \right) = \mat{a_{11} a_{12} \cdots, a_{1n}; a_{21} a_{22} \cdots, a_{2n}; \vdots, \vdots,, \vdots; a_{n1} a_{n2} \cdots, a_{nn}} \mat{x_1; x_2; \vdots; x_n}
+      \end{equation*}
+      The matrix $(a_{ij})_{m \times n}$ above is called the standard matrix for $T$.
+    \paragraph{Remark} If we can express $T(\v) = \A\v$ for all $\v \in \R^n$, then it is a linear transformation.
+    \paragraph{Theorem 7.1.4} Let $T: \R^n \rightarrow \R^m$ be a linear transformation.
+      \ol {
+        \item $T(\vz) = \vz$.
+        \item If $\u[1], \u[2], \cdots, \u[k] \in \R^n$ and $c_1, c_2, \cdots, c_k \in \R$, then
+          \begin{align*}
+            & T(c_1\u[1] + c_2\u[2] + \cdots + c_k\u[k]) \\
+            &= c_1 T(\u[1]) + c_2 T(\u[2]) + \cdots + c_k T(\u[k])
+          \end{align*}
+      }
+    \paragraph{Definition 7.1.10} Let $S: \R^n \rightarrow \R^m$ and $T: \R^m \rightarrow \R^k$ be linear transformations. The composition of $T$ with $S$, denoted by $T \circ S$, is a linear transformation from $\R^n$ to $\R^k$ such that
+      \begin{equation*}
+        (T \circ S)(\u) = T(S(\u)) \quad \text{for } \u \in \R^n
+      \end{equation*}
+      Let $\A$ and $\B$ be the standard matrices for $S$ and $T$. Then the standard matrix for $T \circ S$ is $\B\A$.
+    \paragraph{Definition 7.2.1} Let $T: \R^n \rightarrow \R^m$ be a linear transformation. The range of $T$ is the set of images of $T$, i.e.
+      \begin{equation*}
+        \Range(T) = \{ T(\u) \;\vert\; \u \in \R^n \} \subseteq \R^m
+      \end{equation*}
+      Let $\A$ be the standard matrix for $T$. Then
+      \begin{equation*}
+        \Range(T) = \text{the column space of } \A
+      \end{equation*}
+    \paragraph{Definition 7.2.5} Let $T$ be a linear transformation with standard matrix $\A$. The dimension of $\Range(T)$ is the rank of $T$, and $\matrank{T} = \matrank{\A}$.
+    \paragraph{Definition 7.2.7} Let $T: \R^n \rightarrow \R^m$ be a linear transformation. The kernel of $T$ is the set of vectors whose image is the zero vector in $\R^m$, i.e.
+      \begin{equation*}
+        \Kernel(T) = \{ \u \;\vert\; T(\u) = \vz \} \subseteq \R^n
+      \end{equation*}
+      Let $\A$ be the standard matrix for $T$. Then
+      \begin{equation*}
+        \Kernel(T) = \text{the null space of } \A
+      \end{equation*}
+    \paragraph{Definition 7.2.10} Let $T$ be a linear transformation with standard matrix $\A$. The dimension of $\Kernel(T)$ is the nullity of $T$, and $\matnullity{T} = \matnullity{\A}$.
+    \paragraph{Theorem 7.2.12} If $T: \R^n \rightarrow \R^m$ is a linear transformation, then
+      \begin{equation*}
+        \matrank{T} + \matnullity{T} = n
+      \end{equation*}
+      \paragraph{Remark} Let $T: \R^3 \rightarrow \R^3$ be a linear transformation. Let $\u[1],\u[2],\u[3]$ be vectors in $\R^3$. Given
+        \begin{equation*}
+          T(\u[1]) = \v[1] \quad T(\u[2]) = \v[2] \quad T(\u[3]) = \v[3]
+        \end{equation*}
+        If $\u[1], \u[2], \u[3]$ form a basis for $\R^3$, then we can find $\A$:
+        \begin{align*}
+          \A\mat{\u[1] \u[2] \u[3]} &= \mat{\v[1] \v[2] \v[3]} \\
+          \A &= \mat{\v[1] \v[2] \v[3]} \mat{\u[1] \u[2] \u[3]}\inv
+        \end{align*}
+        Otherwise, there is insufficient information to determine $\A$. A similar approach works for $\R^n$.
+  \section*{Miscellaneous}
+    \paragraph{Remark} $\A\tr\A\x = \A\tr\b$ is consistent. Let $\A$ be \by{m}{n}.
+      \ol {
+        \item By Theorem 4.1.16, it is consistent if $\A\tr\b \in$ column space of $\A$.
+        \item By rank-nullity, $\matrank{\A\tr\A} = n - \matnullity{\A\tr\A}$.
+        \item By Exercise 4.25, $\matnullity{\A\tr\A} = \matnullity{\A}$.
+        \item By rank-nullity, $\matnullity{\A} = n - \matrank{\A}$.
+        \item By Remark 4.2.5, $\matrank{\A} = \matrank{\A\tr}$.
+        \item Combining 2-5, $\matrank{\A\tr\A} = \matrank{\A\tr}$.
+        \item Let $\v \in$ column space of $\A\tr\A$. Then $\v = \A\tr\A\u = \A\tr\w \in$ column space of $\A\tr$. Thus
+          \begin{equation*}
+            \text{column space of } \A\tr\A \subseteq \text{column space of } \A\tr
+          \end{equation*}
+        \item Combining 6 and 7,
+          \begin{equation*}
+            \text{column space of } \A\tr\A = \text{column space of } \A\tr
+          \end{equation*}
+        \item Since $\A\tr\b \in$ column space of $\A\tr$, then also $\A\tr\b \in$ column space of $\A\tr\A$.
+      }
+    \paragraph{Theorem} Let $\u,\v$ be eigenvectors belonging to different eigenspaces of a square matrix $\A$.
+      \ol {
+        \item $\u$ and $\v$ are linearly independent.
+        \item If $\A$ is symmetric, then $\u$ is orthogonal to $\v$.
+      }
+      Proof of 1. (Exercise 6.22)
+        \ol {
+          \item Let $\u,\v$ be associated with distinct eigenvalues $\lm, \mu$ respectively.
+          \item Assume otherwise that $\u$ and $\v$ are linearly dependent.
+          \item Then $\v = k\u$ for some scalar $k$.
+          \item Then $\A\v = \mu \v = k \mu \u = k \dfrac{\mu}{\lm}\A\u = \dfrac{\mu}{\lm}\A\v$.
+          \item Then $\dfrac{\mu}{\lm} - 1 = 0$, i.e. $\lm = \mu$.
+          \item Hence contradiction with line 2.
+        }
+      Proof of 2. (Exercise 6.26)
+        \ol {
+          \item Let $\u,\v$ be associated with distinct eigenvalues $\lm, \mu$ respectively.
+          \item Then we have $\A\u = \lm\u$ and $\A\v = \mu\v$.
+          \item Then, $\v \cdot \A\u = \A\u \cdot \v = (\A\u)\tr \v = \u\tr\A\tr\v = \u \cdot \A\tr\v = \u \cdot \A\v$.
+          \item $\v \cdot \A\u = \v \cdot (\lm \u) = \lm (\v \cdot \u) = \lm (\u \cdot \v)$.
+          \item $\u \cdot \A\v = \u \cdot (\mu \v) = \mu (\u \cdot \v)$.
+          \item Combining 3-5, $\lm (\u \cdot \v) = \mu (\u \cdot \v)$.
+          \item Then, $(\lm-\mu)(\u \cdot \v) = 0$
+          \item Since $\lm \neq \mu$, then $\u \cdot \v = 0$.
+        }
+    \paragraph{Remark} By Remark 5.1.3, we can regard dot product as matrix multiplication.
+\end{multicols*}
+\end{document}
