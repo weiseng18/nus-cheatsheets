@@ -1,0 +1,344 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,
+            top=0.4in,
+            bottom=0.6in,
+            left=0.4in,
+            right=0.4in,
+            landscape]{geometry}
+
+\input{"../headers/cheat_sheet.tex"}
+\input{"../headers/code.tex"}
+
+% mips
+\usepackage{mips}
+
+% k-map
+\usepackage{karnaugh-map}
+
+\begin{document}
+\begin{multicols*}{3}
+  \small
+  \subsection*{C language}
+    \lstset{language=C}
+    \paragraph{Misc}
+      \ul {
+        \item \ic{int x = -10 \% 4; //gives -2}
+        \item $\sim$ is binary NOT, ! is boolean NOT
+        \item When passing an array to a function, it turns into a pointer to the first element of the array.
+      }
+    \paragraph{Format specifiers}
+      \begin{center}
+        \begin{tabular}{ |T|T|c| }
+          \hline
+          \multicolumn{1}{|c|}{\thead{Spec.}} & \multicolumn{1}{c|}{\thead{Variable Type}} & \thead{Function Use} \\
+          \hline
+          \%c & char & printf / scanf \\
+          \hline
+          \%d & int & printf / scanf \\
+          \hline
+          \%f & float / double & printf \\
+          \hline
+          \%f & float & scanf \\
+          \hline
+          \%lf & double & scanf \\
+          \hline
+          \%e & float / double & printf (scientific notation) \\
+          \hline
+        \end{tabular}
+      \end{center}
+      Examples of format specifiers used in \ic{printf()}:
+      \ul {
+        \item \ic{\%5d}: to display an integer in a width of 5, right justified
+        \item \ic{\%8.3f}: to display a real number (float or double) in a width of 8, with 3 decimal places, right justified
+      }
+    \paragraph{Escape sequences}
+      \begin{center}
+        \begin{tabular}{ |c|c|M{4.2cm}| }
+          \hline
+          \thead{Seq.} & \thead{Meaning} & \thead{Result} \\
+          \hline
+          \ic{\\n} & New line & Subsequent output will appear on the next line \\
+          \hline
+          \ic{\\t} & Horizontal tab & Move to the next tab position on the current line \\
+          \hline
+          \ic{\\"} & Double quote & Display a double quote \ic{"} \\
+          \hline
+          \ic{\%\%} & Percent & Display a percent character \ic{\%} \\
+          \hline
+        \end{tabular}
+      \end{center}
+    \paragraph{Mixed-Type Arithmetic}.
+      \begin{lstlisting}
+int m = 10/4;     // m = 2
+float p = 10/4;   // p = 2.0
+int n = 10/4.0;   // n = 2
+float q = 10/4.0; // q = 2.5
+int r = -10/4.0;  // r = -2
+      \end{lstlisting}
+    \paragraph{Type Casting}.
+      \begin{lstlisting}
+int aa = 6; float ff = 15.8;
+float pp = (float) aa / 4;   // pp = 1.5
+int nn = (int) ff / aa;      // nn = 2
+float qq = (float) (aa / 4); // qq = 1.0
+      \end{lstlisting}
+    \paragraph{Order of operations}
+      The operators are ranked according to precedence, with the top row having the highest precedence.
+      \\\\
+      Operators in the same row have the same precedence, and they are evaluated in the given associativity direction.
+      \begin{center}
+        \begin{tabular}{ |c|T|c| }
+          \hline
+          \textbf{Type} & \multicolumn{1}{c|}{\textbf{Operator}} & \textbf{Assoc} \\
+          \hline
+          Primary expr & () [] . -> expr++ expr-- & L2R \\
+          \hline
+          \multirow{2}{*}{Unary} & * \& + - ! ~ ++expr & \multirow{2}{*}{R2L} \\
+                                 & --expr sizeof (typecast) & \\
+          \hline
+          \multirow{10}{*}{Binary} & * / \% & \multirow{10}{*}{L2R} \\
+          \cline{2-2}
+                                  & + - & \\
+          \cline{2-2}
+                                  & << >> & \\
+          \cline{2-2}
+                                  & < > <= >= & \\
+          \cline{2-2}
+                                  & == != & \\
+          \cline{2-2}
+                                  & \& & \\
+          \cline{2-2}
+                                  & ^ & \\
+          \cline{2-2}
+                                  & | & \\
+          \cline{2-2}
+                                  & \&\& & \\
+          \cline{2-2}
+                                  & || & \\
+          \hline
+          Ternary & ?: & R2L \\
+          \hline
+          Assignment & = += -= *= /= \%= <<= >>= & R2L \\
+          \hline
+        \end{tabular}
+      \end{center}
+  \subsection*{Number Systems}
+    \paragraph{Sign extension} Used in 2's complement representation. For example, to represent a 4-bit 2's complement using 8 bits,
+      \begin{equation*}
+        0110_{2s} \rightarrow 00000110_{2s}
+      \end{equation*}
+      Sign extension is value-preserving. For example,
+      \begin{align*}
+        00000110_{2s} &= 0110_{2s} \\
+        11111010_{2s} &= 1010_{2s}
+      \end{align*}
+    \paragraph{Rounding in fixed-point} 2's complement fixed point representation, total 8 bits, whole number part 6 bits, fractional part 2 bits, want to represent $26.875_{10}$. Without restriction,
+      \begin{equation*}
+        26.875_{10} = 11011.111_2
+      \end{equation*}
+      Since we have 6 bits for whole number part, it is $011011$. But we only have 2 bits in the fractional part to represent $.111$. Since the bit immediately after the 2nd bit is a 1, we round up, so we get $1.00$.
+  \subsection*{MIPS}
+    \lstset{language=[mips]Assembler}
+    MIPS is big-endian, so it stores bytes in its natural order.
+    \paragraph{Get certain bits}
+      \ic{andi} can be used to obtain specific bits from a variable.
+      \ul {
+        \item Place 0 into positions to be ignored, $X \cdot 0 = 0$
+        \item Place 1 into interested positions, $Y \cdot 1 = Y$
+      }
+      \ic{andi $t0, $t0, mask}
+    \paragraph{Force certain bits to 1}
+      \ic{ori} can be used to force certain bits to be 1
+      \ul {
+        \item Place 0 into positions to be left as-is, $X + 0 = X$
+        \item Place 1 into interested positions, $Y + 1 = 1$
+      }
+      \ic{ori $t0, $t0, mask}
+    \paragraph{Perform NOT}
+      \ul {
+        \item \ic{nor $t0, $t0, \$zero}
+        \item \ic{xor $t0, $t0, mask}, where mask is all 1s
+      }
+    \paragraph{Load 32-bit constant into register}
+      MIPS only allows up to 16 bits in immediate, so we cannot directly load a 32-bit constant into register.
+      \begin{lstlisting}
+lui $t0, upper_16_bits
+ori $t0, $t0, lower_16_bits
+      \end{lstlisting}
+    \paragraph{Load value from address} .
+      \begin{lstlisting}
+la $t0, addr
+lw $s0, 0($t0)
+      \end{lstlisting}
+    \paragraph{Immediate parameter}
+      \ul {
+        \item \ic{addi} accepts immediate in the range $[-2^{15}, 2^{15}-1]$
+        \item \ic{sll}, \ic{srl} accepts shift in the range $[0, 2^5-1]$
+        \item \ic{andi}, \ic{ori} treat immediate as 16-bit pattern
+      }
+  \subsection*{Boolean Algebra}
+    \paragraph{Gray Code}
+      \ul {
+        \item Single bit change from one code value to the next
+        \item Standard gray code for $n$ bits can be obtained by listing the gray codes for $n-1$ bits in natural order, followed by the gray codes for $n-1$ bits in reverse order. Prepend 0 to the first half of the list, and prepend 1 to the second half of the list.
+        \item Binary to Standard Gray: \ic{x XOR (x >> 1)}
+        \item Standard Gray to Binary: \ic{x XOR (x >> 1) XOR (x >> 2) ... XOR 0}
+      }
+    \columnbreak
+    \paragraph{Karnaugh Maps}
+      \begin{center}
+        \begin{karnaugh-map}[4][4][1][$CD$][$AB$]
+          \manualterms{m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15}
+        \end{karnaugh-map}
+      \end{center}
+      3-var K-map is just the top half. 5-var K-map is two squares, with the second square offset by 16.
+    \paragraph{Truth tables}
+      \begin{center}
+        \begin{tabular}{ |c|c|c|c|c|c| }
+          \hline
+          A & B & XOR & NOR & NAND & XNOR \\
+          \hline
+          0 & 0 & 0 & 1 & 1 & 1 \\
+          0 & 1 & 1 & 0 & 1 & 0 \\
+          1 & 0 & 1 & 0 & 1 & 0 \\
+          1 & 1 & 0 & 0 & 0 & 1 \\
+          \hline
+        \end{tabular}
+      \end{center}
+      XOR is commutative, associative. A XOR A = 0 and A XOR 0 = A.
+  \subsection*{Combinatorial/Sequential}
+    \begin{center}
+      \begin{tabular}{ |cc|c|c| }
+        \hline
+        S & R & Q(t+1) & Behaviour \\
+        \hline
+        0 & 0 & Q(t) & No change \\
+        0 & 1 & 0 & Reset \\
+        1 & 0 & 1 & Set \\
+        1 & 1 & indeterminate & Invalid condition \\
+        \hline
+      \end{tabular}
+      \begin{equation*}
+        Q(t+1) = S + R' \cdot Q
+      \end{equation*}
+      \begin{tabular}{ |c|c|c| }
+        \hline
+        D & Q(t+1) & Behaviour \\
+        \hline
+        0 & 0 & Reset \\
+        1 & 1 & Set \\
+        X & Q(t) & No change \\
+        \hline
+      \end{tabular}
+      \begin{equation*}
+        Q(t+1) = D
+      \end{equation*}
+      \begin{tabular}{ |cc|c|c| }
+        \hline
+        J & K & Q(t+1) & Behaviour \\
+        \hline
+        0 & 0 & Q(t) & No change \\
+        0 & 1 & 0 & Reset \\
+        1 & 0 & 1 & Set \\
+        1 & 1 & Q(t)' & Toggle \\
+        \hline
+      \end{tabular}
+      \begin{equation*}
+        Q(t+1) = J \cdot Q' + K' \cdot Q
+      \end{equation*}
+      \begin{tabular}{ |c|c|c| }
+        \hline
+        T & Q(t+1) & Behaviour \\
+        \hline
+        0 & Q(t) & No change \\
+        1 & Q(t)' & Toggle \\
+        \hline
+      \end{tabular}
+      \begin{equation*}
+        Q(t+1) = T \cdot Q' + T' \cdot Q
+      \end{equation*}
+    \end{center}
+  \subsection*{Pipelining}
+    Jump is NOT a control hazard because it does not dictate which instruction to execute, rather it just causes a delay.
+    \subsubsection*{Time for each stage}
+      \begin{center}
+        \begin{tabular}{ |c|c|c|c|c|c|c| }
+          \hline
+          \thead{Inst.} & \thead{IF} & \thead{ID} & \thead{EX} & \thead{MEM} & \thead{WB} & \thead{Total} \\
+          \hline
+          ALU & 2 & 1 & 2 & - & 1 & 6 \\
+          \hline
+          lw & 2 & 1 & 2 & 2 & 1 & 8 \\
+          \hline
+          sw & 2 & 1 & 2 & 2 & - & 7 \\
+          \hline
+          beq & 2 & 1 & 2 & - & - & 5 \\
+          \hline
+        \end{tabular}
+      \end{center}
+    \subsubsection*{Reducing stall for branching}
+      \paragraph{Early Branch Resolution}
+        \ul {
+          \item Move branch decision calculation from MEM to ID stage, (usually) stall 1 cycle instead of 3.
+          \item The early branch calculation might result in a data hazard, so it might stall for 2 cycles.
+          \item In an even worse case, if the instruction before the branch is \ic{lw}, we need to stall for 3 cycles even with early branching, so there is no improvement.
+        }
+      \paragraph{Branch Prediction}
+        \ul {
+          \item Guess outcome, and if it is right, then there is no pipeline stall. Otherwise flush the wrong instructions from the pipeline.
+          \item The delay for wrong guess depends on whether there is early branch resolution or not.
+        }
+      \paragraph{Delayed Branch}
+        \ul {
+          \item Find non-control dependent instructions, and place them after the branch. Moving these instructions should not change program behaviour.
+          \item If there are no such instructions, then add no-ops.
+        }
+  \subsection*{Cache}
+    \subsubsection*{Direct Mapped Cache}
+      \begin{center}
+        \begin{tabular}{ |*{3}{M{2cm}|} }
+          \multicolumn{2}{|c|}{
+            $\xleftarrow{\hspace{0.5cm}}$
+            Block number
+            $\xrightarrow{\hspace{0.5cm}}$
+          } \\
+          \hline
+          Tag & Index & Offset \\
+          \hline
+        \end{tabular}
+      \end{center}
+      Given cache block size = $2^N$ bytes, and number of cache blocks = $2^M$. Then, offset is $N$ bits, index is $M$ bits, and tag is $32 - (N+M)$ bits.
+      \paragraph{Overhead} Valid flag (1 bit) + Tag length, for each block
+    \subsubsection*{Set Associative Cache}
+      \begin{center}
+        \begin{tabular}{ |*{3}{M{2cm}|} }
+          \multicolumn{2}{|c|}{
+            $\xleftarrow{\hspace{0.5cm}}$
+            Block number
+            $\xrightarrow{\hspace{0.5cm}}$
+          } \\
+          \hline
+          Tag & Index & Offset \\
+          \hline
+        \end{tabular}
+      \end{center}
+      Given cache block size = $2^N$ bytes, and number of cache sets = $2^M$. Then, offset is $N$ bits, set index is $M$ bits, and tag is $32 - (N+M)$ bits.
+    \subsubsection*{Fully Associative Cache}
+      \begin{center}
+        \begin{tabular}{ |M{4cm}|M{2cm}| }
+          \multicolumn{1}{|c|}{
+            $\xleftarrow{\hspace{0.5cm}}$
+            Block number
+            $\xrightarrow{\hspace{0.5cm}}$
+          } \\
+          \hline
+          Tag & Offset \\
+          \hline
+        \end{tabular}
+      \end{center}
+      Given cache block size = $2^N$ bytes, and number of cache blocks = $2^M$. Then, offset is $N$ bits, and tag is $32 - N$ bits.
+      \paragraph{Overhead (Set Assoc. and Fully Assoc.)} Valid flag (1 bit) + Tag length, for each block in set
+      \\\\
+      Note that in a fully associative cache, all blocks are searched simultaneously.
+  \end{multicols*}
+\end{document}

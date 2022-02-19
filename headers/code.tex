@@ -1,0 +1,37 @@
+% coloring code
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% code environment
+\usepackage{listings}
+\lstset{
+  %frame=tb, % adds top and bottom border
+  aboveskip=1mm,
+  belowskip=1mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numberstyle=\color{gray},
+  keywordstyle=\color{blue}\textbf,
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+\newcommand{\ic}[1]{\lstinline{#1}}
+
+% drawing a stack diagram
+\usepackage{drawstack}
+\usetikzlibrary{arrows.meta}
+
+\newcommand{\ptr}[1]{${}^{*}$#1}
+\newcommand{\addr}[1]{\&#1}
+\newcommand{\addrb}[1]{(\&#1)}
+
+% special table column for code
+\usepackage{collcell}
+\newcommand*{\tablecode}[1]{\lstinline{#1}}% Do anything you like with `#1`
+\newcolumntype{T}{>{\collectcell\tablecode}c<{\endcollectcell}}
