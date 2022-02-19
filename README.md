@@ -14,3 +14,9 @@ Cheatsheets made for NUS CS
 3. [CS2030S AY21/22 S1 Finals](CS2030S/CS2030S-AY2122S1-Finals.pdf)
 4. [MA1521 AY21/22 S1 Test 3](MA1521/MA1521-AY2122S1-Test-3.pdf)
 5. [MA2001 AY21/22 S1 Finals](MA2001/MA2001-AY2122S1-Finals.pdf)
+
+## Compile
+
+Markdown: `pandoc file.md -o file.pdf`
+
+Latex: `pdflatex file.tex`
