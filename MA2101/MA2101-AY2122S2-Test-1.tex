@@ -1,0 +1,267 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,
+            top=0.4in,
+            bottom=0.6in,
+            left=0.4in,
+            right=0.4in,
+            landscape]{geometry}
+
+\input{"../headers/cheat_sheet.tex"}
+\input{"../headers/matrix.tex"}
+\input{"../headers/matrix_v2.tex"}
+\input{"../headers/code.tex"}
+
+\renewcommand{\th}{\theta}
+\newcommand{\inv}{^{-1}}
+\newcommand{\R}{\mathbb{R}}
+\newcolumntype{C}{>{$}c<{$}} % math-mode version of "c" column type
+
+% chapters: up to Ch 2
+% tutorials: not done
+
+\begin{document}
+\part*{\centering \underline{MA2101}}
+\begin{multicols*}{4}
+  \small
+  \section*{\underline{Matrices}}
+    % 1.2
+    \paragraph{Describing change} Let $T$ be a 2D LT.
+      \[ \mathcal{M}(T) = \mat{a b; c d} \]
+      This means that $T(\hat{i}) = \mat{a;c}$ and $T(\hat{j}) = \mat{b;d}$, i.e. the columns tell us how the basic unit vectors change under the transformation.
+    \paragraph{Rotation matrix (2D)} An anticlockwise rotation by $\theta$ is given by
+      \[ \mat{\cos\th, -\sin\th; \sin\th, \cos\th} \]
+    \paragraph{Shear matrix (2D)} A shear parallel to the $x$-axis by $\theta$ is given by
+      \[ \mat{1 \tan\th; 0 1} \]
+    % does not include that it can be further decomposed
+    \paragraph{Tut1 Q1} A matrix can be \underline{decomposed} as a sum:
+      \[ A = \frac{1}{2}(A + A\tr) + \frac{1}{2}(A - A\tr) \]
+      The first term is symmetric, and the second term is antisymmetric.
+      \\\\
+      Also, the second term is traceless in the following:
+      \[ B = \frac{\trc{B}}{n} I + \left( B - \frac{\trc{B}}{n} I \right) \]
+      Applying this to the first term of the previous equation, we CAN decompose a matrix into: symmetric traceless + multiple of identity + antisymmetric.
+    \paragraph{Tut1 Q4} The \underline{exponential} of a matrix is defined as:
+      \[ e^A = I + A + \frac{A^2}{2!} + \cdots = \sum^\infty_{i=0} \frac{A^i}{i!} \]
+    \paragraph{Tut2 Q1} To check that a vector lies on a plane, the dot product of the vector, and the normal vector, should be 0.
+    \paragraph{Tut2 Q5} For a matrix $A$, $\det e^A = e^{\trc{A}}$.
+    % 1.4
+    \subsection*{Determinants}
+      The determinant of a matrix tells us how the area (2D) / volume (3D) of the basic box changes with the transformation associated with the matrix.
+      \paragraph{2D} Let $T$ be a 2D LT.
+      \[ \abs{\det{T}} = \abs{T\hat{i} \times T\hat{j}} = \abs{T\hat{i}} \abs{T\hat{j}} \sin\theta  \]
+        We use this to obtain the formula for the determinant of a \by{2}{2} matrix.
+      \paragraph{3D} Let $T$ be a 3D LT.
+        \begin{align*}
+          \abs{\det{T}} &= \abs{(T\hat{i} \times T\hat{j}) \cdot T\hat{k}} \\
+                        &= \abs{T\hat{i} \times T\hat{j}} \abs{T\hat{k}} \cos\theta
+        \end{align*}
+        This is also known as the triple product.
+        \ull {
+          \item Same under cyclic perm of vars
+          \item Same under swapping $\times$ and $\cdot$
+          \item Negates under swapping a pair of vars
+        }
+      \paragraph{LA1 Defn 2.5.2} The determinant of a \by{n}{n} square matrix $\A$ is defined as:
+        \begin{equation*}
+          \det(\A) =
+          \begin{cases}
+            a_{11} & \text{if } n=1 \\
+            a_{11}A_{11} + a_{12}A_{12} + \cdots \\ + a_{1n}A_{1n} & \text{if } n>1
+          \end{cases}
+        \end{equation*}
+        where
+        \begin{equation*}
+          A_{ij} = (-1)^{i+j}\det(\vb{M_{ij}})
+        \end{equation*}
+        where $\vb{M_{ij}}$ is a \by{(n-1)}{(n-1)} matrix obtained from $\A$ by deleting the $i$th row and $j$th column. The scalar value $A_{ij}$ is called the $(i,j)$-cofactor of $\A$.
+      \paragraph{LA1 Defn 2.5.24} The adjoint of a square matrix $\A$ is defined as:
+        \begin{equation*}
+          \mathrm{adj}(\A) = (A_{ij})\tr_{n \times n}
+        \end{equation*}
+        where $A_{ij}$ is the $(i,j)$-cofactor of $\A$.
+      \paragraph{Properties} Let $A, B$ be square matrices of order $n$, and $c$ a scalar. Then
+        \ol {
+          \item \( \det{cA} = c^n \det{A} \)
+          \item \( \det{AB} = \det{BA} = \det{A} \times \det{B} \)
+          \item \( \det{A} = \det{A\tr} \)
+          \item If $A$ invertible, then $\det{A\inv} = \dfrac{1}{\det{A}}$.
+        }
+      % 1.5
+      \paragraph{Inverse property}
+        Let $A,B,C$ be square matrices of the same order. Then \( (ABC)\inv = C\inv B\inv A\inv \).
+  % 1.6 & 1.7 & 1.10
+  \section*{\underline{Eigenvectors}}
+    Let $T$ be a LT, let $u$ be a vector. If \( Tu = \lm u \) for some scalar $\lm$, then $u$ is an eigenvector of $T$ corresponding to eigenvalue $\lm$.
+    \paragraph{Find eigenvalues} Solve $\det(\lm I - A) = 0$.
+    \paragraph{Find eigenvectors} Solve $\det(\lm I - A) x = 0$, substituting the specific eigenvalue $\lm$.
+    \paragraph{Product of eigenvalues}
+      The product of eigenvalues is the determinant. It tells us how much the volume of the basic box changes.
+    \paragraph{Sum of eigenvalues} The trace of a matrix, denoted $\trc{A}$, is defined to be the sum of diagonal entries. Note that \( \trc{A} = \sum \lm \).
+    \paragraph{Properties of trace} The trace of only makes sense for square matrices. Let $A,B,C,P$ be order $n$ matrices.
+      \oll {
+        \item Same under cyclic permutations
+          \[ \trc{ABC} = \trc{BCA} = \trc{CAB} \]
+        \item Same under matrix change of basis
+          \[ \trc{P\inv A P} = \trc{A P P\inv} = \trc{A I} = \trc{A} \]
+        \item \( \trc{A} = \trc{A\tr} \)
+        \item Is a LT, \( T: \mathcal{M}_{n \times n} \rightarrow \R \)
+        \item Is surjective (consider \( \frac{k}{n} \trc{I} \))
+        \item Is NOT injective (consider change of basis with different $P$)
+      }
+  % 1.8
+  \section*{\underline{Diagonal form of LT}}
+    \paragraph{Column vector relative to new basis}
+      Consider $\R^2$. Let $\{\hat{i}, \hat{j}\}$ be the standard basis. Let $\{u,v\}$ be another basis. Define
+      \begin{align*}
+        u &= p^1_1 \hat{i} + p^2_1 = \mat{p^1_1; p^2_1} \\
+        v &= p^1_2 \hat{i} + p^2_2 = \mat{p^1_2; p^2_2}
+      \end{align*}
+      Note that $p^a_b$ means the scalar that belongs to row $a$ and column $b$. Then $P = \mat{p^1_1 p^1_2; p^2_1 p^2_2}$ takes $(\hat{i},\hat{j})$ to $(u,v)$. Since both are bases, then $\det{P} \neq 0$.
+      \\\\
+      We want to express a vector $x$ using the new basis. We want to find $\alpha,\beta$ such that
+      \[ x = \mat{a;b}_{(\hat{i},\hat{j})} = a\hat{i} + b\hat{j} = \alpha u + \beta v = \mat{\alpha; \beta}_{(u,v)}\]
+      It is a fact that
+      \[ \mat{a;b}_{(\hat{i},\hat{j})} = P \mat{\alpha; \beta}_{(u,v)} \]
+      and since $P$ is invertible,
+      \[ \mat{\alpha; \beta}_{(u,v)} = P \inv \mat{a;b}_{(\hat{i},\hat{j})} \]
+      so we have a way of expressing the vector relative to the new basis.
+    \paragraph{Matrix relative to new basis} Let $T$ be a 2D LT, and let $x,y$ be 2D vectors. Declare
+      \[ T_{(\hat{i},\hat{j})} x_{(\hat{i},\hat{j})} = y_{(\hat{i},\hat{j})} \]
+      and by algebra:
+      \begin{align*}
+        P\inv T_{(\hat{i},\hat{j})} P P\inv x_{(\hat{i},\hat{j})} &= P\inv y_{(\hat{i},\hat{j})} \\
+        \Big( P\inv T_{(\hat{i},\hat{j})} P \Big) P\inv x_{(\hat{i},\hat{j})} &= P\inv y_{(\hat{i},\hat{j})} \\
+        \Big( P\inv T_{(\hat{i},\hat{j})} P \Big) x_{(u,v)} &= y_{(u,v)}
+      \end{align*}
+      so the matrix relative to the new basis is
+      \[ \Big( P\inv T_{(\hat{i},\hat{j})} P \Big) \]
+    \paragraph{Row vector relative to new basis (Tut2 Q2)} Let $\vb{c}$ be a column vector, and $\vb{r}$ be a row vector. Under a change of basis,
+      \[ \vb{c} \rightarrow P\inv\vb{c} \]
+      Since $\vb{rc}$ is a number, it has to stay unchanged under a change of basis:
+      \[ \vb{rc} \rightarrow (\vb{r}P) (P\inv\vb{c}) = \vb{rc} \]
+      So we hypothesize (and it works), that
+      \[ \vb{r} \rightarrow \vb{r}P \]
+      In a similar fashion, notice $\vb{r}M\vb{c}$ is a number.
+      \[ \vb{r}M\vb{c} \rightarrow (\vb{r}P) (P\inv M P) (P\inv\vb{c}) = \vb{r}M\vb{c} \]
+      This is another way to make sense of the change of basis formula.
+    % 1.9
+    \paragraph{Diagonalization} The matrix of a transformation relative to its own eigenvectors (assuming they form a basis) is diagonal, i.e.
+      \begin{align*}
+        P\inv T P &= D \\
+        T &= P D P\inv
+      \end{align*}
+      and we use this to calculate powers of matrices.
+  \section*{\underline{Vector Spaces}}
+    % 2.7
+    \paragraph{Addition} Addition is a mapping \( f: V \times V \rightarrow V \).
+    % 2.9
+    \paragraph{Scalar multiplication} Scalar multiplication is a mapping \( \mathcal{F} \times V \rightarrow V \).
+    % 2.10
+    \paragraph{Axioms} A vector space is a set $V$ with an addition and scalar multiplication such that
+      \ull {
+        \item Addition is commutative:
+          \[ u+v = v+u \quad \forall u,v \in V \]
+        \item Addition is associative:
+          \[ (u+v)+w = u+(v+w) \quad \forall u,v,w \in V \]
+        \item There is an additive identity:
+          \[ \exists 0 \in V \quad v+0=v \quad \forall v \in V \]
+        \item Every $v \in V$ has an additive inverse:
+          \[ \forall v \in V, \; \exists w \in V \quad v+w = 0 \]
+        \item There is a multiplicative identity:
+          \[ \exists 1 \in \mathcal{F}, \; \forall v \in V \quad 1v = v \]
+        \item Multiplication is distributive both ways:
+          \[ \forall a,b \in \mathcal{F}, \; \forall u,v \in V \quad a(u+v) = au+av \]
+          \[ \forall a,b \in \mathcal{F}, \; \forall u,v \in V \quad (a+b)u = au+bu \]
+      }
+  \section*{\underline{Subspaces}}
+    % 2.11
+    \paragraph{Definition} A subset $U$ of a vector space $V$ is a subspace if $U$ is a vector space, with the same scalar multiplication and addition as in $V$.
+    \paragraph{Verification} Three things to verify:
+      \ull {
+        \item Existence of additive identity (zero)
+        \item Closed under addition
+        \item Closed under scalar multiplication
+      }
+      The rest of the vector space axioms will follow.
+    % 2.12
+    \paragraph{Sum of subspaces} Let $U_1, U_2$ be subspaces wrt $V$. Then
+      \[ U_1+U_2 = \{ u_1+u_2: u_1 \in U_1, \; u_2 \in U_2\} \]
+    % 2.13, 2.14
+    \paragraph{Direct sum} If $U_1$ and $U_2$ above were disjoint, then $U_1 + U_2$ is the direct sum of $U_1$ and $U_2$, and is denoted by $U_1 \oplus U_2$.
+  \section*{\underline{Isomorphisms}}
+    \paragraph{Definitions} Let $F$ be a mapping $F:S \rightarrow T$.
+      \ull {
+        \item Surjection
+          \[ \forall t \in T, \; \exists s \in S \quad F(s) = t \]
+        \item Injection
+          \[ \forall s_1,s_2 \in S \quad F(s_1) = F(s_2) \Rightarrow s_1 = s_2 \]
+        \item Bijection: Surjection and Injection
+      }
+    \paragraph{Homomorphism} Let $\phi:U \rightarrow V$ be a mapping. It is a homomorphism if
+      \begin{align*}
+        \phi(u+v) &= \phi(u) + \phi(v) \\
+        \phi(au) &= a \phi(u)
+      \end{align*}
+      If this homomorphism is \underline{also} a bijection, then this is an isomorphism.
+    % 2.17
+    \paragraph{Infinite isomorphisms} Let $V$ be a vector space. The mapping $v \rightarrow cv \; \forall v \in V$ is an isomorphism, and there are infinitely many different $c$.
+    % 2.18
+    \paragraph{Finite dimensional} A vector space is finite dimensional over $\mathcal{F}$ if it is isomorphic to $\mathcal{F}^n$ for some finite integer $n$.
+  \section*{\underline{Span, LI, Basis}}
+    % 2.20
+    \paragraph{Linear combination} A linear combination of vectors $v_i$ is
+      \[ a^1v_1+a^2v_2+\cdots+a^nv_n = \sum a^i v_i \]
+      Note the use of superscripts instead of subscripts, for the scalars.
+    % 2.21
+    \paragraph{Span} The span of a list of vectors is the set of all linear combinations of the vectors.
+    % 2.25
+    \paragraph{Linearly independent} A list of vectors $v_i$ is linearly independent if
+      \[ \sum a^iv_i = 0 \quad \Rightarrow \quad \forall i \; (a^i = 0) \]
+    % 2.27, 2.28
+    \paragraph{Basis} A basis is a span that is linearly independent.
+      \ull {
+        \item Every finite-dimensional vector space has a basis.
+        \item Every vector can be expressed uniquely as a linear combination of the vectors in the basis.
+      }
+    % 2.31, 2.34
+    \paragraph{Decompose into direct sum} Let $U$ be a subspace of a finite-dimensional vector space $W$.
+      \\\\
+      Then there exists $V$, a subspace of $W$, such that \( W = U \oplus V \), and \( \dim(W) = \dim(U \oplus V) = \dim(U) + \dim(V) \).
+    \subsection*{Basis as a mapping}
+      A basis can be thought of as a \underline{mapping} $\phi: \mathcal{F}^n \rightarrow V$, i.e. it turns a list of numbers (components) into a vector associated with the basis. This mapping is a vector space isomorphism.
+      \\\\
+      Using the definition of $\phi$ above, then \( z_i = \phi(e_i) \), where $e_i$ are the canonical basis vectors, forms a basis for $V$. Thus, a basis is just a specific example of the infinitely many vector space isomorphism between $\mathcal{F}^n$ and $V$.
+  \section*{\underline{LaTeX stuff}}
+    \begin{center}
+      \begin{tabular}{ |C|c| }
+        \hline
+          \begin{pmatrix}
+            1 & 0 \\
+            0 & 1
+          \end{pmatrix}
+          &
+        \begin{lstlisting}
+\begin{pmatrix}
+  1 & 0 \\
+  0 & 1
+\end{pmatrix}
+        \end{lstlisting}
+        \\ \hline
+          \begin{vmatrix}
+            1 & 0 \\
+            0 & 1
+          \end{vmatrix}
+          &
+          vmatrix
+        \\ \hline
+          \mathcal{F} \quad \zeta \quad \hat{i} \quad A^T
+          &
+          \begin{lstlisting}
+\mathcal{F} \zeta
+\hat{i} A^T
+          \end{lstlisting}
+        \\ \hline
+      \end{tabular}
+    \end{center}
+\end{multicols*}
+\end{document}
