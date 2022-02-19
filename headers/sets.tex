@@ -1,0 +1,11 @@
+\usepackage{mathrsfs} % for \mathscr{C} partition name
+
+\let\oldemptyset\emptyset
+\renewcommand{\emptyset}{\varnothing}
+
+\newcommand{\setcomp}[1]{\overline{#1}}
+\newcommand{\dsetcomp}[1]{\overline{(\overline{#1})}}
+\newcommand{\rel}{\mathrel{R}}
+\newcommand{\nrel}{\not\mathrel{R}}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\setquot}[1]{#1/\hspace{-0.1cm}\sim}

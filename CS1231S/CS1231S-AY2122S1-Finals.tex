@@ -1,0 +1,211 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,
+            top=0.4in,
+            bottom=0.6in,
+            left=0.4in,
+            right=0.4in,
+            landscape]{geometry}
+
+\input{"../headers/cheat_sheet.tex"}
+\input{"../headers/sets.tex"}
+
+% math
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\inv}{^{-1}}
+
+% NOTE: Graphs and Trees summary not included. Refer to slides.
+% NOTE: Midterm stuff not included.
+
+\begin{document}
+\begin{multicols*}{3}
+  \footnotesize
+  \subsection*{Induction and recursion}
+    \paragraph{Principle 8.1.1}
+      Let $m \in \Z$. To prove that $\forall n \in \Z_{\geq m} \; P(n)$ is true, where $P(n)$ is a proposition, then it suffices to:
+      \paragraph{(base step)} show that $P(m)$ is true; and
+      \paragraph{(induction step)} show that $\forall k \in \Z_{\geq m}, P(k) \Rightarrow P(k+1)$.
+    \paragraph{Principle 8.2.1}
+      Let $m \in \Z$. To prove that $\forall n \in \Z_{\geq m} \; P(n)$ is true, where $P(n)$ is a proposition, then it suffices to choos some $l \in \Z_{\geq 0}$ and:
+      \paragraph{(base step)} show that $P(m), P(m+1), \cdots, P(m+l-1)$ is true; and
+      \paragraph{(induction step)} show that $\forall k \in \Z_{\geq 0}$,
+        \begin{equation*}
+          P(m) \land P(m+1) \land \cdots \land P(m+l-1+k) \Rightarrow P(m+l+k)
+        \end{equation*}
+        is true.
+    \paragraph{Theorem 8.2.10} (Well-Ordering Principle). Every non-empty subset of $\Z_{\geq m}$, where $m \in \Z$, has a smallest element.
+    \paragraph{Rough idea 8.4.5} A recursive definition of a set $S$ consists of three types of clauses.
+      \paragraph{(base clause)} Specify that certain elements, called founders, are in $S$: if $c$ is a founder, then $c \in S$.
+      \paragraph{(recursion clause)} Specify certain functions, called constructors, under which the set $S$ is closed: if $f$ is a constructor and $x \in S$, then $f(x) \in S$.
+      \paragraph{(minimality clause)} Membership for $S$ can always be demonstrated by (finitely many) successive applications of the clauses above.
+    \paragraph{Rough idea 8.4.6} (structural induction). Let $S$ be a recursively defined set. To prove that $\forall x \in S \quad P(x)$ is true, where $P(x)$ is a proposition, it suffices to:
+      \paragraph{(base step)} show that $P(c)$ is true for every founder $c$; and
+      \paragraph{(induction step)} show that $\forall x\in S, P(x) \Rightarrow P(f(x))$ is true for every constructor $f$.
+  \subsection*{Functions}
+    \paragraph{Definition 7.2.1} Let $A,B$ be sets. A function from $A$ to $B$ is an assignment to each element of $A$ exactly one element of $B$. Suppose $f: A \rightarrow B$.
+      \ol {
+        \item Let $x \in A$. Then $f(x)$ denotes the element of $B$ that $f$ assigns $x$ to. $f(x)$ is the image of $x$ under $f$.
+        \item $A$ is the domain of $f$, and $B$ is the codomain of $f$.
+      }
+    \paragraph{Definition 9.1.3} Let $A$ be a set. A string or word over $A$ is an expression of the form
+      \begin{equation*}
+        a_0 a_1 \cdots a_{l-1}
+      \end{equation*}
+      where $l \in \Z_{\geq 0}$ and $a_0, a_1, \cdots, a_{l-1} \in A$. $l$ is the length of the string. $A^*$ is the set of all strings over $A$. The empty string, denoted $\varepsilon$ is the string of length 0.
+    \paragraph{Definition 9.1.6} Two functions $f: A \rightarrow B$ and $g: C \rightarrow D$ are equal if
+      \ol {
+        \item $A = C$ and $B = D$; and
+        \item $f(x) = g(x)$ for all $x \in A$.
+      }
+    \paragraph{Definition 9.3.1} Let $f: A \rightarrow B$.
+      \ol {
+        \item If $X \subseteq A$, then $f(X) = \{f(x) : x \in X\}$
+        \item If $Y \subseteq B$, then $f\inv(Y) = \{x \in A : f(x) \in Y\}$
+      }
+      $f(X)$ is the setwise image of $X$. $f\inv(Y)$ is the setwise preimage of $Y$ under $f$.
+    \paragraph{Definition 9.3.6} Let $f: A \rightarrow B$.
+      \ol {
+        \item $f$ is surjective or onto if
+          \begin{equation*}
+            \forall y \in B \quad \exists x \in A \quad (y = f(x))
+          \end{equation*}
+        \item $f$ is injective or one-to-one if
+          \begin{equation*}
+            \forall x_1, x_2 \in A \quad (f(x_1) = f(x_2) \Rightarrow x_1 = x_2)
+          \end{equation*}
+        \item $f$ is bijective if it is both surjective and injective, i.e.,
+          \begin{equation*}
+            \forall y \in B \quad \exists!x \in A \quad (y = f(x))
+          \end{equation*}
+      }
+      \paragraph{Proposition 9.3.17} (uniqueness of inverses). If $g_1, g_2$ are inverses of $f: A \rightarrow B$, then $g_1 = g_2$.
+      \paragraph{Theorem 9.3.19} A function $f: A \rightarrow B$ is bijective if and only if it has an inverse.
+      \paragraph{Remark} $(g \circ h) \inv = h \inv \circ g \inv$
+  \subsection*{Cardinality}
+    \paragraph{Theorem 10.1.1} (Pigeonhole Principle). Let $A$ and $B$ be finite sets. If there is an injection $f: A \rightarrow B$, then $\abs{A} \leq \abs{B}$.
+    \paragraph{Theorem 10.1.2} (Dual Pigeonhole Principle). Let $A$ and $B$ be finite sets. If there is a surjection $f: A \rightarrow B$, then $\abs{A} \geq \abs{B}$.
+    \paragraph{Theorem 10.1.3} Let $A$ and $B$ be finite sets. Then there is a bijection $A \rightarrow B$ if and only if $\abs{A} = \abs{B}$.
+    \paragraph{Definition 10.2.1} (Cantor). A set $A$ is said to have the same cardinality as a set $B$ is there is a bijection $A \rightarrow B$. In this case, we write $\abs{A} = \abs{B}$.
+    \subsection*{Countability}
+      \paragraph{Definition 10.3.1} (Cantor). A set is countable if it is finite, or it has the same cardinality as $\Z_{\geq 0}$.
+      \paragraph{Note 10.3.4} An infinite set $B$ is countable if and only if there is a sequence $b_0, b_1, b_2, \cdots \in B$ in which every element of $B$ appears exactly once.
+      \paragraph{Lemma 10.3.5} An infinite set $B$ is countable if and only if there is a sequence $c_0, c_1, c_2, \cdots$ in which every element of $B$ appears. There could be repeats, there could be elements not in $B$.
+      \paragraph{Proposition 10.3.6} Any subset $A$ of a countable set $B$ is countable.
+      \paragraph{Proposition 10.3.7} Every infinite set $B$ has a countable infinite subset.
+      \paragraph{Propoisition 10.4.1} Let $A,B$ be countable infinite sets. Then $A \cup B$ is countable.
+      \paragraph{Theorem 10.4.2} $\Z_{\geq 0} \times \Z_{\geq 0}$ is countable.
+      \paragraph{Theorem 10.4.3} (Cantor 1891). Let $A$ be a countable infinite set. Then $\powerset{A}$ is not countable.
+      \paragraph{Remark} Removing finitely many elements from an infinite set still leaves an infinite set.
+  \subsection*{Counting}
+    \paragraph{Theorem 9.1.1} If $m$ and $n$ are integers and $m \leq n$, then there are $n-m+1$ integers from $m$ to $n$ inclusive.
+    \paragraph{Theorem 9.2.3} If $n$ and $r$ are integers and $1 \leq r \leq n$, then the number of $r$-permutations of a set with $n$ elements is given by
+    \begin{equation*}
+      P(n,r) = n(n-1)\cdots(n-r+1) = \dfrac{n!}{(n-r)!}
+    \end{equation*}
+    \paragraph{Theorem 9.3.1} Suppose a finite set $A$ equals the union of $k$ distinct mutually disjoint subsets $A_1, A_2, \cdots, A_k$. Then 
+      \begin{equation*}
+        \abs{A} = \abs{A_1} + \abs{A_2} + \cdots + \abs{A_k}
+      \end{equation*}
+      \paragraph{Theorem 9.3.2} If $A$ is a finite set and $B \subseteq A$, then
+        \begin{equation*}
+          \abs{A \setminus B} = \abs{A} - \abs{B}
+        \end{equation*}
+    \paragraph{Theorem 9.3.3} If $A,B,C$ are finite sets, then
+      \begin{equation*}
+        \abs{A \cup B} = \abs{A} + \abs{B} - \abs{A \cap B}
+      \end{equation*}
+      and
+      \begin{align*}
+        \abs{A \cup B \cup C} &= \abs{A} + \abs{B} + \abs{C} - \abs{A \cap B} - \abs{A \cap C} - \abs{B \cap C} \\
+        &+ \abs{A \cap B \cap C}
+      \end{align*}
+    \paragraph{Pigeonhole Principle} A function from one finite set to a smaller finite set cannot be one-to-one: There must be at least 2 elements in the domain that have the same image in the co-domain.
+    \paragraph{Generalized Pigeonhole Principle} For any function $f$ from a finite set $X$ with $n$ elements to a finite set $Y$ with $m$ elements and for any positive integer $k$, if $k < n/m$, then there is some $y \in Y$ such that $y$ is the image of at least $k+1$ distinct elements of $X$.
+    \paragraph{Generalized Pigeonhole Principle (Contrapositive)} For any function $f$ from a finite set $X$ with $n$ elements to a finite set $Y$ with $m$ elements and for any positive integer $k$, if for each $y \in Y$, $f\inv({y})$ has at most $k$ elements, then $X$ has at most $km$ elements; in other words, $n \leq km$.
+    \paragraph{Theorem 9.5.1} The number of subsets of size $r$ (or $r$-combinations) that can be chosen from a set of $n$ elements is given by
+      \begin{equation*}
+        {n \choose r} = \dfrac{P(n,r)}{r!} = \dfrac{n!}{r!(n-r)!}
+      \end{equation*}
+    \paragraph{Theorem 9.5.2} Suppose a collection consists of $n$ objects of which $n_i$ are of type $i$, and are indistinguishable from each other, for integers $1 \leq i \leq k$. Then the number of distinguishable permutations of the $n$ objects is
+      \begin{equation*}
+        {n \choose n_1} {n-n_1 \choose n_2} \cdots {n-n_1-\cdots-n_{k-1} \choose n_k} = \dfrac{n!}{n_1!n_2! \cdots n_k!}
+      \end{equation*}
+    \paragraph{Theorem 9.6.1} The number of $r$-combination with repetition allowed (multisets of size $r$) that can be selected from a set of $n$ elements is:
+      \begin{equation*}
+        {r+n-1 \choose r}
+      \end{equation*}
+    \paragraph{Theorem 9.7.1} Let $n$ and $r$ be positive integers, $r \leq n$. Then
+      \begin{equation*}
+        {n+1 \choose r} = {n \choose r-1} + {n \choose r}
+      \end{equation*}
+    \paragraph{Theorem 9.7.2} Given any real numbers $a$ and $b$ and any non-negative integer $n$,
+      \begin{equation*}
+        (a+b)^n = \sum_{k=0}^n {n \choose k} a^{n-k} b^k
+      \end{equation*}
+    \subsection*{Probability}
+      \paragraph{Probability Axioms} Let $S$ be a sample space. A probability function $P$ from the set of all events in $S$ to the set of real numbers satisfies the following axioms: For all events $A$ and $B$ in $S$,
+        \ol {
+          \item $0 \leq P(A) \leq 1$
+          \item $P(\emptyset) = 0$ and $P(S)=1$
+          \item If $A$ and $B$ are disjoint, then $P(A \cup B) = P(A) + P(B)$
+        }
+      \paragraph{Probability of Complement} If $A$ is any event in a sample space $S$, then $P(A') = 1 - P(A)$.
+      \paragraph{Probability of Union} If $A$ and $B$ are any events in a sample space $S$, then $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+      \paragraph{Expected Value} Suppose the possible outcomes of an experiment, or random process, are real numbers $a_1, a_2, \cdots, a_n$, which occur with probabilities $p_1, p_2, \cdots, p_n$. The expected value of the process is
+        \begin{equation*}
+          \sum_{k=1}^n a_k p_k = a_1 p_1 + a_2 p_2 + \cdots + a_n p_n
+        \end{equation*}
+      \paragraph{Linearity} For random variables $X$ and $Y$, and for scalars $a,b$,
+        \begin{equation*}
+          E[aX+bY] = aE[X] + bE[Y]
+        \end{equation*}
+      \paragraph{Conditional Prob.} Let $A$ and $B$ be events in a sample space $S$. If $P(A) \neq 0$, then the conditional probability of $B$ given $A$ is
+        \begin{equation*}
+          P(B \;\vert\; A) = \dfrac{P(A \cap B)}{P(A)}
+        \end{equation*}
+      \paragraph{Theorem 9.9.1} (Bayes' Theorem). Suppose that a sample space $S$ is a union of mutually disjoint events $B_1, B_2, \cdots, B_n$. Suppose $A$ is an event in $S$, and suppose $P(A), P(B_1), P(B_2), \cdots, P(B_n)$ are all non-zero. If $k$ is an integer with $1 \leq k \leq n$, then
+        \begin{equation*}
+          P(B_k \;\vert\; A) = \dfrac{P(A \;\vert\; B_k) \cdot P(B_k)}{P(A \;\vert\; B_1) \cdot P(B_1) + \cdots + P(A \;\vert\; B_n) \cdot P(B_n)}
+        \end{equation*}
+      \paragraph{Independent Events} If $A$ and $B$ are events in a sample space $S$, then $A$ and $B$ are independent, if and only if,
+        \begin{equation*}
+          P(A \cap B) = P(A) \cdot P(B)
+        \end{equation*}
+      \paragraph{Pairwise and Mutual Independence} Let $A, B$ and $C$ be events in a sample space $S$. $A, B$ and $C$ are pairwise independent if and only if conditions 1-3 are fulfilled. $A, B$ and $C$ are mutually independent if and only if all conditions are fulfilled.
+        \ol {
+          \item $P(A \cap B) = P(A) \cdot P(B)$
+          \item $P(A \cap C) = P(A) \cdot P(C)$
+          \item $P(B \cap C) = P(B) \cdot P(C)$
+          \item $P(A \cap B \cap C) = P(A) \cdot P(B) \cdot P(C)$
+        }
+  \subsection*{Graphs (additional)}
+    \paragraph{Adjacency Matrix}
+      \ol {
+        \item Sum along row of adjacency matrix is the number of outgoing edges.
+        \item Sum along column of adjacency matrix is the number of incoming edges.
+      }
+    \paragraph{Eulerian circuit}
+      In the Eulerian circuit, each edge in the graph is taken once, but can revisit vertices.
+    \paragraph{Hamiltonian circuit}
+      In the Hamiltonian circuit, each vertex in the graph is visited once. Any complete graph with at least 2 vertices has a Hamiltonian circuit.
+    \paragraph{Pre- and in-order}
+      \ol {
+        \item The leftmost element in the pre-order is the root, let it be $V$.
+        \item Find $V$ in the in-order. Everything to the left of $V$ will be in the left subtree of $V$, and vice versa for the right.
+      }
+    \paragraph{In- and post-order}
+      \ol {
+        \item The rightmost element in the post-order is the root, let it be $V$.
+        \item Find $V$ in the in-order. Everything to the left of $V$ will be in the left subtree of $V$, and vice versa for the right.
+      }
+    \paragraph{Pre- and post-order (Full Binary Tree only)}
+      \ol {
+        \item The leftmost element in the pre-order is the root, let it be $V$.
+        \item The second element is the left child of the root, let it be $C$.
+        \item Find $C$ in the post-order. Everything to the left of $C$ will be in the left subtree of $V$. Everything to the right of $C$ is in the right subtree \underline{of $V$}.
+      }
+  \subsection*{Misc (unproved)}
+    \paragraph{Inverse Relation} $R \inv$ is an equivalence relation if and only if $R$ is an equivalence relation.
+    \paragraph{Distributivity of $\times$} Set $\times$ is distributive over $\cap$ and $\cup$.
+    \paragraph{Subset of partial order} A subset of a partial order is also anti-symmetric.
+\end{multicols*}
+\end{document}
