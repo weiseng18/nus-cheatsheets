@@ -1,0 +1,251 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,
+            top=0.4in,
+            bottom=0.6in,
+            left=0.4in,
+            right=0.4in,
+            landscape]{geometry}
+
+\input{"../headers/cheat_sheet.tex"}
+
+\usepackage[dvipsnames,table]{xcolor}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\vv}{\vec{v}}
+
+\begin{document}
+\part*{\centering \underline{PC1201 Mechanics}}
+\begin{multicols*}{4}
+  \small
+  \section*{\underline{Miscellaneous}}
+    \subsection*{Math}
+      \paragraph{Standards}
+        \ul {
+          \item Use of SI units is encouraged (m, s, kg, A)
+          \item Precision of answer should be the same as the \textbf{least} significant value provided in question
+        }
+      \paragraph{Angles} An angle is conventionally defined by going counter-clockwise from the positive $x$-axis.
+      \paragraph{Vectors} Consider a vector $\vv$, making an angle $\theta$ with respect to the positive $x$-axis.
+        \ul {
+          \item Magnitude: $\abs{\vv}$ or $\displaystyle \sqrt{(\vv_x)^2 + (\vv_y)^2}$
+          \item Direction $\theta$ or $\displaystyle \tan\theta = \dfrac{\vv_y}{\vv_x}$ (take care of sign of tangent appropriately)
+          \item Usually 2 components in PC1201
+          \item Addition: attach tails, sum up each component
+          \item Subtraction: adding $-1$ times
+          \item Scalar multiplication: scales vector
+        }
+      \paragraph{Length of vector components} Consider a vector $\vv$, making an angle $\theta$ with respect to the positive $x$-axis.
+        \ul {
+          \item Hypothenuse: $\abs{\vv}$
+          \item Adjacent: $\abs{\vv} \cos\theta$
+          \item Opposite: $\abs{\vv} \sin\theta$
+        }
+    \subsection*{Problem solving}
+      \paragraph{Tilt axes} Do not always need to choose ``standard" cartesian axis with $x$ direction parallel to ground.
+      \paragraph{Decompose into axes} Sometimes, it is possible to decompose an event into perpendicular components and we should do so.
+  \section*{\underline{Kinematics}}
+    \paragraph{Ticker tape} Dots are drawn every fixed interval.
+      \ul {
+        \item Larger gap $\Rightarrow$ faster speed
+        \item Increasing gap size $\Rightarrow$ positive acceleration
+      }
+    \paragraph{Scalar vs vector}
+      \begin{center}
+        \begin{tabular}{ |c|c| }
+          \hline
+          \thead{Scalar} & \thead{Vector} \\ \hline
+          Distance & Displacement \\ \hline
+          Speed & Velocity \\ \hline
+          - & Acceleration \\ \hline
+        \end{tabular}
+      \end{center}
+      \paragraph{Graphs} We consider position-time ($x$-$t$), velocity-time ($v$-$t$), acceleration-time ($a$-$t$). Relations (due to calculus)
+        \ul {
+          \item Gradient of $x$-$t$ is velocity
+          \item Gradient of $v$-$t$ is acceleration
+          \item Area under $v$-$t$ is displacement
+        }
+      \paragraph{SUVAT}
+        \[
+          \begin{aligned}
+            s &= ut + \frac{1}{2}at^2 \\
+            v &= u + at \\
+            v^2 &= u^2 + 2as \\
+            s &= \frac{1}{2} (u+v) t
+          \end{aligned}
+        \]
+        Note: we generally deal with constant acceleration, so if there are sudden changes in acceleration, we deal with the motion separately.
+    \subsection*{Projectile motion}
+      \paragraph{Trajectory} Parabola, only depending on the initial velocity $\vec{u}$.
+      \[ y = x \tan \theta - \frac{gx^2}{2u^2 \cos^2\theta} \]
+        \ul {
+          \item Velocity is tangent to trajectory.
+          \item $\vv_y = 0$ at top of trajectory.
+          \item $\vv_x$ is constant throughout trajectory.
+        }
+      \paragraph{Height and range}
+        \[
+          \begin{aligned}
+            H &= \frac{u^2 \sin^2\theta}{2g} \\
+            R &= \frac{u^2 \sin 2\theta}{g}
+          \end{aligned}
+        \]
+        Hence, $\theta = 90\deg$ gives max height, while $\theta = 45\deg$ gives max range.
+    \subsection*{Circular motion}
+      \paragraph{Properties}
+        \ul {
+          \item Velocity is not constant, as direction is always changing
+          \item Thus an acceleration exists:
+            \[ a_c = \frac{\abs{\vv}^2}{r} \]
+            This is known as centripetal acceleration, and its direction is perpendicular to $\vv$.
+        }
+      \paragraph{Non-uniform}
+        \ol {
+          \item Implies speed is changing
+          \item Implies net acceleration is not perpendicular to velocity
+          \item $\abs{\vv}$ is not constant
+        }
+    \subsection*{Relative motion}
+      Velocity is technically a relative quantity. We use the following notation:
+      \[ \vv_{\text{object} \vert \text{reference frame}} \]
+      We can compare relative velocities:
+      \[ \vv_{A\vert B} = \vv_{A\vert O} - \vv_{B\vert O} = \vv_{A\vert O} + \vv_{O\vert B} \]
+    \subsection*{Problem solving}
+      \paragraph{List information} Before trying a question, list all information.
+        \ul {
+          \item Number of unknowns determines number of equations to use
+          \item Draw diagrams for understanding
+          \item Name unknowns for easy reference
+          \item Not all information is numerical (Starts from rest $\Rightarrow \vec{u} = 0$)
+        }
+  \section*{\underline{Dynamics}}
+    Newton can be expressed in base units:
+    \[ \mathrm{N} = \mathrm{kg}\ \mathrm{m}\ \mathrm{s}^{-2} \]
+    \subsection*{Forces}
+      \paragraph{Gravity} \( W = mg \)
+      \paragraph{Tension} A contact force that is same throughout the rope. The tension at which the rope breaks is called breaking tension.
+      \paragraph{Normal} A contact force that acts perpendicular to the surface.
+      \paragraph{Friction} A contact force that acts opposite to the motion, resisting
+        \ul {
+          \item Motion (Kinetic, $f_k$)
+          \item Tendency to move (Static, $f_s$)
+        }
+        The general equation is:
+        \[ f = \mu N \]
+        where $\mu$ is the relevant friction coefficient.
+        \ul {
+          \item Static friction is equal to the applied force until a certain $f_{s_\text{max}} = \mu_s N$.
+          \item Once the applied force exceeds this, the object starts moving, and kinetic friction is now present, instead of static friction, and now $f_k = \mu_k N$, where $\mu_k \leq \mu_s$.
+        }
+        \paragraph{Elastic} Known as a restoring force, acting in the opposite direction of $\Delta \vec{x}$.
+        \[ \vec{F} = -k \Delta \vec{x} \]
+    \subsection*{Circular motion}
+      The net force that causes circular motion is known as centripetal force.
+    \subsection*{Orbital motion}
+      \ul {
+        \item If we launch a projectile with a high enough speed, it can escape gravity.
+        \item If we get the speed right, the object will be so fast that as it falls towards the earth, the earth starts to curve away.
+        \item If it is too slow, the object will eventually return to Earth.
+        \item If it is too fast, the object escapes Earth's gravity.
+        \item An object in such a circular orbit is in constant free fall, only being acted on by gravity. Hence,
+          \begin{align*}
+            mg &= \frac{mv^2}{r} \\
+            v &= \sqrt{rg}
+          \end{align*}
+      }
+    \subsection*{Apparent weight}
+      \paragraph{Normal force} Our apparent weight changes if $N \neq mg$.
+        \ul {
+          \item If $N < mg$, we feel lighter (low apparent weight)
+          \item If $N > mg$, we feel heavier (high apparent weight)
+        }
+        We can experience this in elevators, vertical circular motion, orbitting satellites, etc.
+    \subsection*{Problem solving}
+      \ul {
+        \item Draw sketch of entire system
+        \item Isolate SINGLE body to draw FBD, with forces acting ON the body
+        \item Action-reaction pairs should NOT appear in same FBD
+        \item Choose axis that aligns with net acceleration
+        \item If object is accelerating, net force is nonzero
+      }
+  \section*{\underline{Work, Energy, Power}}
+    \subsection*{Energy}
+      \ul {
+        \item Examples: Kinetic, Potential (Gravitational, Elastic, Electric), Thermal, Chemical
+        \item Unit: Joules (J)
+        \item Is a scalar
+        \item Energy transformation - changes within the system
+        \item Energy transfer - exchanges with external bodies outside system
+      }
+    \subsection*{Work}
+      \ul {
+        \item Work is transfer of energy - done on a system by external force
+        \item Is a scalar, but positive work should increase the total energy of the system
+        \item No movement = no work done
+        \item The equation is given by
+          \[ W = F_{\vert\vert}s = Fs \cos\theta \]
+          where $F_{\vert\vert}$ is the component of the force parallel to displacement.
+        \item Work is positive if the force is acting in the same direction as displacement
+        \item Work done is area under graph of $F-x$
+      }
+    \subsection*{Types of energy}
+      \paragraph{Kinetic} $W = \frac{1}{2}mv^2$
+      \paragraph{Potential energy}
+        \ul {
+          \item Stored energy
+          \item Allowed by conservative forces (where work done is dependent on position, and independent of path)
+          \item Examples of conservative forces: Gravitational, elastic, electric (and magnetic) forces
+          \item Derive formula by using
+            \[ \abs{W} = \abs{F \Delta s} \]
+          \item When conservative forces do positive work, potential energy of object decreases
+        }
+      \paragraph{Gravitational potential} $\Delta U_g = mg \Delta h$
+      \paragraph{Elastic potential} $U_s = \frac{1}{2} k (\Delta x)^2$
+    \subsection*{Conservation of Energy}
+      \ul {
+        \item In a closed system, total energy is constant.
+        \item In a open system, we consider only mechanical energy, ignoring heat.
+      }
+    \subsection*{Power}
+      \ul {
+        \item Rate of energy transfer
+        \[ P = \frac{\Delta E}{t} = \frac{W}{t} \]
+        \item For kinematics, if object is moving at constant speed,
+        \[ P = \frac{Fs}{t} = Fv \]
+        \item Unit: Watt (W)
+      }
+    \subsection*{Problem solving}
+      \ul {
+        \item Focus is on before and after, ignoring what happens in between
+        \item Be aware if system is open or close
+      }
+  \section*{\underline{Momentum}}
+    \ul {
+      \item Momentum is a vector quantity that quantifies motion:
+        \[ \vec{p} = m \vv \]
+      \item Unit: kg m s$^{-1}$
+    }
+    \subsection*{Conservation of Momentum}
+      \ul {
+        \item In a closed system, momentum of the \textbf{total system} is conserved
+        \item But momentum of individual objects in the system may change
+        \item Can decompose into perpendicular axes
+      }
+    \subsection*{Types of collision}
+      \paragraph{Elastic} KE is conserved, objects separate.
+      \\\\
+      Consider two objects with mass $m_i$, initial velocity $u_i$ and final velocity $v_i$.
+        \begin{align*}
+          m_1 \vec{u_1} + m_2 \vec{u_2} &= m_1 \vec{v_1} + m_2 \vec{v_2} \\
+          \frac{1}{2} m_1 u_1^2 + \frac{1}{2} m_2 u_2^2 &= \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 \\
+        \end{align*}
+        By algebra,
+        \[ \vec{v_2} - \vec{v_1} = -(\vec{u_2} - \vec{u_1}) \]
+        Thus, the relative velocity after collision is same in magnitude, and opposite in direction.
+      \paragraph{Completely inelastic} KE is not conserved, objects stick
+      \paragraph{Inelastic} KE is not conserved, objects separate (occurs when one body splits into two)
+    \subsection*{Impulse}
+      Momentum is not conserved in open systems, and the change in momentum is called impulse.
+      \[ \vec{J} = \vec{F}_\text{avg} \Delta t \]
+      It is also the area under the $F$-$t$ graph.
+\end{multicols*}
+\end{document}

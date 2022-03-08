@@ -15,6 +15,7 @@ Cheatsheets made for NUS CS
 4. [MA1521 AY21/22 S1 Test 3](MA1521/MA1521-AY2122S1-Test-3.pdf)
 5. [MA2001 AY21/22 S1 Finals](MA2001/MA2001-AY2122S1-Finals.pdf)
 6. [MA2101 AY21/22 S2 Test 1](MA2101/MA2101-AY2122S2-Test-1.pdf)
+6. [PC1201 AY21/22 S2 Mechanics](PC1201/PC1201-AY2122S2-Mechanics.pdf)
 
 ## Compile
 
