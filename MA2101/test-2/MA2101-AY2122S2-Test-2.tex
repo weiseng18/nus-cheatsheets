@@ -1,0 +1,289 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,margin=0.4in,landscape]{geometry}
+
+\setlength{\columnseprule}{0.3pt}
+
+\pagenumbering{gobble}
+
+\input{"../../headers/cheat_sheet.tex"}
+\input{"../../headers/matrix.tex"}
+\input{"../../headers/matrix_v2.tex"}
+
+% reduce spacing before and after headers
+\makeatletter
+\renewcommand{\section}{
+  \@startsection{section}{1}{0pt}{1ex}{1.5ex}{\normalfont\large\bfseries}}
+\renewcommand{\subsection}{
+  \@startsection{subsection}{2}{0pt}{1ex}{1ex}{\normalfont\large\bfseries}}
+% 5th arg is different for paragraph
+\renewcommand{\paragraph}{
+  \@startsection{paragraph}{4}{0pt}{1.5ex}{-0.8em}{\normalfont\bfseries}}
+
+% shorthands
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mM}[2]{\mathcal{M}_{#1 \times #2}}
+\newcommand{\M}[1]{\mathcal{M}(#1)}
+\newcommand{\hT}{\hat{T}}
+\newcommand{\hV}{\hat{V}}
+\newcommand{\inv}{^{-1}}
+
+\begin{document}
+\begin{multicols*}{4}
+  \small
+  \part*{\centering \underline{MA2101}}
+    \section*{\underline{Isomorphisms}} % Test 1 content
+      \paragraph{Definitions} Let $F$ be a mapping $F:S \rightarrow T$.
+        \ull {
+          \item Surjection: $\forall t \in T, \; \exists s \in S \quad F(s) = t$
+          \item Injection: $\forall s_1, s_2 \in S$ \\
+            $F(s_1) = F(s_2) \Rightarrow s_1 = s_2$
+          \item Bijection: Surjection and Injection
+        }
+      \paragraph{Homomorphism} Let $\phi:U \rightarrow V$ be a mapping. It is a homomorphism if
+        \begin{align*}
+          \phi(u+v) &= \phi(u) + \phi(v) \\
+          \phi(au) &= a \phi(u)
+        \end{align*}
+        If this homomorphism is \underline{also} a bijection, then this is an isomorphism.
+    \section*{\underline{Linear mappings}}
+      \paragraph{Definition} A mapping $T: V \rightarrow W$ is called a linear mapping if $\forall a \in \mF, \forall u,v \in V$:
+        \begin{align*}
+          T(u+v) &= T(u) + T(v) \\
+          T(au) &= aT(u)
+        \end{align*}
+      \paragraph{Set of linear mappings} The set of all linear mappings from $V$ to $W$ is denoted $\mL(V,W)$. It is a vector space.
+      \paragraph{Basis as a linear mapping} Let $B$ be a basis of $V$, where $\dim(V) = n$.
+        \ull {
+          \item Then $B \in \mL(\mF^n, V)$, i.e. it is a linear mapping from $\mF^n$ to $V$.
+          \item However, some $x \in \mL(\mF^n, V)$ is not necessarily a basis, as it is not necessarily a bijection.
+        }
+      \paragraph{Change of basis} Let $y$ and $z$ be basis of an $n$-dimensional vector space $V$.
+        \ull {
+          \item $z$ has inverse $z^{-1}$
+          \item Define $P = z^{-1} \circ y$, then $P: \mF^n \rightarrow \mF^n$, and since composition of bijections is a bijection, $P$ is a bijection, so $P$ is an isomorphism of $F^n$ with itself.
+          \item Hence, $y = z \circ P$, where $P$ is an isomorphism of $F^n$ with itself.
+        }
+    \section*{\underline{Kernel and range}} \noindent
+      Let $T \in \mL(V, W)$.
+      \paragraph{Kernel}
+        \ull {
+          \item The kernel of $T$, denoted $\mathrm{Ker}(T)$, is the set of elements in $V$ that are mapped to the zero vector in $W$.
+          \item The dimension of $\mathrm{Ker}(T)$ is called the nullity of $T$, denoted as $\mathrm{Null}(T)$.
+          \item $\mathrm{Ker}(T)$ is a subspace of $V$.
+          \item $T \text{ is injective} \Leftrightarrow \mathrm{Ker}(T) = \{\vec{0}\}$
+        }
+      \paragraph{Range}
+        \ull {
+          \item The range of $T$, denoted $\mathrm{Rang}(T)$, is the set of vectors in $W$ that can be expressed as $Tv$ for some $v \in V$.
+          \item The dimension of $\mathrm{Rang}(T)$ is called the rank of $T$, denoted as $\mathrm{Rank}(T)$.
+          \item $\mathrm{Rang}(T)$ is a subspace of $W$.
+          \item $T \text{ is surjective} \Leftrightarrow \mathrm{Rang}(T) = W$
+        }
+      \paragraph{Fundamental theorem}
+        \[ \dim(V) = \mathrm{Null}(T) + \mathrm{Rank}(T) \]
+        \ull {
+          \item Let $T \in \mL(V, W)$ where $\dim(V) > \dim(W)$. Then $T$ cannot be injective.
+          \item Let $T \in \mL(V, W)$ where $\dim(V) < \dim(W)$. Then $T$ cannot be surjective.
+          \item For linear maps from $V$ to itself, \\
+            $\text{bijectivity} \Leftrightarrow \text{injectivity} \Leftrightarrow \text{surjectivity}$
+        }
+  \section*{\underline{Duality}}
+    \subsection*{Dual space}
+      \paragraph{Definition} The dual space of a vector space $V$, is the set of all linear mappings from $V$ to $\mF$, $\mL(V, \mF)$.
+        \ull {
+          \item We denote the dual space as $\hV$
+          \item If $\alpha \in \hV$, then $\forall u \in V, \ \alpha(u) \in \mF$
+        }
+        \paragraph{Example} Let $\mF^n$ be the vector space of column vectors.
+          \ull {
+            \item The dual space of $\mF^n$ is the space of \by{1}{n} row vectors.
+            \item Its canonical dual basis $\epsilon^i$ are the row vectors $\mat{1 0 0 \cdots}, \quad \mat{0 1 0 \cdots}, \quad \cdots$
+          }
+    \subsection*{Dual basis}
+      \paragraph{Definition} Let $z_i$ be a basis for $V$.
+        \ull {
+          \item For any $v \in V$, write $v = \sum a^iz_i$.
+          \item Denote the dual vectors as $\zeta^i$. Define them as follows:
+            \[ \zeta^i(v) = a^i \]
+          \item Letting the $\zeta$ act on $z$, we have
+            \[
+              \zeta^i(z_j) = I^i_j = \begin{cases}
+                1 & \text{if $i=j$} \\
+                0 & \text{otherwise}
+              \end{cases}
+            \]
+          \item The set of all $\zeta^i \in \hV$ that satisfies $\zeta^i(z_j) = I^i_j$ is called the dual basis of $z_i$.
+        }
+      \paragraph{Show basis}
+        \oll {
+          \item (Show that they belong to $\hV$) Show that each $\zeta^i$ is a linear mapping from $V$ to $\mF$.
+          \item (Show they are linearly independent) Consider $\sum p_i \zeta^i = \vec{0}$, and let it act on $z_j$.
+            \[ 0 = p_i \zeta^i (z_j) = p_i I^i_j = p_j \]
+          \item (Show that they span) We do not know the dimension of $\hV$. Thus, we show that every element of $\hV$ can be expressed as a linear combination of $\zeta^i$.
+            \ull {
+              \item Let $\beta = (\alpha z_i) \zeta^i$ for some dual vector $\alpha$.
+                \[ \beta(z_j) = \alpha(z_i) \zeta^i (z_j) = \alpha(z_i) I^i_j = \alpha(z_j) \]
+              \item Hence, any dual vector $\beta$ can be expressed as a linear combination of $\zeta^i$, where the components are $\alpha(z_i)$.
+            }
+          \item This implies $\dim(\hV) = \dim(V)$.
+          \item Since in our definition, $a^i$ is unique to $v$, so the dual basis is also unique.
+        }
+      \paragraph{Alternative definition}
+        \ull {
+          \item Let $z$ be a basis for $V$, so $z \in \mL(\mF^n, V)$.
+          \item Let $\alpha \in \mF^n$. Let $p \in \hat{\mF}^n$.
+          \item Define $\zeta \in \mL(\hat{\mF}^n, \hV)$ as follows:
+            \[ \zeta p (z \alpha) = pa \]
+          \item Here, $\zeta p \in \hV$, and $z \alpha \in V$.
+        }
+      \paragraph{Why duality?}
+        \ull {
+          \item $v \in V$ is linear when acting on $\alpha \in \hV$.
+          \item We claim that $\alpha$ is the dual vector of $v$, but we can also regard $v$ as the dual vector of $\alpha$.
+        }
+      \subsection*{Transpose mapping} \noindent
+        Let $\alpha \in \hV$ and let $v \in V$. For each LT $T: V \rightarrow V$, define $\hT: \hV \rightarrow \hV$ as follows:
+        \[ \hT(\alpha)(v) = \alpha(Tv) \]
+        Then $\hT$ is the transpose of $T$. Since $\hT$ is linear, so $\hT \in \mL(\hV, \hV)$.
+      \subsection*{Dual of the dual space} \noindent
+        % T4 Q6
+        Dual of dual space of $V$ is isomorphic to $V$.
+  \section*{\underline{Tensor products}}
+    \paragraph{Definition}
+      \ull {
+        \item Let $V$ be a vector space. Let $\hV$ be its dual.
+        \item For each $v \in V$ and $\alpha \in \hat{V}$, define their tensor product $v \otimes \alpha$ to be the element of $\mL(V,V)$ as follows:
+          \[ (v \otimes \alpha)(w) = \alpha(w)v \]
+          where $w \in V$.
+        \item The tensor product is linear in both ways.
+          \begin{align*}
+            (u+v) \otimes \alpha &= u \otimes \alpha + v \otimes \alpha \\
+            v \otimes (\alpha + \beta) &= v \otimes \alpha + v \otimes \beta
+          \end{align*}
+        \item Let $\beta$ be a dual vector.
+          \[ \beta \circ (v \otimes \alpha) = \beta(v)\alpha \]
+      }
+    \subsection*{Basis} \noindent
+      Let $z_i$ be a basis of $V$ and let $\zeta^j$ be the dual basis.
+      \ull {
+        \item For the following, consider $V = \mF^n$ and $z_i = e_i$ for a concrete example.
+        \item For each pair of $(i,j)$, $z_i \otimes \zeta^j \in \mL(V,V)$.
+        \item The full set of $z_i \otimes \zeta^j$ is a basis for $\mL(V,V)$.
+        \item $\dim(\mL(V,V)) = \dim(V)^2$
+        \item Define $T^i_j$ as follows:
+            \[ T(z_j) = T^i_j(z_i) \]
+      }
+      \paragraph{Show span}
+        \ull {
+          \item Let $T \in \mL(V,V)$.
+          \item Since $T(z_i) \in V$, then express it as a linear combination as follows, where $:=$ removes the summations
+            \[ T(z_i) = \sum_j T^j_i (z_j) := T^j_i (z_j) \]
+          \item Next, define $S$ in the following way, where $:=$ removes the summations. 
+            \[ S = \sum_i \left( \Big(\sum_j T^j_i z_j \Big) \otimes \zeta^i \right) := T^j_i z_j \otimes \zeta^i \]
+            $S$ is a linear combination of things in $\mL(V,V)$, so $S \in \mL(V,V)$.
+          \item Let $S$ act on $z_k$. Summations are not present here, but use the above definitions to confirm that they work:
+            \begin{align*}
+              S(z_k) &= T^j_i z_j \otimes \zeta^i (z_k) = \zeta^i (z_k) T^j_i z_j \\
+                     &= I^i_k T^j_i z_j = T^j_k z_j = T(z_k)
+            \end{align*}
+            By linearity, we have $S(v) = T(v)$ for all $v \in V$. Hence
+            \[ T = S = T^j_i z_j \otimes \zeta^i = T^j_i \Big( z_j \otimes \zeta^i \Big) \]
+            and any arbitrary $T$ can be expressed as a linear combination of $z_j \otimes \zeta^i$. Hence, $z_i \otimes \zeta^j$ forms a basis for $\mL(V,V)$.
+        }
+      \paragraph{Extracting components} Let $\zeta^i$ be the dual basis of $z_j$.
+        \[ \zeta^i \Big( T(z_j) \Big) = \zeta^i \Big( T^k_j(z_k) \Big) = T^k_j I^i_k = T^i_j \]
+        In particular,
+        \[ \epsilon^i \Big( T(e_j) \Big) = \epsilon^i \Big( T^k_j(e_k) \Big) = T^k_j I^i_k = T^i_j \]
+        where $e_j$ are the canonical basis vectors of $V$ and $\epsilon^i$ are the canonical basis vectors of $\hat{V}$.
+    \paragraph{Transpose of tensor product} % T5 Q4
+      The transpose of $v \otimes \alpha$ is $\alpha \otimes v$.
+    \paragraph{Trace of tensor product} % T6 Q6
+      The trace of $v \otimes \alpha$ is $\alpha(v)$. That is, the trace of the outer product is the inner product.
+  \section*{\underline{Matrices}}
+    \paragraph{Definition} A \by{n}{m} matrix is just a list of $m$ vectors belonging to $\mF^n$.
+    \paragraph{Convention} We may refer to the elements of a matrix in the following way:
+      \[ \mat{M^1_1 M^1_2 M^1_3; M^2_1 M^2_2 M^2_3; M^3_1 M^3_2 M^3_3} \]
+      \ull {
+        \item Subscripts: which column vector from the list you are referring to
+        \item Superscripts: which component of a given vector you are referring to
+        \item $M^i_j$ is the $(i,j)$-entry in a given matrix
+      }
+    \paragraph{Vector space} The set $\mM{n}{m}$ of \by{n}{m} matrices is a vector space, with usual matrix addition, and scalar multiplication.
+    \paragraph{Matrix of a linear transformation} From the tensor products section,
+      \[ T = T^j_i \Big( z_j \otimes \zeta^i \Big)  \]
+      where $z_j \otimes \zeta^i$ is a basis for $\mL(V,V)$. Then $T^j_i$ is the matrix of $T$ relative to the basis $z_i$.
+    \paragraph{Transpose of $T: V \rightarrow V$} From the transpose mapping section, we have define the transpose mapping as follows:
+      \[ \hT(\alpha)(v) = \alpha(Tv) \]
+      where $\alpha \in \hat{V}$ and $v \in V$. Let $\alpha = \zeta^i$ and $v = z_j$. Then
+      \begin{align*}
+        \zeta^i \Big( Tz_j \Big) &= z_j \Big( \hat{T} \zeta^i \Big) \\
+        % check this
+        \zeta^i \Big( T^i_j z_i \Big) &= z_j \Big( \hat{T}^j_i \zeta^j \Big) \\
+        T^i_j &= \hat{T}^j_i
+      \end{align*}
+      Hence the transpose matrix is obtained by flipping along the diagonal.
+    \paragraph{Transpose of $T: V \rightarrow W$} % T5 Q5
+      The transpose of $T: V \rightarrow W$ is $\hat{T}: \hat{W} \rightarrow \hat{V}$.
+    \paragraph{Trace is zero on commutators} % T6 Q4
+      \[ \trc{MN} = \sum_i M^i_k N^k_i = N^k_i M^i_k = \trc{NM} \]
+  \section*{\underline{$\mL(V,W)$ for $V \neq W$}} \noindent
+    Let $\dim(V) = n$ and $\dim(W) = m$.
+    \paragraph{Tensor product} For each $x \in W$ and $\alpha \in \hat{V}$, define their tensor product $x \otimes \alpha$ to be the element of $\mL(V,W)$ as follows, where $v \in V$:
+      \[ (x \otimes \alpha)(v) = \alpha(v)x \]
+    \paragraph{Basis}
+      \ull {
+        \item Let $x_i$ be a basis of $W$, and let $\zeta^j$ be a dual basis for $V$.
+        \item Then the full set $x_i \otimes \zeta^j$ is a set of \by{n}{m} elements of $\mL(V,W)$ which forms a basis.
+      }
+    \paragraph{LT} Any $T \in \mL(V,W)$ can be expressed as $T^i_j \Big(x_i \otimes \zeta^j\Big)$, where the $T^i_j$ can be assembled into a \by{m}{n} matrix.
+    \paragraph{Note}
+      \ull {
+        \item Given bases for $V$ and $W$, we can map any LT in $\mL(V,W)$ to a matrix.
+        \item This mapping is a linear mapping from $\mL(V,W)$ to $\mM{m}{n}$.
+      }
+  \section*{\underline{Matrix of a product}}
+    \paragraph{Matrix multiplication} Define matrix multiplication as
+      \[ M^i_j N^j_k = M^i_1 N^1_k + M^i_2 N^2_k + \cdots \]
+    \subsection*{Multiplying transformations}
+      \paragraph{Definition}
+        \ull {
+          \item Let $U,V,W$ be vector spaces such that $S \in \mL(U,V)$ and $T \in \mL(V,W)$.
+          \item Then $T \circ S \in \mL(U,W)$ and
+          \item $\M{TS} = \M{T} \M{S}$
+        }
+      \paragraph{Example} Let $v, w \in V$ and $\alpha, \beta \in \hat{V}$. Then
+        \[ (v \otimes \alpha) \circ (w \otimes \beta) = \alpha(w)v \otimes \beta \]
+      \paragraph{Matrix of the tensor product} Since
+        \[ v \otimes \alpha = (v^i z_i) \otimes (p_j \zeta^j) = v^i p_j \Big( z_i \otimes \zeta^j \Big) \]
+        So the matrix is just $v^i p_j$. For example, when $\dim(V) = \dim(\hat{V}) = 3$,
+        \setlength{\arraycolsep}{4pt} % squeeze slightly
+        \[ \mat{v^1p_1 v^1p_2 v^1p_3; v^2p_1 v^2p_2 v^2p_3; v^3p_1 v^3p_2 v^3p_3} = \mat{v^1;v^2;v^3} \mat{p_1 p_2 p_3} \]
+        \setlength{\arraycolsep}{5pt} % restore default
+        Sometimes, the tensor product is also called the outer product of a column vector with a row vector.
+  \section*{\underline{Change of basis}}
+    \paragraph{Dual basis $\zeta$}
+      Let $\zeta^j$ be the dual basis to $z_i$. Let $\epsilon^j$ be the dual canonical basis for $\mF^n$. Then we have
+      \[ \zeta^j = \epsilon^j \circ z \inv \]
+    \paragraph{Linear map $T$} Let $T: V \rightarrow V$. Then $\M{T}$ relative to basis $z$ is the same as the matrix of
+      \[ z \inv \circ T \circ z \]
+      relative to the canonical basis of $\mF^n$, because
+      \[ \epsilon^j z\inv T z e_i = \zeta^j z_i = T^j_i \]
+      Then, consider $y = z \circ P$. Note that $y\inv = P\inv \circ z\inv$. Then $\M{T}$ relative to basis $y$ is
+      \begin{align*}
+        y\inv \circ T \circ y &= (P\inv \circ z\inv) \circ T \circ (z \circ P) \\
+                              &= P\inv (z\inv T z) P
+      \end{align*}
+      Viewing this as a product of transformations, then the matrix is also the product of
+      \ull {
+        \item Matrix of $P\inv$ rel. to canonical basis of $\mF^n$
+        \item Matrix of $T$ rel. to the basis $z$ of $V$
+        \item Matrix of $P$ rel. to the canonical basis of $\mF^n$
+      }
+    \paragraph{Components} Let $z$ be a basis of $V$, let $v \in V$, let $a = z\inv v$, so $a$ is a column vector of the components of $v$. The components relative to another basis $y = z \circ P$ is:
+      \[ y\inv v = (P\inv z\inv) v = P\inv a \]
+    \paragraph{Alternative dual basis definition} We may define a dual basis in the following way:
+      \[ (\zeta p)(za) = pa \]
+      where $p \in \hat{\mF^n}$. Since $pa$ is a scalar, its value should not depend on the choice of basis. Then obviously $pa = pP P\inv a$. From the previous section, then the components of a dual vector will change from $p$ to $pP$.
+\end{multicols*}
+\end{document}
