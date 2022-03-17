@@ -91,7 +91,7 @@
              \end{cases}
         \end{aligned}
       \]
-  \section*{\underline{Algorithms}}
+  \section*{\underline{Algorithms}} \noindent
     (with binary search as example algo)
     \paragraph{Precondition} Fact that is true before algorithm runs.
       e.g. Array is sorted
@@ -121,7 +121,7 @@ FindPeak(A, n)
     \paragraph{Insertion} swap each new element until it is correctly placed within sorted region
     \paragraph{Small arrays} Insertion sort is stable, works fast for nearly sorted arrays, has little overhead.
     \paragraph{Merge} (recursive) sort each half and merge
-    \paragraph{Quick} (recursive) partition about chosen pivot
+    \paragraph{Quicksort} (recursive) partition about a pivot
     \paragraph{In-place partitioning} $O(n)$
       \oll {
         \item Choose a random pivot (for good quicksort performance), and swap it to the start
@@ -135,16 +135,17 @@ FindPeak(A, n)
         \item If pivot splits by a fraction, good enough
         \item 3-way partitioning: pack duplicates in middle to eliminate duplicate elements worst case
         \item Paranoid: force a good pivot
-        \item $k$-pivots: $O(k \log k)$ to sort pivots + $O(n \log k)$ to binary search the pivots to choose correct bucket to place the new item. $T(n) = O(n \log_k n \log k) = O(n \log n)$
-        \item 2-pivot quicksort is in practice better, because of cache performance
+        \item $k$-pivots: $O(k \log k)$ to sort pivots + $O(n \log k)$ to binary search the pivots to choose correct bucket to place the new item. $T(n) = O(n \log_k n \log k) = O(n \log n)$, i.e. no performance improvements
+        \item 2-pivot quicksort is in practice better than 1-pivot quicksort, because of cache performance
       }
+    \paragraph{Quickselect} Like quicksort, but only recurse on relevant half of partitioned array
     \subsection*{Probability}
       \paragraph{Linearity of expectation} For random variables $X$ and $Y$:
         \[ E(aX + bY) = a E(X) + b E(Y) \]
         \paragraph{Expected trials} If an event $X$ has probability of success $p$, then an expected $\tfrac{1}{p}$ trials is required for 1 success.
     \subsection*{Order Statistics}
       \paragraph{Find $k$th smallest element} Quicksort but only recurse on relevant side - $O(n)$
-    \subsection*{Interval Tree}
+    \subsection*{Interval Tree} \noindent
       Each node stores an interval, keyed on left endpoint, augmented with max right endpoint in subtree
       \paragraph{Search} $O(\log n)$
         \oll {
@@ -161,8 +162,7 @@ FindPeak(A, n)
       \ull {
         \item Leaf nodes contain points
         \item Internal nodes contain max in left subtree
-        \item Build tree: $O(n \log n)$
-        \item Space: $O(n)$
+        \item Build tree: $O(n \log n)$, Space: $O(n)$
       }
       \paragraph{Search} Find number of points in range $[a, b]$ - $O(k + \log n)$, where $k$ is number of points found
         \oll {
@@ -177,10 +177,8 @@ FindPeak(A, n)
       \paragraph{n dimensional search}
         \ull {
           \item Recursively store $d-1$ dim range tree in each node of a 1D range tree
-          \item Build tree: $O(n \log^{d-1} n)$
-          \item Query: $O(\log^d n + k)$
-          \item Space: $O(n \log^{d-1} n)$
-          \item 2D tree Rotate: $O(n)$
+          \item Build tree: $O(n \log^{d-1} n)$, Query: $O(\log^d n + k)$
+          \item Space: $O(n \log^{d-1} n)$, 2D tree Rotate: $O(n)$
         }
   \section*{\underline{Trees}}
     \subsection*{Binary trees}
@@ -265,7 +263,9 @@ FindPeak(A, n)
       \item A height balanced tree has at $h < 2 \log n$ (actually, approximately $\dfrac{1}{\log \phi} \log n$)
     }
     \paragraph{Balancing}
-      Assume A is left-heavy. Otherwise, if A is right-heavy, substitute ALL left, right with right, left
+      Assume A is \underline{left-heavy}. Otherwise, if A is right-heavy, substitute ALL left, right with right, left
+      \\\\
+      Define B as left child of A.
       \\\\
       Case 1: B is \textbf{balanced:} \ic{rightRotate(A)}
       \begin{center}
@@ -295,13 +295,13 @@ FindPeak(A, n)
       }
     \paragraph{Rank of node} Position in in-order
 \begin{lstlisting}
-rank(node)
-rank = node.left.weight + 1
-while node != null
-  if node is right child
-    rank += node.parent.left.weight + 1
-  node = node.parent
-return rank
+rank(node):
+  rank = node.L.weight + 1
+  while node != null
+    if node is right child
+      rank += node.parent.L.weight + 1
+    node = node.parent
+  return rank
 \end{lstlisting}
   \subsection*{Trie}
     \ull {
@@ -328,9 +328,9 @@ return rank
     \paragraph{Build} $O(n \log n)$
       \oll {
         \item Choose either $x$ or $y$.
-        \item Quickselect median of $x$ or $y$
-        \item Split array into two halves using median
-        \item Paritioning: $O(n)$
+        \item Quickselect median of $x$ or $y$: $O(n)$
+        \item Split array into two halves using median \\
+          Partioning: $O(n)$
       }
   \subsection*{$(a,b)$-tree}
     \begin{center}
@@ -395,7 +395,7 @@ return rank
         \item Merge $d$ keylist, treelist into $l$
         \item Delete $d$
       }
-    \paragraph{Share} Merge; split newly combined node
+    \paragraph{Share} \ic{merge(l, d)}; split newly combined node
 \section*{\underline{Hashing}}
   \subsection*{Hash functions}
     \ull {
@@ -431,11 +431,11 @@ return rank
   \begin{tabular}{ |c|C|C|C|c|C|c| }
     \hline
     \textbf{Sort} & \textbf{Best} & \textbf{Average} & \textbf{Worst} & \textbf{Stable} & \textbf{Memory} & \textbf{Invariant (after $k$ iterations)} \\ \hline
-    Bubble & \Omega(n) & O(n^2) & O(n^2) & \checkmark & O(1) & last $k$ elements in correct position \\ \hline
-    Selection & \Omega(n^2) & O(n^2) & O(n^2) & $\times$ & O(1) & first $k$ elements in correct position \\ \hline
+    Bubble & \Omega(n) & O(n^2) & O(n^2) & \checkmark & O(1) & last $k$ elements in correct final position \\ \hline
+    Selection & \Omega(n^2) & O(n^2) & O(n^2) & $\times$ & O(1) & first $k$ elements in correct final position \\ \hline
     Insertion & \Omega(n) & O(n^2) & O(n^2) & \checkmark & O(1) & (original) first $k$ elements in relative sorted order \\ \hline
     Merge & \Omega(n \log n) & O(n \log n) & O(n \log n) & \checkmark & O(n) & subarray is sorted \\ \hline
-    Quick & \Omega(n \log n) & O(n \log n) & O(n^2) & $\times$ & O(1) & pivot is in correct position \\ \hline
+    Quick & \Omega(n \log n) & O(n \log n) & O(n^2) & $\times$ & O(1) & pivot is in correct final position \\ \hline
   \end{tabular}
 \end{center}
 \end{document}
