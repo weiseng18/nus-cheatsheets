@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage[a4paper,margin=3mm]{geometry}
+  \usepackage[a4paper,margin=3mm]{geometry}
 
 \input{"../../headers/cheat_sheet.tex"}
 \input{"../../headers/code.tex"}
@@ -110,9 +110,9 @@ FindPeak(A, n)
   else A[mid] is a peak
       \end{lstlisting}
       If we recurse into right half, then:
-      \ul {
+      \ull {
         \item Given that \ic{A[mid] < A[mid+1]} (condition for recursing into right half)
-        \item Assuming no peak, then \ic{A[mid] < A[mid+1] < A[mid+2] < ... < A[n-1] > A[n] = -INT_MAX}
+        \item Assuming no peak, then \ic{A[mid] < A[mid+1] < A[mid+2] < ... < A[n-1] > A[n] = -INT_MAX}, i.e. \ic{A[n-1]} is a peak
         \item Hence peak must exist
       }
   \section*{\underline{Sorting}}
@@ -184,7 +184,7 @@ FindPeak(A, n)
     \subsection*{Binary trees}
       \ull {
         \item A binary tree is either empty, or a node pointing to two binary trees.
-        \item In a balanced tree, $h = O(\log n)$
+        \item In a \underline{balanced tree}, $h = O(\log n)$
         \item Height is no. of edges on longest path to leaf
       }
       The following operations are all $O(\log n)$:
@@ -258,9 +258,13 @@ FindPeak(A, n)
 \begin{multicols}{3}
   \subsection*{AVL trees}
     \ull {
-      \item A node $v$ is height balanced if \\
+      \item A node $v$ is \underline{height balanced} if \\
         \ic{|v.L.height - v.R.height| <= 1}
-      \item A height balanced tree has at $h < 2 \log n$ (actually, approximately $\dfrac{1}{\log \phi} \log n$)
+      \item Consider a height balanced tree with height $h$ and $n$ nodes.
+        \ull {
+          \item \textbf{At most} $h < 2 \log n$ (actually, approximately $\dfrac{1}{\log \phi} \log n$)
+          \item \textbf{At least} $n > 2^{h/2}$ nodes
+        }
     }
     \paragraph{Balancing}
       Assume A is \underline{left-heavy}. Otherwise, if A is right-heavy, substitute ALL left, right with right, left
@@ -269,32 +273,33 @@ FindPeak(A, n)
       \\\\
       Case 1: B is \textbf{balanced:} \ic{rightRotate(A)}
       \begin{center}
-        \includegraphics[width=0.28\textwidth]{AVL_Case_1}
+        \includegraphics[width=0.29\textwidth]{AVL_Case_1}
       \end{center}
       Case 2: B is \textbf{left-heavy:} \ic{rightRotate(A)}
       \begin{center}
-        \includegraphics[width=0.28\textwidth]{AVL_Case_2}
+        \includegraphics[width=0.29\textwidth]{AVL_Case_2}
       \end{center}
       Case 3: B is \textbf{right-heavy:} \\
         \ic{leftRotate(A.left); rightRotate(A)}
       \begin{center}
-        \includegraphics[width=0.28\textwidth]{AVL_Case_3a}
-        \includegraphics[width=0.28\textwidth]{AVL_Case_3b}
+        \includegraphics[width=0.29\textwidth]{AVL_Case_3a}
+        \includegraphics[width=0.29\textwidth]{AVL_Case_3b}
       \end{center}
       Update weights after \ic{rightRotate(A)}
       \begin{center}
-        \includegraphics[width=0.28\textwidth]{AVL_weights}
+        \includegraphics[width=0.29\textwidth]{AVL_weights}
       \end{center}
       Update max after \ic{rightRotate(A)}
       \begin{center}
-        \includegraphics[width=0.28\textwidth]{AVL_max}
+        \includegraphics[width=0.29\textwidth]{AVL_max}
       \end{center}
       \ull {
         \item Insertion: max 2 rotations
         \item Deletion: max $O(\log n)$ rotations
       }
     \paragraph{Rank of node} Position in in-order
-\begin{lstlisting}
+      \lstset{language=Java, backgroundcolor=\color{lg}}
+      \begin{lstlisting}
 rank(node):
   rank = node.L.weight + 1
   while node != null
@@ -302,7 +307,7 @@ rank(node):
       rank += node.parent.L.weight + 1
     node = node.parent
   return rank
-\end{lstlisting}
+      \end{lstlisting}
   \subsection*{Trie}
     \ull {
       \item search, insert: $O(L)$
@@ -323,7 +328,7 @@ rank(node):
       \oll {
         \item If horizontal split, recurse left child
         \item If vertical split, recurse on both children
-        \item $T(n) = 2T(\frac{n}{4}) + O(1)$
+        \item $T(n) = 2T(n/4) + O(1)$
       }
     \paragraph{Build} $O(n \log n)$
       \oll {
@@ -334,7 +339,7 @@ rank(node):
       }
   \subsection*{$(a,b)$-tree}
     \begin{center}
-      \includegraphics[width=0.28\textwidth]{AB_tree}
+      \includegraphics[width=0.32\textwidth]{AB_tree}
       \\
       Sample $(2,4)$-tree
     \end{center}
@@ -418,7 +423,7 @@ rank(node):
     \paragraph{Search}
       \ull {
         \item Worst case: $O(n + hash) = O(n)$
-        \item Expected case: $O(1 + \frac{n}{m})$, good $m$: O(1)
+        \item Expected: $O(1 + n/m)$, choose good $m$: O(1)
       }
     \paragraph{Expected max cost of $n$ inserts}
       \ull {
