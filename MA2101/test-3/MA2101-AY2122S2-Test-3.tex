@@ -1,0 +1,682 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,margin=0.2in]{geometry}
+
+\setlength{\columnseprule}{0.3pt}
+
+\AtBeginDocument{
+\addtolength{\abovedisplayskip}{-1ex}
+\addtolength{\abovedisplayshortskip}{-1ex}
+\addtolength{\belowdisplayskip}{-1ex}
+\addtolength{\belowdisplayshortskip}{-1ex}
+}
+
+\pagenumbering{gobble}
+
+\input{"../../headers/cheat_sheet.tex"}
+\input{"../../headers/matrix.tex"}
+\input{"../../headers/matrix_v2.tex"}
+
+% colors
+\usepackage[dvipsnames,table]{xcolor}
+\newcommand{\red}[1]{\textcolor{red}{(#1)}}
+
+% shrink
+\usepackage{graphicx}
+
+% shorthands
+\newcommand{\LVV}{\mathcal{L}(V,V)}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\caseand}{\quad\text{and}\quad}
+
+\newcommand{\inv}{^{-1}}
+
+% reduce spacing before and after headers
+\makeatletter
+\renewcommand{\section}{
+  \@startsection{section}{1}{0pt}{1ex}{1ex}{\normalfont\large\bfseries}}
+\renewcommand{\subsection}{
+  \@startsection{subsection}{2}{0pt}{1ex}{1ex}{\normalfont\normalsize\bfseries}}
+% 5th arg is different for paragraph
+\renewcommand{\paragraph}{
+  \@startsection{paragraph}{4}{0pt}{1.5ex}{-0.6em}{\normalfont\bfseries}}
+
+\begin{document}
+\begin{multicols*}{3}
+  \scriptsize
+  \section*{\underline{Miscellaneous}}
+    \paragraph{0.1 Basis}
+      \ull {
+        \item The full set $z_i \otimes \zeta^j$ over all $(i, j)$ is a basis for $\LVV$.
+        \item The full set $\zeta^i \otimes \zeta^j$ over all $(i, j)$ is a basis for $\mathcal{L}(\hat{V},\hat{V})$. Note that this tensor product only takes in one vector.
+      }
+    \paragraph{0.2 Trace}
+      \ull {
+        \item Invariant under similarity transformation (shown in Tut 6 Q6)
+        \item Is sum of eigenvalues (shown in Tut 8 Q3)
+      }
+    \paragraph{0.3 How a matrix describes change} Let $T$ be a 2D LT.
+      \[ \mathcal{M}(T) = \mat{a b; c d} \]
+      This means that $T(\hat{i}) = \mat{a;c}$ and $T(\hat{j}) = \mat{b;d}$, i.e. the columns tell us how the basic unit vectors change under the transformation.
+    \paragraph{0.4 Transpose of LT} Let $\alpha \in \hat{V}$ and let $v \in V$. For each LT $T: V \rightarrow V$, define $\hat{T}: \hat{V} \rightarrow \hat{V}$ as follows:
+      \[ \hat{T}(\alpha)(v) = \alpha(Tv) \]
+      Then $\hat{T}$ is the transpose of $T$. Since $\hat{T}$ is linear, so $\hat{T} \in \mathcal{L}(\hat{V}, \hat{V})$.
+    \paragraph{0.5 Notation}
+      \ull {
+        \item $I^i_j = 1$ if $i=j$, else 0 (known as Kronecker delta)
+        \item Summation over pairs of subscript/superscript
+        \item For a matrix $M$, the entry in row $i$ and column $j$ is $M^i_j$.
+      }
+    \subsection*{Isomorphisms} % Test 1 content
+      \paragraph{0.6 Definitions} Let $F$ be a mapping $F:S \rightarrow T$.
+        \ull {
+          \item Surjection: $\forall t \in T, \; \exists s \in S \quad F(s) = t$
+          \item Injection: $\forall s_1, s_2 \in S \quad F(s_1) = F(s_2) \Rightarrow s_1 = s_2$
+          \item Bijection: Surjection and Injection
+        }
+      \paragraph{0.7 Homomorphism} Let $\phi:U \rightarrow V$ be a mapping. It is a homomorphism if
+        \begin{align*}
+          \phi(u+v) &= \phi(u) + \phi(v) \\
+          \phi(au) &= a \phi(u)
+        \end{align*}
+        If this homomorphism is \underline{also} a bijection, then this is an isomorphism.
+      \paragraph{0.8 Note} LI $\Rightarrow$ injective $\Rightarrow$ surjective $\Rightarrow$ bijective $\Rightarrow$ basis
+  \section*{\underline{Eigenstuff}}
+      \paragraph{4.1 Linear operator} A LT from $V$ to itself
+      \paragraph{Complex operator} A linear operator on a vector space over the complex numbers
+      \paragraph{4.2 Invariant subspace} A subspace $U \subseteq V$ is invariant wrt $T \in \LVV$ if $Tu \in U, \forall u \in U$.
+      \paragraph{4.7 Eigenray} A 1-d invariant subspace. Its elements are eigenvectors.
+      \paragraph{4.10 Eigenvector/value} Let $T$ be a linear operator on $V$. A vector $v \in V$ is an eigenvector of $T$ if $Tv = \lm v$ for a particular $\lm \in \F$. $\lm$ is the eigenvalue of this eigenvector.
+      \paragraph{4.19 Eigenrays are LI} Consider $N$ eigenrays with different eigenvalues. The set that consists of 1 vector from each eigenray is LI.
+        \red{proof by contradiction}
+      \paragraph{4.20 Cap on number of eigenvalues} The number of distinct eigenvalues for an operator $V$ cannot be larger than $\dim(V)$. 
+        \red{$k$ eigenvalues $\Rightarrow k$ eigenrays $\Rightarrow k$ LI vectors, then show injective linear map from $\F^n$ to $V$}
+    \subsection*{FTOA}
+      \paragraph{Complex coefficients} Any polynomial with complex coefficients can be completely factorized into the form
+        \[ a (x-a_1) (x-a_2) \cdots \]
+        where $a, a_i \in \C$. The factorization is unique (excluding reordering)
+      \paragraph{Real coefficients} Any polynomial with real coefficients can be expressed in the form
+        \[ a (x-a_1) (x-a_2) \cdots (x^2+b_1 x+c_1) (x^2+b_2 x+c_2) \cdots \]
+        where $a, a_i, b_i, c_i \in \R$, and where each $b_i^2 < 4c_i$. The factorization is unique (excluding reordering).
+      \paragraph{4.21 Existence of an eigenvalue} Every \underline{complex operator} has at least one eigenvalue.
+        \paragraph{Proof}
+          \oll {
+            \item Let $\dim(V) = n$. Let $v \neq 0 \in V$.
+            \item The list of vectors $v, Tv, T^2 v, \cdots, T^n v$ contains $n+1$ vectors, so it is not linearly independent.
+              \begin{align*}
+                c_0 v + c_1 Tv + \cdots + c_n T^n v &= 0 \\
+                (c_0 I + c_1 T + \cdots + c_n T^n) v &= 0 & \text{by linearity} \\
+                a (T - a_1 I)(T - a_2 I) \cdots v &= 0 & \text{by FTOA}
+              \end{align*}
+            \item If every $(T - a_j I)$ injective, then $v = 0$, contradiction.
+            \item Hence, some $(T - a_j I)$ is not injective, i.e. $(T - a_j I)w = 0$ has infinite solutions.
+            \item Hence $a_j$ is an eigenvalue.
+          }
+    \subsection*{UT matrices}
+      \paragraph{4.25 UT} A square matrix $M^i_j$ is upper triangular if $M^i_j = 0$ when $i > j$.
+      \paragraph{4.27 Similar} Matrices $A$ and $B$ are similar if $A = P\inv B P$, where $A,B$ are square and of the same size.
+      \paragraph{4.27A Similar matrices have the same eigenvalues} Let $M$ be a square matrix, and let $P$ be a change-of-basis matrix. Let $v$ be an eigenvector of $M$, corresponding to eigenvalue $\lm$.
+        \begin{align*}
+          Mv &= \lm v \\
+          P\inv Mv &= \lm P\inv v \\
+          P\inv M (PP\inv) v &= \lm P\inv v \\
+          (P\inv M P) (P\inv v) &= \lm (P\inv v)
+        \end{align*}
+        Hence they have the same eigenvalues, but the eigenvectors are now $P\inv v$.
+      \paragraph{4.26} Every \underline{complex operator} has a UT matrix. Or, every complex matrix is similar to a UT matrix.
+      \paragraph{Idea} Let $N$ be a complex matrix.
+        \oll {
+          \item Choose arbitrary basis such that the first basis vector is an eigenvector.
+            \[ P\inv N P = \mat{\lm_1 \alpha_1 \alpha_2; 0 M^2_2 M^2_3; 0 M^3_2 M^3_3} = \mat{\lm_1 \alpha; 0 M} \]
+            where $M$ is 2 by 2 and $\alpha$ is 1 by 2. Note that $\lm_1$ is an eigenvalue of $N$.
+          \item Do the same for $M$:
+            \[ Q\inv M Q = \mat{\lm_2 \beta; 0 R} \]
+            where $\beta, R \in \C$. Note that $\lm_2$ is an eigenvalue of $M$ (also of $N$).
+          \item But $M$ is inside $N$, can we claim that we can apply a similarity transformation?
+            \begin{equation*}
+              \hspace{-\leftmargin}
+              \resizebox{\hsize}{!}{
+                $\mat{1 0; 0 Q}\inv \mat{\lm_1 \alpha; 0 M} \mat{1 0; 0 Q} = \mat{\lm_1 \alpha Q; 0 Q\inv MQ}$
+              }
+            \end{equation*}
+            so we can concretely apply the similarity transformation by using $\mat{1 0; 0 Q}$.
+          \item By 3, we can change the basis of $M$ by applying a similarity transformation to the original matrix. By 4.27A, then $\lm_2$ is indeed an eigenvalue of $N$, so the claim in point 2 is true.
+        }
+      \paragraph{4.30} The diagonal entries in a UT matrix are its eigenvalues.
+      \paragraph{Proof} Let $M$ be a UT matrix.
+        \ull {
+          \item Consider $M - \lm I$. It is UT, and by definition of $\lm$, $M - \lm I$ must be singular.
+          \item Hence, we know one of the diagonal entries are 0, so since we subtracted $\lm$, then one of the diagonal entries of $M$ is $\lm$.
+        }
+    \subsection*{Diagonal matrices}
+      \paragraph{4.31 Diagonal} A square matrix $M^i_j$ is diagonal if $M^i_j = 0$ when $i \neq j$.
+      \paragraph{4.30A} Since a diagonal matrix is also UT, its diagonal entries are its eigenvalues.
+      \paragraph{4.32-4.34 Diagonalizable} An operator is diagonalizable if
+        \ull {
+          \item there is a basis wrt which its matrix is diagonal.
+          \item or, there is a basis consisting of only eigenvectors
+          \item or, the operator has $\dim(V)$ distinct eigenvalues
+        }
+    \subsection*{Eigenspaces}
+      \paragraph{4.35 Eigenspace} Let $T$ be an operator on $V$. Then the eigenspace of $T$ corresponding to eigenvalue $\lm$ is
+        \[ E(\lm, T) = Ker(T - \lm I) \]
+      \paragraph{4.38 Eigenspaces are mutually disjoint} The sum of eigenspaces corresponding to distinct eigenvalues is a \underline{direct sum}, i.e.the intersection of those eigenspaces is a set containing the zero vector.
+      \paragraph{4.39} T is diagonalizable $\iff$
+        \[ V = E(\lm_1, T) \oplus E(\lm_2, T) \oplus \cdots E(\lm_k, T) \]
+        for distinct eigenvalues $\lm_i$. \red{each eigenspace has a basis of eigenvectors}
+    \subsection*{Jordan canonical form}
+      \paragraph{Superdiagonal} of a square matrix is the set of elements directly above the diagonal. In the example below, the superdiagonal is exactly the set of all the 1s.
+      \paragraph{4.41 Jordan block} A Jordan block of size $m$ is a order $m$ square matrix of the form (e.g. $m=4$):
+        \[ \mat{\lm, 1 0 0; 0 \lm, 1 0; 0 0 \lm, 1; 0 0 0 \lm} \]
+        where the diagonal entries are a specific $\lm$, the entries along the superdiagonal are 1, and the other entries are 0.
+        \\\\
+        The Jordan block has only one eigenvector.
+      \paragraph{4.42 Jordan basis} A Jordan basis is one such that the matrix of $T$ consists of Jordan blocks:
+        \[ \mat{J_1 0 0; 0 J_2 0; 0 0 J_3} \]
+        Note that the eigenvalues of this matrix are the diagonal entries in the blocks, since the blocks are UT and so is the matrix.
+      \paragraph{4.43} Every \underline{complex operator} has a unique Jordan basis (excluding reordering). \red{real operators may not have, because it might have complex eigenvalues}
+      \paragraph{4.44 Jordan canonical form} When a operator is represented by the matrix wrt a Jordan basis, we say that it is in its JCF.
+      \paragraph{Note} Real operators also have a JCF, but not as nice.
+      \paragraph{Finding change-of-basis matrix for JCF (Tut 7 Q8)} Consider the shearing matrix $S$. Because it is UT we know its eigenvalues, thus we can construct its JCF:
+        \[ S = \mat{1 \tan\theta; 0 1} \caseand J = \mat{1 1; 0 1} \]
+        From 0.1, we know that the full set $z_i \otimes \zeta^j$ is a basis for $\LVV$, so we can write both matrices in terms of their own bases:
+        \begin{align*}
+          S &= e_1 \otimes \epsilon^1 + (\tan\theta) e_1 \otimes \epsilon^2 + e_2 \otimes \epsilon^2 \\
+          J &= \bar{e}_1 \otimes \bar{\epsilon}^1 + \bar{e}_1 \otimes \bar{\epsilon}^2 + \bar{e}_2 \otimes \bar{\epsilon}^2
+        \end{align*}
+        Here, the bars represent the new basis under the similarity transformation that creates the JCF.
+        \\\\
+        Notice that $\tan\theta e_1$ becomes $\bar{e}_1$. Thus, we can define $\bar{e_1} = \tan(\theta)e_1$. Then to ensure that duality is preserved after the transformation, we must have $\bar{\epsilon}^1 = \cot(\theta) \epsilon^1$. Notice we can leave $e_2$ and $\epsilon^2$ as they are. So we have
+        \begin{align*}
+          \bar{e}_1 &= (\tan\theta) e_1 \\
+          \bar{e}_2 &= e_2
+        \end{align*}
+        and we can represent this in a matrix by 0.3:
+        \[ \mat{\tan\theta, 0; 0 1} \]
+        and this is indeed the change-of-basis matrix for the JCF.
+    \subsection*{Cayley-Hamilton theorem}
+      \paragraph{4.45 Multiplicty of an eigenvalue} $\lm$ is
+        \ull {
+          \item the sum of the sizes of the Jordan blocks corresponding to the eigenvalue
+          \item or, the number of times it appears along the diagonal
+        }
+      \paragraph{Diagonalizability of a matrix} From Tut 7 Q7,
+        \ull {
+          \item The dimension of an eigenspace is the number of Jordan blocks of an eigenvalue
+          \item A matrix is diagonalizable $\iff$ every eigenvalue has an eigenspace has max dimensionality, namely the multiplicity of that eigenvalue.
+        }
+      \paragraph{4.46 Characteristic polynomial} Let $m_i$ be the multiplicity of eigenvalue $\lm_i$ of a linear operator $T$. Then the characteristic polynomial of $T$ is
+        \[ \chi_T(x) = (x - \lm_1)^{m_1} (x - \lm_2)^{m_2} \cdots \]
+        Clearly the eigenvalues satisfy $\chi_T(\lm) = 0$.
+      \paragraph{Nilpotent matrix} A square matrix $M$ is nilpotent if $M^k = 0$ for some positive integer $k$, known as the index of $M$.
+      \paragraph{4.47 Cayley-Hamilton} states that $\chi_T(T) = 0$.
+        \paragraph{Proof}
+          \oll {
+            \item Consider a Jordan block $B = \mat{\lm_1, 1; 0 \lm_1}$, of some larger matrix $M$.
+            \item The multiplicity of $\lm_1$ is 2, so there is a $(x-\lm_2)^{m_2}$ term in the characteristic polynomial.
+            \item Consider $B-\lm I = \mat{0 1; 0 0}$. Note that it is nilpotent with index 2.
+            \item Thus $(B-\lm I)^2 = 0$. This applies to all Jordan blocks. Take the product and we have the Cayley-Hamilton theorem.
+          }
+      \paragraph{4.50 Finding an inverse} If a matrix $M$ is invertible, then we can keep multiplying $M\inv$ to its characteristic equation until there is a $M\inv$ term, and make $M\inv$ the subject of the formula. In particular, $M\inv$ is a linear combination of $M^i$.
+      \paragraph{4.51 Geometric meaning of JCF} Note that in the case with \underline{real nonzero eigenvalues}:
+        \resizebox{0.9\hsize}{!}{$
+          \begin{aligned}
+            \mat{\lm, 1 0; 0 \lm, 1; 0 0 \lm} &= \mat{\lm, 0 0; 0 \lm, 0; 0 0 \lm} \mat{1 1/\lm, 0; 0 1 1/\lm; 0 0 1} \\
+                                              &= \mat{\lm, 0 0; 0 \lm, 0; 0 0 \lm} \mat{1 \tan\phi, 0; 0 1 \tan\phi; 0 0 1}
+          \end{aligned}
+        $} \\
+        So every Jordan block describes a combination of stretching and shearing. As for eigenvalue 0, it represents a projection (into a smaller space). As for complex eigenvalues, it can include rotations.
+        \\\\
+        Since every LT can be described by a collection of Jordan blocks, then \underline{every LT} is a combination of stretching, projecting, shearing, and rotating.
+  \section*{\underline{Multilinear algebra}}
+    \paragraph{6.1 Multilinear form} A multilinear form of degree $m$ on an $n$-dimensional vector space $V$ is a mapping
+      \[ \underbrace{V \times V \times V \times \cdots}_{m \; \text{times}} \rightarrow \F \]
+      which is linear in every slot.
+    \paragraph{6.1A Vector space} The set of multilinear forms of degree $m$ on $V$ is a vector space in the usual way.
+    \subsection*{2-forms}
+      \paragraph{6.2 2-form} A bilinear form $\psi$ on a real vector space $V$ is called a 2-form if it is antisymmetric:
+        \[ \psi(u, v) = -\psi(v, u) \]
+        so the space of 2-forms is a subset of $B(V)$. By 6.1A, the set of 2-forms on $V$ is a vector space.
+      \paragraph{6.3 Wedge product} Let $\alpha, \beta \in \hat{V}$. The wedge product of $\alpha$ and $\beta$ is defined as:
+        \[ \alpha \wedge \beta = \frac{1}{2} (\alpha \otimes \beta - \beta \otimes \alpha) \]
+        and it is a 2-form.
+        \ull {
+          \item It is indeed antisymmetric. For $u, v \in V$:
+            \begin{align*}
+              (\alpha \wedge \beta) (u, v) &= \frac{1}{2} \Big( \alpha(u)\beta(v) - \beta(u)\alpha(v) \Big) \\
+                                         &= -\frac{1}{2} \Big( \alpha(v)\beta(u) - \beta(v)\alpha(u) \Big) \\
+                                         &= - (\beta \wedge \alpha) (v, u)
+            \end{align*}
+          \item Hence $\alpha \wedge \alpha = -\alpha \wedge \alpha$, i.e. $\alpha \wedge \alpha = 0$.
+        }
+      \paragraph{6.4 Basis} Let $\zeta$ be the dual basis to the basis $z$ for $V$.
+        \ull {
+          \item The full set $\zeta^i \wedge \zeta^j$ is a basis for the space of 2-forms on $V$.
+          \item Any 2-form $\psi$ can be written as $\psi = \psi_{ij} \zeta^i \wedge \zeta^j$.
+        }
+      \paragraph{2-forms on 3-dimensional vector space} For a real 3-dimensional vector space with dual basis $\zeta^1, \zeta^2, \zeta^3$, the basis vectors of 2-forms are
+        \[ \zeta^1 \wedge \zeta^2, \quad \zeta^2 \wedge \zeta^3, \quad \zeta^3 \wedge \zeta^1 \]
+        There are only 3 because:
+        \ull {
+          \item $\zeta^i \wedge \zeta^i = 0$ so they disappear
+          \item $\zeta^i \wedge \zeta^j = -\zeta^j \wedge \zeta^i$ so they are linearly dependent
+        }
+        so the dimension of the space of 2-forms on a three dimensional space is 3. In particular, it is $C^3_2$.
+    \subsection*{3-forms}
+      \paragraph{Definition} A trilinear form $\psi$ on a real vector space $V$ is called a 3-form if it is antisymmetric in all 3 slots, e.g.
+        \[ \psi(u,v,w) = -\psi(v,u,w) = -\psi(u,w,v) \]
+        Swapping any pair of vectors will negate the result.
+      \paragraph{Wedge product} Let $\alpha, \beta, \gamma \in \hat{V}$. The wedge product of $\alpha, \beta$ and $\gamma$ is defined as:
+        \begin{align*}
+          \alpha \wedge \beta \wedge \gamma =& \frac{1}{6} (\alpha \otimes \beta \otimes \gamma - \alpha \otimes \gamma \otimes \beta \\
+                                            &+ \beta \otimes \gamma \otimes \alpha - \beta \otimes \alpha \otimes \gamma \\
+                                            &+ \gamma \otimes \alpha \otimes \beta - \gamma \otimes \beta \otimes \alpha)
+        \end{align*}
+        If there are an odd number of swaps between vectors, then we put a minus sign. Again, this is a 3-form.
+      \paragraph{Basis} Let $\zeta$ be the dual basis to the basis $z$ for $V$. Then
+        \ull {
+          \item The full set $\zeta^i \wedge \zeta^j \wedge \zeta^k$ is a basis for the space of 3-forms on $V$.
+          \item Any 3-form $\psi$ can be written as $\psi = \psi_{ijk} \zeta^i \wedge \zeta^j \wedge \zeta^k$.
+          \item The dimensionality of the space of 3-forms on an $n$-dimensional real vector space is $C^n_3$.
+        }
+    \subsection*{$n$-forms} \noindent
+      \textcolor{red}{For this section, let $V$ be a $n$-dimensional vector space.}
+      \paragraph{6.5 Dimensionality} The space of $m$-forms on $V$ is a vector space of dimension $C^n_m$.
+      \paragraph{6.6} The space of $n$-forms on $V$ is a vector space of dimension $C^n_n$, i.e. it is 1-dimensional.
+      \paragraph{6.6A Transpose mapping} Let $T$ be a linear operator on $V$. Then define its transpose $\hat{T}$ on $n$-forms on $V$ by
+        \[ \hat{T}(\psi)(u,v,w,\cdots) = \psi(Tu,Tv,Tw,\cdots) \]
+        Then $\hat{T}(\psi)$ is also a $n$-form.
+        \paragraph{6.6B Repeated inputs} If a $n$-form has repeated inputs, then it evaluates to 0. \red{Because of the antisymmetry property, and we can perform a ``swap'' among the repeated inputs}
+        \[ \psi(u,u,\cdots) = -\psi(u,u,\cdots) \iff 2\psi(u,u,\cdots) = 0 \]
+    \subsection*{$\Delta(T)$}
+      \paragraph{6.7 Definition} Let $\Omega$ be a non-zero $n$-form on $V$. Let $T$ be a linear operator on $V$. By 6.6A, $\hat{T}\Omega$ is an $n$-form. By 6.6, the space of $n$-forms on $V$ is 1-dimensional. Hence,
+        \[ \hat{T}\Omega = \Delta(T) \Omega \]
+        where $\Delta(T)$ is a scalar.
+      \paragraph{6.8 Product} $\Delta(TS) = \Delta(T) \Delta(S)$
+      \paragraph{Properties of $\Delta(T)$ for matrices}
+        \oll {
+          \item $\Delta(I) = 1$ \red{obvious when considering 6.6A definition}
+          \item $\Delta$ is invariant under a similarity transformation, since
+            \begin{align*}
+              \Delta(P\inv M P) &= \Delta(P\inv) \Delta(M) \Delta(P) \\
+                                &= \Delta(P\inv P) \Delta (M) = \Delta(M)
+            \end{align*}
+          \item Let $M$ be a order $n$ square matrix. Then
+            \[ \Delta(M) = \Delta(PJP\inv) = \Delta(J) \]
+            where $J$ is the Jordan canonical form.
+          \item For a Jordan block of size $s$, $\Delta(J) = \lm^s$, since
+            \[ \Omega(Je_i) = \Omega(\lm e_i) = \lm^s \Omega(e_i) \]
+            \red{LHS is $\hat{\Omega}$ because it is the RHS of 6.6A}
+          \item (6.9) Let $M$ have JCF $J$. Then
+            \[ \Delta(M) = \Delta(J) = \lm_1^{m_1} \lm_2^{m_2} \cdots \]
+        }
+      \paragraph{Properties of $\Delta(T)$ for LTs}
+        \oll {
+          \item (6.10) $\Delta(T) = \Delta(\mathcal{M}(T))$
+          \item (6.11) $\Delta(T) = \lm_1^{m_1} \lm_2^{m_2} \cdots$, by 6.9
+          \item (6.12) $\Delta(T) \neq 0 \iff \lm \neq 0 \iff T$ is bijective.
+          \item (6.13) $\Delta(T - \lm I) = 0$ \red{because $T - \lm I$ must not be bijective}
+          \item $\Delta(T)$ is the determinant of $T$. It is the eigenvalue of $\hat{T}$ on a 1-dimensional vector space.
+        }
+      \paragraph{Proof for 6.10} Let $z: \F^n \rightarrow V$ be a basis on $V$. Let $\Omega$ be a $n$-form on $V$. Let $a,b,\cdots$ be vectors in $\F^n$. Define a non-zero $n$-form $\Omega^*$ on $\F^n$:
+        \[ \Omega^*(a,b,\cdots) = \Omega(za, zb, \cdots) \]
+        Let $T: V \rightarrow V$ be a LT.
+        \begin{align*}
+          & \Delta(T) \Omega(za, zb, \cdots) \\
+          &= \hat{T} \Omega(za, zb, \cdots) & \text{by 6.7} \\
+          &= \Omega(Tza, Tzb, \cdots) & \text{by 6.6A} \\
+          &= \Omega^*(z\inv Tza, z\inv Tzb, \cdots) & \text{by $\Omega^*$ defn} \\
+          &= \Omega^*(\mathcal{M}(T)a, \mathcal{M}(T)b, \cdots) & \text{by Fact 3.65} \\
+          &= \Delta(\mathcal{M}(T)) \Omega^*(a, b, \cdots) & \text{by 6.6A and 6.7} \\
+          &= \Delta(\mathcal{M}(T)) \Omega(za, zb, \cdots) & \text{by $\Omega^*$ defn}
+        \end{align*}
+        Since $a,b,\cdots$ are arbitrary and $\Omega \neq 0$, then
+        \[ \Delta(T) = \Delta(\mathcal{M}(T)) \]
+      \paragraph{Every square matrix is similar to its transpose} Let $A = PDP\inv$.
+        \[ A\tr = (PDP\inv)\tr = (P\inv)\tr D\tr P\tr = (P\tr)\inv D P\tr \]
+      \paragraph{Other properties}
+        \ull {
+          \item Because every square matrix is similar to its transpose, by property 1 for matrices,
+            \[ \Delta(M) = \Delta(P\inv M P) = \Delta(M\tr) \]
+          \item The determinant switches sign when swapping two rows/columns in the original matrix, because $n$-forms are antisymmetric in all pairs of slots. 
+          \item We can defined a generalized parallelopiped, formed using the eigenvectors of LT $T$. Then, under $T$, its volume changes by a factor given by the product of the stretching factors in all directions, which is the product of the stretching factors for all eigenvectors, which is precisely $\lm_1^{m_1} \lm_2^{m_2} \cdots$.
+        }
+      \paragraph{Triple product on $\R^3$} For $u,v,w \in V$, the vector triple product is the map
+        \[ (u,v,w) \rightarrow u \cdot v \times w \]
+        It is trilinear and antisymmetric in all slots, so it is a 3-form on $\R^3$. Since 3 is both in the 3-form and the dimensionality of $\R^3$, then by 6.7,
+        \[ (u,v,w) \rightarrow (Tu) \cdot (Tv) \times (Tw) = \Delta(T) (u \cdot v \times w) \]
+        is another 3-form, which is proportional to the triple product. This was how we defined the determinant in $\R^3$ in Chapter 1.
+        \\\\
+        Note: the triple product on $\R^3$ is defined using the lengths of vectors and the angles between them, so it depends on the choice of $dot$ as the inner product. It is called the volume form associated with $dot$.
+    \subsection*{Tensors}
+      \paragraph{6.14} Let $V$ be a vector space. Let $R: V \times V \rightarrow \LVV$. $R$ is called a tensor.
+\pagebreak
+  \section*{\underline{Lengths and angles}} \noindent
+    \paragraph{5.1 Dot product on $\R^n$} Let $u = u^i e_i$ and $v = v^j e_j$, where $u,v \in \R^n$. Then $\displaystyle u \cdot v = \sum_{k=1}^n a^k b^k$, i.e. we take the sum of the products elementwise.
+      \begin{multicols}{2}
+        \ull {
+          \item Length: $\abs{u} = \sqrt{u \cdot u}$
+          \item Components: $e_k \cdot v = v^k$
+          \item Cosine of angle: $\cos(\theta) = \dfrac{u \cdot v}{\abs{u}\abs{v}}$
+        }
+      \end{multicols}
+    \subsection*{Bilinear forms}
+      \paragraph{5.2 Bilinear form} A bilinear form on a vector space $V$ is a mapping $b: V \times V \rightarrow \R$ which is linear in both slots:
+        \begin{align*}
+          b(cu + dv, w) &= cb(u, w) + db(v, w) \\
+          b(w, cu + dv) &= cb(w, u) + db(w, v)
+        \end{align*}
+        for $u,v,w \in V$ and $c,d \in \R$.
+        \\\\
+        Note: not necessary that $b(u, v) = b(v, u)$.
+      \paragraph{5.4} The set of bilinear forms on $V$, $B(V)$, is a vector space in the usual way.
+      \paragraph{5.5 Tensor product} Let $\alpha, \beta \in \hat{V}$, and let $u, v \in V$. Then the tensor product of $\alpha$ with $\beta$ is the element of $B(V)$ such that
+        \[ \alpha \otimes \beta (u,v) = \alpha(u) \beta(v) \]
+      \paragraph{5.8, 5.9 Basis for $B(V)$} Let $z_i$ be a basis for $V$ and let $\zeta^j$ be the dual basis.
+        \ull {
+          \item For each $(i, j)$, $\zeta^i \otimes \zeta^j \in B(V)$.
+          \item The full set $\zeta^i \otimes \zeta^j$ over all $(i, j)$ is a basis for $B(V)$.
+          \item The dot product on $\R^n$ is an element of $B(V)$.
+        }
+      \paragraph{Proof for span}
+        \oll {
+          \item Let $b \in B(V)$ and define $b_{ij} = b(z_i, z_j)$.
+          \item Define $h = b_{ij} \zeta^i \otimes \zeta^j$, and let it act on $(z_k, z_l)$:
+            \begin{align*}
+              h(z_k, z_l) &= b_{ij} \zeta^i \otimes \zeta^j (z_k, z_l) = b_{ij} \zeta^i(z_k) \zeta^j(z_l) \\
+                          &= b_{ij} I^i_k I^j_l = b_{kl} = b(z_k, z_l)
+            \end{align*}
+            By linearity, then $h(u, v) = b(u, v)$ for all $u, v \in V$.
+          \item Thus, $h = b$, that is $b = b_{ij} \zeta^i \otimes \zeta^j$, so the full set of $\zeta^i \otimes \zeta^j$ span $B(V)$. We call the numbers $b_{ij}$ the components of $b$ relative to basis $z_i$.
+        }
+      \paragraph{5.11 Extracting components} \noindent \\ Since $b_{ij} = b(z_i, z_j)$, we just let $b$ act on $(z_i, z_j)$ to get the components of $b$.
+      \paragraph{5.13} Since dot is a bilinear form, we can express it as a linear combination of $\zeta^i \otimes \zeta^j$, by first finding its components (relative to the chosen basis $e_i$):
+        \[ b_{ij} = dot(e_i, e_j) = e_i \cdot e_j = I_{ij} \]
+        and by observation, $dot = I_{ij} \epsilon^i \otimes \epsilon^j$. Note that we must balance the subscripts and superscripts.
+      \paragraph{5.14 Matrix of bilinear form} The matrix of a bilinear form $b \in B(V)$, where $\dim(V) = 3$, rel. to basis $z_i$ is:
+        \[ \mat{b_{11} b_{12} b_{13}; b_{21} b_{22} b_{23}; b_{31} b_{32} b_{33}} \]
+      \paragraph{5.16 Change of basis} From Tut 6 Q7, if we change to a new vector basis $y_i = P^j_i z_j$, then the corresponding dual bases are related by $\eta^j = (P\inv)^j_i \zeta^i$, so $\zeta^j = P^j_i \eta^i$. Thus,
+        \[ b = b_{ij} \zeta^i \otimes \zeta^j = b_{ij} P^i_k \eta^k \otimes P^j_h \eta^h = (P^i_k b_{ij} P^j_h) \eta^k \otimes \eta^h \]
+        Refer to 5.77 to find out more
+    \subsection*{Inner products}
+      \paragraph{5.18 Inner product space} is a pair $(V, g)$, with a vector space $V$, and a particular inner product $g$, which is a bilinear form with the following properties:
+        \oll {
+          \item Positivity: $g(u, u) \geq 0 \quad \forall u \in V$
+          \item Definiteness: $g(u, u) = 0 \iff u = 0$
+          \item Symmetry: $g(u, v) = g(v, u) \quad \forall u,v \in V$
+        }
+      \paragraph{5.22} The set of inner products on $V$ is a subset of $B(V)$. But it is not a subspace, because it does not contain the zero bilinear form, as it does not satisfy definiteness.
+      \paragraph{5.24, 5.25} Consider a bilinear form $b$. Consider its matrix $b_{ij}$ relative to basis $z_i$. If $b_{ij}$ is diagonal, and its diagonal entries $b_{ii} > 0$, then
+        \[ b = b_{ij} \zeta^i \otimes \zeta^j \]
+        is an inner product, where $\zeta^i$ is the dual basis to $z_i$.
+      \paragraph{5.26 Properties of inner product matrix} Let $u^i \in \R^n$. The matrix $g_{ij}$ of the bilinear form $g$ rel. to basis $z_i$ is $(n \times n)$ matrix with the following analogous properties:
+        \oll {
+          \item Positivity: $g_{ij} u^i u^j \geq 0$
+          \item Definiteness: $g_{ij} u^i u^j = 0 \iff u^i = 0 \quad \forall i$
+          \item Symmetry: $g_{ij} = g_{ji} \quad \forall i,j$
+        }
+      \paragraph{Definiteness implies non-singular}
+        \ull {
+          \item By definition, a singular matrix $g$ has $g_{ij} u^j = 0$ where $u \neq 0$.
+          \item Multiplying by $u^i$ and summing, we have $g_{ij} u^i u^j = 0$.
+          \item By definiteness, the above equation implies $u^i = 0$ for all $i$, i.e. $u = 0$, contradicting our assumption.
+          \item Hence $g_{ij}$ is non-singular.
+        }
+    \subsection*{Lengths and angles} \noindent
+      \textcolor{red}{For this section, let $(V,g)$ be an inner product space.}
+      \paragraph{5.29 Length} The length (or norm) of a vector $v \in V$ is
+        \[ \abs{v} = \sqrt{g(v,v)} \]
+      \paragraph{5.30 Orthogonal} Vectors $u,v \in V$ are orthogonal if $g(u,v) = 0$.
+      \paragraph{5.31} If $u,v$ are orthogonal, then $\abs{u+v}^2 = \abs{u}^2 + \abs{v}^2$.
+      \paragraph{5.33 Orthogonal decomposition} Let $u,v \in V$ where $v \neq 0$. Then $u = u_{\parallel v} + u_{\perp v}$, where
+        \[ u_{\parallel v} = \frac{g(u,v)}{\abs{v}^2} v \caseand u_{\perp v} = u - \frac{g(u,v)}{\abs{v}^2} v \]
+      \paragraph{5.34 Cauchy-Schwarz inequality} If $u,v \in V$, then
+        \[ \abs{g(u,v)} \leq \abs{u}\abs{v} \]
+        Equality occurs if and only if $u = kv$ for scalar $k$.
+      \paragraph{Proof}
+        \oll {
+          \item If $v=0$, $g(u,0) = 0$, and RHS = 0, so the statement is true.
+          \item Consider $v \neq 0$, applying 5.31 to the orthogonal decomposition:
+            \begin{equation}\label{5.34.1}
+              \abs{u}^2 = \abs{u_{\parallel v}}^2 + \abs{u_{\perp v}}^2
+            \end{equation}
+          \item Since (\ref{5.34.1}) is a sum of squares, we have $\abs{u}^2 \geq \abs{u_{\parallel v}}^2$.
+          \item Then, compute $u_{\parallel v}^2$: \\
+            \resizebox{0.9\hsize}{!}{$
+              \begin{aligned}
+                \abs{u_{\parallel v}}^2 &= g\left( \frac{g(u,v)}{\abs{v}^2} v, \frac{g(u,v)}{\abs{v}^2} v \right) = \left( \frac{g(u,v)}{\abs{v}^2} \right)^2 g(v,v) \\
+                                        &= \left( \frac{g(u,v)}{\abs{v}^2} \right)^2 \abs{v}^2 = \frac{g(u,v)^2}{\abs{v}^2}
+              \end{aligned}
+            $}
+          \item Susbtituting into the inequality $\abs{u}^2 \geq \abs{u_{\parallel v}}^2$, we get
+            \[ \abs{u}^2 \geq \frac{g(u,v)^2}{v^2} \]
+            Rearranging and taking the positive square root, we get the Cauchy-Schwarz inequality.
+          \item Referring to (\ref{5.34.1}), we get equality if $\abs{u_{\perp v}} = 0$, i.e. $u_{\perp v} = 0$. That is, $u$ and $v$ are parallel.
+        }
+      \paragraph{5.35 Triangle inequality} For $u,v \in V$,
+        \[ \abs{u+v} \leq \abs{u} + \abs{v} \]
+        Equality occurs if and only if $u = kv$ for $k \geq 0$.
+      \paragraph{Proof}
+        Again for $u=0$ it is obvious. For $u \neq 0$, \\\\
+        \resizebox{\hsize}{!}{$
+          \begin{aligned}
+              \abs{u+v}^2 = \abs{u}^2 + \abs{v}^2 + 2g(u,v) &\leq \abs{u}^2 + \abs{v}^2 + 2\abs{g(u,v)} \\
+                                                            &\leq \abs{u}^2 + \abs{v}^2 + 2\abs{u}\abs{v} \\
+                                                            &= (\abs{u} + \abs{v})^2
+          \end{aligned}
+        $}
+        For equality, we must first get equality from the Cauchy-Schwarz inequality, i.e. $v = ku$ for some scalar $k$. Also, we must satisfy $\abs{g(u,v)} = \abs{u}\abs{v}$. Substituting, we must have $k \geq 0$.
+      \paragraph{5.36 Angle} Let $u,v \in V$. The angle between $u$ and $v$, $\theta$ is
+        \[ \cos(\theta) = \frac{g(u,v)}{\abs{u}\abs{v}} \]
+        where $0 \leq \theta \leq \pi$. Note that this equation makes sense because of Cauchy-Schwarz, which ensures that the RHS lies in $[-1, 1]$.
+    \subsection*{Orthonormal bases} \noindent
+      \textcolor{red}{For this section, let $(V,g)$ be an inner product space.}
+      \paragraph{5.37, 5.38 Orthonormal basis} Let $z_i$ be a basis on $V$. It is an orthonormal basis if for all $i, j$, we have
+        \[ g(z_i, z_j) = I_{ij} \]
+        or equivalently, its matrix relative to $z_i$ is $I$.
+      \paragraph{5.40} The canonical basis for $\R^n$ is an orthonormal basis for $(\R^n, \cdot)$.
+      \paragraph{5.41} We can alternatively define an orthonormal basis $z$ as follows:
+        \[ g(za, zb) = dot(a, b) \]
+        where $a,b \in \R^n$.
+      \paragraph{5.42} Suppose $y_i$ is a list of orthornormal vectors. Then
+        \[ \abs{a^i y_i}^2 = (a^1)^2 + (a^2)^2 + (a^3)^2 + \cdots \]
+      \paragraph{5.43 Orthonormal vectors are LI} Any list of orthonormal vectors is LI. \red{square root both sides of 5.42, then equate to 0. Sum of squares is 0 $\Rightarrow$ each term is 0}
+      \paragraph{5.44} Any list of $n = \dim(V)$ orthonormal vectors is a basis for $V$.
+    \subsection*{Gram-Schmidt orthogonalization}
+      \paragraph{5.45 Unit vector} A unit vector $v^+$ is one where $\abs{v^+} = 1$. For any vector $u$, we can scale it to construct a unit vector:
+        \[ u^+ = \frac{u}{\abs{u}} \]
+      \paragraph{5.46 Parallel component of unit vector}
+        If $v$ is a unit vector, then for any vector $u$,
+        \[ u_{\parallel v} = \frac{g(u,v)}{\abs{v}^2} v = g(u,v) v \]
+      \paragraph{5.46A GS} is an algorithm that transforms a basis into an orthonormal basis. Example for $\dim(V) = 3$:
+        \begin{align*}
+          z_1^+ &= \frac{z_1}{\abs{z_1}} \\
+          z_2^+ &= \frac{z_2 - g(z_2, z_1^+) z_1^+}{\abs{z_2 - g(z_2, z_1^+) z_1^+}} \\
+          z_3^+ &= \frac{z_3 - g(z_3, z_1^+) z_1^+ - g(z_3, z_2^+) z_2^+}{\abs{z_3 - g(z_3, z_1^+) z_1^+ - g(z_3, z_2^+) z_2^+}}
+        \end{align*}
+        \ull {
+          \item Removes the parallel component of each new orthonormal basis vector.
+          \item Each $z_i^+$ is a linear combination of $z_1, z_2, \cdots, z_i$, so the change-of-basis matrix is UT.
+        }
+      \paragraph{5.47} Every inner product space has an orthonormal basis.
+    \subsection*{Riesz representation} \noindent
+      \textcolor{red}{For this section, let $(V,g)$ be an inner product space.}
+      \paragraph{5.48 Riesz representation} Let $u \in V$. Define a dual vector $\Gamma_u$:
+        \[ \Gamma_u(v) = g(v,u) \quad \forall v \in V \]
+        It maps $V$ to $\R$ and is linear because $g$ is bilinear. Hence $\Gamma_u \in \hat{V}$.
+      \paragraph{5.49} Define a mapping $\Gamma: V \rightarrow \hat{V}$ such that
+        \[ \Gamma: u \rightarrow \Gamma_u \]
+        $\Gamma$ is linear because $g$ is bilinear. $\Gamma$ is an isomorphism.
+      \paragraph{Proof (Isomoprhism)}
+        \oll {
+          \item Assume $\Gamma$ is not injective. Then some $\Gamma(v)$ for $v \neq 0$ is the zero dual vector.
+          \item Then $\Gamma(v)(u) = 0 \quad \forall u \in V$.
+          \item In particular, $\Gamma(v)(v) = 0$ for some $v \neq 0$, contradicting the definiteness of $g$, so $\Gamma$ is injective.
+          \item By FT of LA, the $Rank(\Gamma) = \dim(V)$. But we know $\dim(V) = \dim(\hat{V})$.
+          \item Thus $Rank(\Gamma) = \dim(\hat{V})$ so the range of $\Gamma$ is all of $\hat{V}$, so $\Gamma$ is surjective.
+          \item Since $\Gamma$ is linear (since $g$ is linear in both slots), then $\Gamma$ is an isomorphism.
+        }
+      \paragraph{5.50 Riesz representation} Any dual vector $\alpha$ can be expressed as $\Gamma(u) = \Gamma_u$ for some unique $u \in V$.
+        \[ \alpha(v) = \Gamma(u)(v) = g(v,u) \quad \forall v \in V \]
+      \paragraph{5.51 Dual basis of orthonormal basis} For an orthonormal basis $z_i$, the dual basis is $\Gamma(z_j)$.
+      \paragraph{Proof}
+        \ull {
+          \item Let $v = a^iz_i \in V$.
+          \item By 5.50, $\Gamma(z_j)(z_i) = g(z_i, z_j) = I_{ij}$
+          \item $\Gamma(z_j)v = \Gamma(z_j)(a^iz_i) = a^i \Gamma(z_j)(z_i) = I_{ij}a^i = a^j$
+          \item The $j$th component of $v$ is obtained by letting $\Gamma(z_j)$ act on $v$, i.e. it is a dual vector.
+        }
+      \paragraph{Riesz representation in terms of components}
+        \ull {
+          \item Let $z_i$ be a basis, let $\zeta^j$ be the dual basis.
+          \item Let $\alpha = p_i \zeta^i, u = a^j z_j, v = b^k z_k$.
+          \item Then $\alpha(v) = g(v,u)$ is written as
+            \[ p_i \zeta^i b^k \zeta_k = p_k b^k = g(b^k z_k, a^j z_j) = a^j b^k g_{kj} \]
+          \item Since this is true for arbitrary $v$ (and thus arbitrary $b^k$, we must have $p_k = g_{kj} a^j$.
+          \item This means that $u$ can be found from $\alpha$, and it asserts that matrix $g_{kj}$ is not singular.
+        }
+    \subsection*{The complex case}
+      \paragraph{Dot product on $\C^n$} Let $u = u^i e_i$ and $v = v^j e_j$, where $u,v \in \C^n$. Then $\displaystyle u \cdot v = \sum_{k=1}^n a^k \bar{b}^k$.
+      \paragraph{Properties of complex conjugates} Let $z = a + bi \in \C$. Let $w \in \C$.
+        \begin{multicols}{2}
+          \ull {
+            \item $\bar{z} = \overline{a+bi} = a - bi$
+            \item $\overline{z \pm w} = \bar{z} \pm \bar{w}$
+            \item $\overline{(zw)} = \bar{z} \; \bar{w}$
+            \item $\overline{(\bar{z})} = z$
+            \item $\overline{(\frac{z}{w})} = \frac{\bar{z}}{\bar{w}}$
+            \item $z$ is real $\iff \bar{z} = z$.
+          }
+        \end{multicols}
+      \paragraph{Conjugate dual vectors (Tut 10 Q5)} Let $V$ be a complex vector space. Let $\gamma: V \rightarrow \C$ be a mapping which is conjugate linear, that is if $a,b \in \C$ and $u,v \in V$, then $\gamma$ satisfies
+        \[ \gamma(au + bv) = \bar{a} \gamma(u) + \bar{b} \gamma(v) \]
+        Also, if $\alpha$ is a dual vector and $v \in V$, then if we define $\bar{\alpha}$ as follows, it is a conjugate dual vector:
+        \[ \bar{\alpha}(v) = \overline{\alpha(v)} \]
+      \paragraph{5.53 Sesquilinear form} A sesquilinear form on a complex vector space $V$ is a mapping $s: V \times V \rightarrow \C$ which is linear in the first slot, but conjugate-linear in the second: 
+        \begin{align*}
+          s(cu, v) &= cs(u, v) \\
+          s(u, cv) &= \bar{c}s(u, v)
+        \end{align*}
+        for $u,v \in V$ and $c \in \C$.
+      \paragraph{5.54 Complex inner product space} is a pair $(V, g)$, with a vector space $V$, and a particular sesquilinear form $g$ that satisifes
+        \oll {
+          \item Positivity: $g(u, u) \geq 0 \quad \forall u \in V$
+          \item Definiteness: $g(u, u) = 0 \iff u = 0$
+          \item Symmetry: $g(u, v) = \overline{g(v, u)} \quad \forall u,v \in V$
+        }
+      \paragraph{Other properties}
+        \ull {
+          \item Matrix is same as in 5.14
+          \item $g(u, u) \in \R$ by the symmetry property
+          \item Length is same as in 5.29 \red{since $g(u, u) \in \R$}
+          \item Orthogonality, Cauchy-Schwarz is same as in 5.30, 5.34
+        }
+      \paragraph{Triangle inequality} For $u,v \in V$,
+        \[ \abs{u+v}^2 \leq \abs{u}^2 + \abs{v}^2 + 2\abs{u}\abs{v} \]
+      \paragraph{Proof} Again for $u=0$ it is obvious. For $u \neq 0$: \\\\
+        \resizebox{\hsize}{!}{$
+          \begin{aligned}
+            \abs{u+v}^2 &= g(u+v, u+v) = \abs{u}^2 + \abs{v}^2 + g(u,v) + g(v,u) \\
+                        &= \abs{u}^2 + \abs{v}^2 + g(u,v) + \overline{g(u,v)} \\
+                        &= \abs{u}^2 + \abs{v}^2 + 2 \mathrm{Re}(g(u,v)) \\
+                        &\leq \abs{u}^2 + \abs{v}^2 + 2 \abs{g(u,v)} \quad \text{since $\mathrm{Re}(c) \leq \abs{c}$} \\
+                        &\leq \abs{u}^2 + \abs{v}^2 + 2 \abs{u}\abs{v} \quad \text{by Cauchy-Schwarz}
+          \end{aligned}
+        $}
+      \paragraph{5.55 Riesz representation} Let $u \in V$. Define a dual vector $\Gamma_u$:
+        \[ \Gamma_u(v) = g(v,u) \quad \forall v \in V \]
+        In the complex case, it is not an isomorphism. Instead, it is a conjugate isomorphism.
+      \paragraph{5.56 Conjugate isomorphism} Let $V,W$ be complex vector spaces. A conjugate isomorphism $F: V \rightarrow W$ is a bijective map that satisfies
+        \[ F(au + bv) = \bar{a} F(u) + \bar{b} F(v) \quad \forall a,b \in C, u,v \in V \]
+      \paragraph{5.57 Schur's theorem} Given a linear operator $T$ on a complex inner product space, there is a orthonormal basis wrt which $T$ has a UT matrix.
+      \paragraph{Proof}
+        \oll {
+          \item By 4.26, every complex matrix is similar to a UT matrix.
+          \item We can use GS to get to an orthonormal basis. By 5.46A, the change-of-basis matrix is UT.
+          \item By Tut 9 Q5, the product of two UT matrices is UT, hence proven.
+        }
+    \subsection*{Spectral theorem}
+      \paragraph{5.58 Bijection between LTs and \\ sesquilinear/bilinear forms} \noindent
+        \\\\
+        By the Riesz representation, we can think of vectors as dual vectors. We can also think of LTs as sesquilinear forms as follows. (The same explanation applies if we define $\tau$ to be bilinear)
+        \\\\
+        Let $T$ be an operator on the complex inner product space $(V,g)$. Then define a sesquilinear form $\tau$:
+        \[ \tau(u, v) = g(u, Tv) \quad \forall u,v \in V \]
+        To get the components,
+        \[ \tau_{ij} = \tau(z_i, z_j) = g(z_i, Tz_j) = g(z_i, T^k_j z_k) = g_{ik} \overline{T^k_j} \]
+        Since $g_{ij}$ is invertible, we can express
+        \[ \overline{T^k_j} = g^{ik} \tau_{ij} \]
+        where $g^{ik}$ is the inverse of $g_{ik}$, so that each $\tau$ defines a unique operator on $(V,g)$.
+      \paragraph{5.59 Hermitian/Symmetric form} A sesquilinear/bilinear form is Hermitian (in the complex case) or symmetric (in the real case) if
+        \[ \tau(u,v) = \overline{\tau(v,u)} \quad \forall u,v \in V \]
+      \paragraph{5.60 Hermitian/Symmetric LT} A LT on an inner product space is Hermitian/symmetric if its corresponding sesquilinear/bilinear form is Hermitian/symmetric. In particular, $T$ satisfies
+        \[ g(u, Tv) = \textcolor{red}{\tau(u, v) = \overline{\tau(v, u)}} = \overline{g(v, Tu)} = g(Tu, v) \]
+        and the matrix of $\tau$ is Hermitian/symmetric:
+        \[ \tau_{ij} = \textcolor{red}{\tau(z_i, z_j) = \overline{\tau(z_j, z_i)}} = \overline{\tau_{ji}} \]
+        in the complex case, and $\tau_{ij} = \tau_{ji}$ in the real case.
+      \paragraph{5.63} If we use an orthonormal basis, then the matrices of $T$ and $\tau$ are complex conjugates of each other. In particular, if they are real, then they are equal.
+        \[ \tau_{ij} = g_{ik} \overline{T^k_j} = \overline{T^i_j} \]
+        because $g_{ik} = 1 \iff i = k$.
+      \paragraph{5.64} The eigenvalues of a Hermitian/symmetric LT are real.
+      \paragraph{5.65 Proof} By 4.21, let $T$ have an eigenvector $u$ with eiegenvalue $\lm$. On one hand we have
+        \begin{equation}\label{5.64.1}
+          g(u, Tu) = g(u, \lm u) = \bar{\lm} g(u, u)
+        \end{equation}
+        on the other hand
+        \begin{equation}\label{5.64.2}
+          g(Tu, u) = \lm g(u, u)
+        \end{equation}
+        By the definition in 5.60, LHS of (\ref{5.64.1}) and (\ref{5.64.2}) are equal. Thus, we have
+        \[ \bar{\lm} g(u, u) = \lm g(u, u) \]
+        but since $u \neq 0 \Rightarrow g(u, u) \neq 0$ (definiteness), then
+        \[ \bar{\lm} = \lm \]
+        i.e. $\lm$ is real.
+      \paragraph{5.66, 5.67 Spectral theorem} Any Hermitian LT $T$ on a complex inner product space has a real, diagonal matrix relative to some orthonormal basis, i.e. it can be diagonalized and the resulting matrix is real.
+      \paragraph{Proof}
+        \oll {
+          \item By 5.57, $T$ can be made UT wrt an orthonormal basis.
+          \item By 5.63, the associated sesquilinear form is also UT.
+          \item By 5.61, $\tau_{ij} = \overline{\tau_{ji}}$. The UT entries are the complex conjugates of the lower-triangular (LT) entries.
+          \item Since the LT entries are 0, the UT entries are 0.
+          \item Hence the matrix is diagonal.
+        }
+      \paragraph{5.68} The spectral theorem also applies to symmetric LTs on real vector spaces.
+      \paragraph{5.69} The eigenvectors of a Hermitian transformation form an orthonormal basis. \red{The basis used is orthonormal. Since it can diagonalize the matrix, it is a basis of eigenvectors.}
+      \paragraph{Tut 10 Q1} The eigenvectors of an Hermitian transformation corresponding to distinct eigenvalues are orthogonal. \red{consider $g(u,Tv) = g(Tu,v)$, letting $u$ and $v$ be eigenvectors with distinct eigenvalues}
+      \paragraph{5.70 Spectral decomposition} Let $S$ be a real symmetric bilinear form, let $z_i$ be the orthonormal basis of eigenvectors mentioned in 5.69, let $\lm_i$ be the eigenvalues, and let $\zeta^i$ be the dual basis to $z_i$. Since the matrix relative to the basis is diagonal, then we have
+        \[ S = \lm_1 \zeta^1 \otimes \zeta^1 + \lm_2 \zeta^2 \otimes \zeta^2 + \cdots \]
+    \subsection*{Decomposing matrices}
+      \paragraph{5.71 Transpose matrix} The transpose of a (not necessarily square) matrix $M = M_{ij}$ is $M \tr = M_{ji}$.
+      \paragraph{5.72 Orthogonal matrix} A real matrix $P$ is orthogonal if
+        \oll {
+          \item $P \tr P = I$, or
+          \item Rows/columns are all unit vectors, and rows/columns are orthogonal to other rows/columns wrt $dot$ on $\R^n$.
+        }
+      \paragraph{5.76} Any symmetric matrix $S$ can be expressed in the form $O\tr D O$, where $D$ is diagonal and real, and $O$ is orthogonal. We say that all symmetric real matrices are orthogonally diagonalizable.
+      \paragraph{Unitary matrix} A complex matrix is unitary if
+        \oll {
+          \item $\overline{U\tr} U = I$, or
+          \item Rows/columns are all unit vectors, and rows/columns are orthogonal to other rows/columns wrt $dot$ on $\C^n$.
+        }
+      \paragraph{5.77} Any Hermitian matrix $H$ can be expressed in the form $\overline{U\tr} D U$, where $D$ is diagonal and real, and $U$ is a complex unitary matrix. We say that all Hermitian matrices are unitarily diagonalizable.
+      \paragraph{Example} Let $S$ be a real, symmetric matrix.
+        \oll {
+          \item Consider the inner product space $(\R^n, dot)$, which has canonical dual basis $\epsilon^i$. By 5.24, we can define a bilinear form on $\R^n$. By 5.60, if the bilinear form $S$ is symmetric, then the LT $S$ is also symmetric. By 5.58, we have a bijection between bilinear forms and LTs so the statement of 5.60 is an if and only if. So indeed the bilinear form $S$ is symmetric.
+            \[ S = S_{ij} \epsilon^i \otimes \epsilon^j \]
+          \item Next, since we have a real symmetric bilinear form, by 5.70, we know that $\R^n$ has an orthonormal basis $z_i$ wrt inner product $dot$, wrt which the matrix of $S$ is a diagonal real matrix:
+            \[ S = D_{ii} \zeta^i \otimes \zeta^i = D_{ij} \zeta^i \otimes \zeta^j \]
+            \ull {
+              \item RHS is still equal because $D$ is a diagonal matrix.
+              \item $z_i$ is not the canonical basis $e_i$, because if it were, then the original matrix would have been diagonal.
+            }
+          \item Let $P^i_j$ be the change-of-basis matrix from $z_i$ to the canonical basis $e_i$, so $e_i = P^j_i z_j$. By 5.16, we have
+            \[ S = (P^h_i D_{hk} P^k_j) \epsilon^i \otimes \epsilon^j \]
+            so $S_{ij} = P^h_i D_{hk} P^k_j$.
+          \item In terms of matrices, by 5.71, we have $S = P\tr D P$ for some matrix $P$.
+          \item Then, since $z_i$ and $e_i$ are both orthonormal bases wrt $dot$, and since $e_i = P^j_i z_j$, we have
+            \[ dot(e_i, e_j) = I_{ij} = dot(P^h_i z_h, P^k_j z_k) = P^h_i I_{hk} P^k_j \]
+            i.e. $P\tr P = I$, so $P$ is orthogonal.
+        }
+\end{multicols*}
+\end{document}

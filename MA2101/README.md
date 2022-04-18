@@ -7,3 +7,7 @@ Written for AY21/22 Sem 2 Test 1. Maximum 1 page double-sided A4, hard copy note
 ## Test 2
 
 Written for AY21/22 Sem 2 Test 2. Maximum 1 page double-sided A4, hard copy notes only.
+
+## Test 3
+
+Written for AY21/22 Sem 2 Test 2. Maximum 1 page double-sided A4, hard copy notes only. PDF is 4 pages long, printed two on one side, double-sided (this is readable).
