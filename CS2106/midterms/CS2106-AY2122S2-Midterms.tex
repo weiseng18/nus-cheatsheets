@@ -627,7 +627,7 @@ sighandler_t signal(int signum, sighandler_t handler);
         }
       \paragraph{Invariant}
         Given $S_\text{initial} \geq 0$,
-        \[ S_\text{current} = S_\text{initial} + N_\text{signal} + N_\text{wait} \]
+        \[ S_\text{current} = S_\text{initial} + N_\text{signal} - N_\text{wait} \]
         \ull {
           \item $N_\text{signal}$: number of \ic{signal()} operations executed
           \item $N_\text{wait}$: number of \ic{wait()} operations completed
