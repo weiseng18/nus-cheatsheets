@@ -11,6 +11,7 @@ Cheatsheets made for NUS CS
 
 - AY21/22 S2 (WIP)
   - [CS2040S Midterms](./CS2040S/midterms/CS2040S-AY2122S2-Midterms.pdf)
+  - [CS2040S Finals](./CS2040S/finals/CS2040S-AY2122S2-Finals.pdf)
   - [CS2106 Midterms](./CS2106/midterms/CS2106-AY2122S2-Midterms.pdf)
   - [MA2101 Test 1](./MA2101/test-1/MA2101-AY2122S2-Test-1.pdf)
   - [MA2101 Test 2](./MA2101/test-2/MA2101-AY2122S2-Test-2.pdf)
