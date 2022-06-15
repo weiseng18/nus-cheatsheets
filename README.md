@@ -9,7 +9,7 @@ Cheatsheets made for NUS CS
 
 ## Contents
 
-- AY21/22 S2 (WIP)
+- AY21/22 S2
   - [CS2040S Midterms](./CS2040S/midterms/CS2040S-AY2122S2-Midterms.pdf)
   - [CS2040S Finals](./CS2040S/finals/CS2040S-AY2122S2-Finals.pdf)
   - [CS2106 Midterms](./CS2106/midterms/CS2106-AY2122S2-Midterms.pdf)
