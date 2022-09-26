@@ -164,12 +164,6 @@
       \item Faces negative z direction
       \item Viewing volume is a box, centered at origin, with side length 2
     \end{itemize}
-  \subsection*{Orthographic viewing}
-    \begin{itemize}[leftmargin=*]
-      \item In the default orthographic view, points are projected along the $z$-axis, onto the plane $z=0$
-      \item Known as parallel projection
-      \item Projection is carried out by projection matrix
-    \end{itemize}
   \subsection*{OpenGL primitives} \noindent \\
     \includegraphics[width=\columnwidth]{L2/primitives}
     \begin{itemize}[leftmargin=*]
@@ -188,20 +182,38 @@
         \item Use \ic{glBegin} and \ic{glEnd} to mark the start/end of declaring vertices for a polygon
         \item Try to write in the display callback, so it is run once per display callback
       \end{itemize}
-    \begin{minipage}{.6 \columnwidth}
-      \begin{lstlisting}
+      \begin{minipage}{.6 \columnwidth}
+        \begin{lstlisting}
 glBegin(GL_TRIANGLES);
   glColor3f(1, 0, 0);
   glVertex3f(1, -1, 0);
   glVertex3f(-1, 1, 0);
   glVertex3f(-1, -1, 0);
 glEnd();
-      \end{lstlisting}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{.35 \columnwidth}
-      \includegraphics[width=\columnwidth]{L2/gl_triangles}  
-    \end{minipage}
+        \end{lstlisting}
+      \end{minipage}
+      \hfill
+      \begin{minipage}{.35 \columnwidth}
+        \includegraphics[width=\columnwidth]{L2/gl_triangles}  
+      \end{minipage}
+    \paragraph{Number of entities formed}
+      Assume pass in $N$ vertices.
+      \begin{center}
+        \begin{tabular}{ |c|c| }
+          \hline
+          \textbf{Primitive} & \textbf{Result} \\ \hline
+          \ic{GL_POINTS} & $N$ points \\ \hline
+          \ic{GL_LINES} & $\frac{N}{2}$ lines \\ \hline
+          \ic{GL_LINE_STRIP} & $N-1$ lines \\ \hline
+          \ic{GL_LINE_LOOP} & $N$ lines \\ \hline
+          \ic{GL_TRIANGLES} & $\frac{N}{3}$ triangles \\ \hline
+          \ic{GL_TRIANGLE_STRIP} & $N-2$ triangles \\ \hline
+          \ic{GL_TRIANGLE_FAN} & $N-2$ triangles \\ \hline
+          \ic{GL_QUADS} & $\frac{N}{4}$ quads \\ \hline
+          \ic{GL_QUAD_STRIP} & $\frac{N}{2} - 1$ quads \\ \hline
+          \ic{GL_POLYGON} & 1 polygon \\ \hline
+        \end{tabular}
+      \end{center}
   \subsection*{Color}
     \begin{itemize}[leftmargin=*]
       \item Each color component/channel stored separately in frame buffer
@@ -648,6 +660,7 @@ glEnd();
     \subsubsection*{Orthographic projection}
       \begin{itemize}[leftmargin=*]
         \item Special case of parallel projection, where projectors are orthogonal to projection surface
+        \item In the default orthographic view, points are projected along the $z$-axis, onto the plane $z=0$
       \end{itemize}
     \subsubsection*{Perspective projection}
       \begin{itemize}[leftmargin=*]
@@ -835,7 +848,7 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 \section*{OpenGL rendering pipeline} \noindent
   \vspace{-0.5cm}
   \begin{center}
-    \includegraphics[width=\columnwidth]{L6/rendering-pipeline}
+    \includegraphics[width=0.8\columnwidth]{L6/rendering-pipeline}
   \end{center}
   \subsubsection*{Modelling}
     \begin{itemize}[leftmargin=*]
