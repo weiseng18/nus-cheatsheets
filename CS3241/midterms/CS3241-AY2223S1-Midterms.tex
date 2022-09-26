@@ -835,7 +835,7 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 \section*{OpenGL rendering pipeline} \noindent
   \vspace{-0.5cm}
   \begin{center}
-    \includegraphics[width=0.7\columnwidth]{L6/rendering-pipeline}
+    \includegraphics[width=\columnwidth]{L6/rendering-pipeline}
   \end{center}
   \subsubsection*{Modelling}
     \begin{itemize}[leftmargin=*]
@@ -847,6 +847,8 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
           \item Occlusion culling: do not pass objects that are completely blocked
         \end{itemize}
     \end{itemize}
+\end{multicols*}
+\begin{multicols*}{3}
   \subsubsection*{Vertex processing}
     \begin{itemize}[leftmargin=*]
       \item In this stage, model-view transformation is applied (now in camera/eye space), affecting vertices and vertex normals
@@ -854,8 +856,6 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
       \item Compute texture coordinates at vertices
       \item Projection matrix is applied (now in clip space)
     \end{itemize}
-\end{multicols*}
-\begin{multicols}{3}
     \subsubsection*{Primitive assembly}
       \begin{itemize}[leftmargin=*]
         \item Primitive assembly
@@ -1003,7 +1003,7 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
       \end{itemize}
     \subsubsection*{Simple early acceptance \& rejection}
       \begin{itemize}[leftmargin=*]
-        \item Use an axis-aligned bounding box (AAAB) instead of clipping a complex polygon
+        \item Use an axis-aligned bounding box (AABB) instead of clipping a complex polygon
         \item AABB: smallest axis-aligned rectangle that encloses the polygon
         \item Simple to compute: max and min of $x$ and $y$
       \end{itemize}
@@ -1038,8 +1038,8 @@ for (x = x0, y = y0; x <= xe; x++) {
         \end{itemize}
     \end{itemize}
     \begin{center}
-      \includegraphics[width=0.7\columnwidth]{L6/bresenham-1}
-      \includegraphics[width=0.7\columnwidth]{L6/bresenham-2}
+      \includegraphics[width=\columnwidth]{L6/bresenham-1}
+      \includegraphics[width=\columnwidth]{L6/bresenham-2}
     \end{center}
   \subsection*{Scan-line fill}
     \begin{itemize}[leftmargin=*]
@@ -1119,6 +1119,8 @@ glEnable(GL_DEPTH_TEST);
 // Cleared in display callback
 glClear(... | GL_DEPTH_BUFFER_BIT);
         \end{lstlisting}
+\end{multicols*}
+\begin{multicols}{2}
 \section*{Tutorials}
   \vspace{-0.5cm}
   \subsection*{T2 Q7}
@@ -1128,47 +1130,46 @@ glClear(... | GL_DEPTH_BUFFER_BIT);
     \subsubsection*{Answer} \noindent
       \includegraphics[width=\columnwidth]{T2/Q7-idea}
       \includegraphics[width=\columnwidth]{T2/Q7-code}
+  \subsection*{T4 Q3} \noindent
+    \vspace{-0.5cm}
+    \begin{itemize}[leftmargin=*]
+      \item By convention we use a right-handed coordinate system
+      \item The right thumb points along the z axis in the positive direction and the curl of the fingers represents a motion from the first or x axis to the second or y axis
+      \item Alternatively, thumb points at $x$, pointer points at $y$, middle finger points at $z$ (left image below)
+    \end{itemize}
+    \begin{center}
+      \includegraphics[width=0.3\columnwidth]{T4/right-handed}
+      \includegraphics[width=0.45\columnwidth]{T4/rotation}
+    \end{center}
+    \begin{hlist}
+      \item Pitch: rotation about $x$-axis
+      \item Yaw: rotation about $y$-axis
+      \item Roll: rotation about $z$-axis
+    \end{hlist}
+\columnbreak
   \subsection*{T3 Q1c}
     \vspace{-0.5cm}
     \subsubsection*{Projection of a onto b} \noindent
-      \vspace{-0.5cm}
+      \vspace{-0.7cm}
       \begin{center}
-        \includegraphics[width=0.7\columnwidth]{T3/projection}
+        \includegraphics[width=0.5\columnwidth]{T3/projection}
       \end{center}
     \subsubsection*{Perpendicular distance of point $Q$ to a plane} \noindent
       Let plane be defined as $ax + by + cz + d = 0$. The perpendicular distance from $Q$ to the plane is given by
       \[ \frac{\lvert ax_q + by_q + cz_q + d \rvert}{\sqrt{a^2 + b^2 + c^2}} \]
       Proof: \\
       \includegraphics[width=\columnwidth]{T3/perpendicular-distance}
+    \vspace{-0.5cm}
   \subsection*{T3 Q4} \noindent
     \includegraphics[width=\columnwidth]{T3/Q4}
     \begin{itemize}[leftmargin=*]
       \item Clearly $T$ is applied last, since you can reverse the translation and get a clean matrix
       \item Then, $S$ is applied after $R$ because $s_1$ is distributed along the row
     \end{itemize}
-  \subsection*{T4 Q3} \noindent
-    \vspace{-0.5cm}
-    \begin{itemize}[leftmargin=*]
-      \item By convention we use a right-handed coordinate system
-      \item The right thumb points along the z axis in the positive direction and the curl of the fingers represents a motion from the first or x axis to the second or y axis
-      \item Alternatively, thumb points at $x$, pointer points at $y$, middle finger points at $z$
-    \end{itemize}
-    \begin{center}
-      \includegraphics[width=0.6\columnwidth]{T4/right-handed}
-    \end{center}
-    \begin{itemize}[leftmargin=*]
-      \item Pitch: rotation about $x$-axis
-      \item Yaw: rotation about $y$-axis
-      \item Roll: rotation about $z$-axis
-    \end{itemize}
-    \begin{center}
-      \includegraphics[width=0.6\columnwidth]{T4/rotation}
-    \end{center}
   \subsection*{T4 Q5} \noindent
     \vspace{-0.5cm}
     \begin{itemize}[leftmargin=*]
       \item To convert from camera coordinates to NDC, notice that the ratio of the vertex along each axis stays the same after the transformation
-      \item Hence
     \end{itemize}
     \includegraphics[width=\columnwidth]{T4/convert-to-NDC}
 \end{multicols}
