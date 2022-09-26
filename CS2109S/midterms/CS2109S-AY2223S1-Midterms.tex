@@ -92,32 +92,32 @@
     \subsection*{Defining the problem} \noindent
       Examples given in the context of autonomous driving
       \begin{enumerate}[leftmargin=*]
-        \item \red{P}erformance measure (safety, speed, legal, comfort)
-        \item \red{E}nvironment (roads, weather/visbility, other vehicles, pedestrians/obstacles)
-        \item \red{A}ctuators (steering wheel, accelerator, brake, signal, horn)
-        \item \red{S}ensors (camera, LIDAR, speedometer, GPS, engine sensors)
+        \item \textbf{P}erformance measure (safety, speed, legal, comfort)
+        \item \textbf{E}nvironment (roads, weather/visbility, other vehicles, pedestrians/obstacles)
+        \item \textbf{A}ctuators (steering wheel, accelerator, brake, signal, horn)
+        \item \textbf{S}ensors (camera, LIDAR, speedometer, GPS, engine sensors)
       \end{enumerate}
     \subsection*{Characterizing the enviroment}
-      \paragraph{\red{Fully observable} (vs. partially observable)} 
+      \paragraph{Fully observable (vs. partially observable)} 
         Sensors give access to the complete state of the environment at each point in time.
-      \paragraph{\red{Deterministic} (vs. stochastic)}
+      \paragraph{Deterministic (vs. stochastic)}
         \begin{itemize}[leftmargin=*]
           \item Next state of the environment is completely determined by current state + action executed.
           \item If the environment is deterministic except for the actions of other agents, then it is \textbf{strategic}
         \end{itemize}
-      \paragraph{\red{Episodic} (vs. sequential)}
+      \paragraph{Episodic (vs. sequential)}
         \begin{itemize}[leftmargin=*]
           \item Agent's experience is divided into atomic episodes (perceiving + action)
           \item Choice of action in each episode depends only on that episode
         \end{itemize}
-      \paragraph{\red{Static} (vs. dynamic)}
+      \paragraph{Static (vs. dynamic)}
         \begin{itemize}[leftmargin=*]
           \item Environment does not change while agent is thinking
-          \item \red{Semi-dynamic} if environment does not change but agent's performance score does
+          \item \textbf{Semi-dynamic} if environment does not change but agent's performance score does
         \end{itemize}
-      \paragraph{\red{Discrete} (vs. continuous)}
+      \paragraph{Discrete (vs. continuous)}
         A limited number of distinct, clearly defined percepts and actions
-      \paragraph{\red{Single agent} (vs. multi-agent)}
+      \paragraph{Single agent (vs. multi-agent)}
         Operates by itself in an environment
     \subsection*{Explotation vs Exploration} \noindent
       An agent chooses between
@@ -202,8 +202,6 @@
   $m$: max depth of state space (may be $\infty$) $\;\bullet\;$
   $C^*$: cost of optimal solution $\;\bullet\;$
   $G$: goal state \\
-  \red{Red text in this table is filled in by myself}
-  \\
   \begin{tabular}{ |c|c|c|c|c| }
     \hline
     \textbf{Search} & \textbf{Complete} & \textbf{Time} & \textbf{Space} & \textbf{Optimal} \\ \hline
@@ -213,8 +211,8 @@
     Depth-limited & No & $O(b^l)$ & $O(bl)$ & \makecell{No, unless goal happens\\to be within range} \\ \hline
     Iterative deepening & Yes & $(d+1)b^0 + db^1 + \cdots + b^d = O(b^d)$ & $O(bd)$ & Yes if step cost is 1 \\ \hline \hline
     Greedy best-first & No, can get stuck in loops & \makecell{$O(b^m)$, but good heuristic\\may prune paths} & $O(b^m)$ & No \\ \hline
-    $A^*$ search & \makecell{Yes, unless infinitely many\\nodes with $f \leq f(G)$} & \red{$O((\text{effective branching factor})^d)$} & \red{$O(b^d)$} & Yes \\ \hline
-    RBFS & \red{Yes} & ?? & \red{$O(bm)$} & \red{Yes} \\ \hline \hline
+    $A^*$ search & \makecell{Yes, unless infinitely many\\nodes with $f \leq f(G)$} & $O((\text{effective branching factor})^d)$ & $O(b^d)$ & Yes \\ \hline
+    RBFS & Yes & ?? & $O(bm)$ & Yes \\ \hline \hline
     Minimax & Yes, if tree finite & $O(b^m)$ & $O(bm)$ & \makecell{Yes, against\\optimal opponent} \\ \hline
   \end{tabular}
 \end{center}
@@ -225,16 +223,18 @@
 
 \begin{multicols*}{2}
     \subsection*{Tree search} \noindent
+      \vspace{-0.7cm}
       \begin{center}
-        \includegraphics[width=0.8\columnwidth]{L2/tree-search} 
+        \includegraphics[width=0.85\columnwidth]{L2/tree-search} 
       \end{center}
       \begin{itemize}[leftmargin=*]
         \item May revisit nodes
         \item Checks for goal state \textbf{after} traversing to the node
       \end{itemize}
     \subsection*{Graph search} \noindent
+      \vspace{-0.5cm}
       \begin{center}
-        \includegraphics[width=0.8\columnwidth]{L2/graph-search}
+        \includegraphics[width=0.85\columnwidth]{L2/graph-search}
       \end{center}
       \begin{itemize}[leftmargin=*]
         \item Will not revisit nodes
@@ -279,7 +279,7 @@
         \end{itemize}
     \subsection*{Admissible heuristics}
       \begin{itemize}[leftmargin=*]
-        \item A heuristic $h$ is admissible if it never over-estimates the cost to reach the goal
+        \item Heuristic $h$ is admissible if it never over-estimates the cost to reach the goal
         \item If $h(n)$ is admissible, then $A^*$ using tree search is optimal
       \end{itemize}
       \paragraph{Dominance} For admissible heuristic functions $h_1$ and $h_2$,
@@ -287,7 +287,7 @@
         and $h_2$ is typically better for search.
       \paragraph{Inventing admissible heuristics}
         \begin{itemize}[leftmargin=*]
-          \item A problem with fewer restrictions on the actions is called a \red{relaxed problem}
+          \item A problem with fewer restrictions on the actions is called a \textbf{relaxed problem}
           \item Cost of an optimal solution to relaxed problem is an admissible heuristic for the original problem
           \item Non-admissible heuristics may be helpful for pruning, but lose optimality
         \end{itemize}
@@ -321,7 +321,7 @@
       \paragraph{Criticism} $A^*$ and RBFS use linear space, which underutilizes available memory
       \paragraph{Simplified MA$^*$}
         \begin{itemize}[leftmargin=*]
-          \item Run $A^*$ until memory full. When memory full
+          \item Run $A^*$ until memory full. When memory full,
             \begin{itemize}[leftmargin=*]
               \item Drop node with worst $f$-value
               \item Record on sub-tree
@@ -348,8 +348,9 @@
           \item Given a starting node, recurse into highest-valued successor
           \item If the node has a higher value than successors, then return it. It is a local maximum, but may not be a global maximum
         \end{itemize}
+        \vspace{-0.3cm}
         \begin{center}
-          \includegraphics[width=0.8\columnwidth]{L3/hill-climbing}
+          \includegraphics[width=0.85\columnwidth]{L3/hill-climbing}
         \end{center}
       \paragraph{Simulated annealing}
         \begin{itemize}[leftmargin=*]
@@ -359,7 +360,7 @@
           \item If $T$ decreases slowly enough, then it finds a global optimum with probability approaching 1
         \end{itemize}
         \begin{center}
-          \includegraphics[width=0.8\columnwidth]{L3/simulated-annealing}
+          \includegraphics[width=0.95\columnwidth]{L3/simulated-annealing}
         \end{center}
       \paragraph{Beam search}
         \begin{itemize}[leftmargin=*]
@@ -385,7 +386,7 @@
       \item Minimax algorithm is not optimal against non-optimal MIN player. MAX could have made high risk high reward moves if MAX knows that MIN was non-optimal, but MAX assumed that MIN was optimal and took a safer move, which is not optimal.
     \end{itemize}
     \begin{center}
-      \includegraphics[width=0.8\columnwidth]{L4/minimax}
+      \includegraphics[width=0.95\columnwidth]{L4/minimax}
     \end{center}
   \subsection*{\ab pruning}
     \begin{itemize}[leftmargin=*]
@@ -394,7 +395,7 @@
       \item At MAX node, stop if sibling has guaranteed lower value
     \end{itemize}
     \begin{center}
-      \includegraphics[width=0.8\columnwidth]{L4/alpha-beta}
+      \includegraphics[width=\columnwidth]{L4/alpha-beta}
     \end{center}
     \paragraph{Properties}
       \begin{itemize}[leftmargin=*]
@@ -458,6 +459,8 @@
       \item Visualize to understand data
       \item More features/dimensions $\rightarrow$ exponentially more data needed
     \end{itemize}
+\end{multicols*}
+\begin{multicols*}{3}
   \paragraph{ML pipeline}
     \begin{hlist2}
       \item Data collection
@@ -470,8 +473,6 @@
       \item Model understanding (Visualization/Explainability)
       \item Model deployment
     \end{hlist2}
-\end{multicols*}
-\begin{multicols*}{3}
   \paragraph{Usefulness}
     \begin{itemize}[leftmargin=*]
       \item Not possible to program all human knowledge, e.g. facial recognition
