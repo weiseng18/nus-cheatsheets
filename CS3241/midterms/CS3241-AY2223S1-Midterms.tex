@@ -390,6 +390,16 @@ glEnd();
         \item Scalar-scalar operations
         \item For a point $P$, define $1 \cdot P = P$, $0 \cdot P = \vec{0}$
       \end{itemize}
+  \subsection*{Products}
+    \subsubsection*{Dot product} \noindent
+      \[ A \cdot B = \vert A \vert \vert B \vert \cos \theta \]
+      where $\theta$ is the angle between $A$ and $B$.
+    \subsubsection*{Cross product (3D vectors)} \noindent
+      \[ A \times B = \vert A \vert \vert B \vert (\sin \theta) \; \vec{n} \]
+      where $\vec{n}$ is a unit vector perpendicular to $A$ and $B$, given by the right hand rule:
+      \includegraphics[width=\columnwidth]{right-hand-rule}
+      Alternatively,
+      \[ \mat{a_1; a_2; a_3} \times \mat{b_1; b_2; b_3} = \mat{a_2b_3-a_3b_2; -(a_1b_3-a_3b_1); a_1b_2-a_2b_1} \]
   \subsection*{Lines} \noindent
     For specific $P_0, d$, a line is the set of all points of the form
     \[ P(\alpha) = P_0 + \alpha d \]
@@ -709,13 +719,15 @@ glEnd();
       \end{itemize}
       \includegraphics[width=\columnwidth]{L5/gluLookAt}
     \vspace{-.5cm}
+\end{multicols*}
+\begin{multicols}{2}
     \subsubsection*{Concept}
       \begin{itemize}[leftmargin=*]
         \item Positions camera at required location and orientation wrt world frame
         \item Internally generates transformation matrix that can be used to express all points in world frame wrt camera frame (i.e. view transformation)
       \end{itemize}
       \begin{flalign*}
-        & M_{view} = RT & \\
+        M_{view} &= RT & \\
         &= \mat{u_x u_y u_z 0; v_x v_y v_z 0; n_x n_y n_z 0; 0 0 0 1} \mat{1 0 0 -e_x; 0 1 0 -e_y; 0 0 1 -e_z; 0 0 0 1}
       \end{flalign*}
       \begin{itemize}[leftmargin=*]
@@ -724,8 +736,6 @@ glEnd();
         \item $u,v,n$ defined in picture above
         \item $e$ is the eye position
       \end{itemize}
-\end{multicols*}
-\begin{multicols}{2}
     \subsubsection*{Transformation of normal vectors} \noindent
       Let a plane equation be given by $n \cdot v = 0$. Let $M_t$ be the upper-left 3 by 3 submatrix of the model-view transformation matrix $M$.
       \begin{align*}
@@ -828,6 +838,9 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
     \subsubsection*{\ic{glFrustum()}}
       \begin{itemize}[leftmargin=*]
         \item \ic{glFrustum(left, right, bottom, top, near, far)}
+          \begin{itemize}[leftmargin=*]
+            \item \ic{left, right, bottom, top} specify clipping planes for the \textbf{near plane}
+          \end{itemize}
         \item Maps the view frustum to canonical view volume, which will then be mapped to viewport
         \item Matrix
           \[\mat{
@@ -852,7 +865,6 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
             \dfrac{f}{aspect} 0 0 0; 0 f 0 0; 0 0 \dfrac{far+near}{near - far} \dfrac{2 \cdot far \cdot near}{near - far}; 0 0 -1 0
           }\]
       \end{itemize}
-\columnbreak
 \section*{OpenGL rendering pipeline} \noindent
   \vspace{-0.5cm}
   \begin{center}
@@ -870,10 +882,10 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
     \end{itemize}
   \subsubsection*{Vertex processing}
     \begin{itemize}[leftmargin=*]
-      \item In this stage, model-view transformation is applied (now in camera/eye space), affecting vertices and vertex normals
+      \item In this stage, model-view transformation is applied \red{(now in camera/eye space)}, affecting vertices and vertex normals
       \item Assigns color to vertices using lighting computation
       \item Compute texture coordinates at vertices
-      \item Projection matrix is applied (now in clip space)
+      \item Projection matrix is applied \red{(now in clip space)}
     \end{itemize}
     \subsubsection*{Primitive assembly}
       \begin{itemize}[leftmargin=*]
@@ -884,8 +896,8 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
             \item Necessary for clipping, rasterization, back face culling
           \end{itemize}
         \item Clipping
-        \item Perspecive division (to NDC space)
-        \item Viewport transformation (to window space, include depth-range scaling)
+        \item Perspecive division \textbf{(to NDC space)}
+        \item Viewport transformation (\red{to window space}, include depth-range scaling)
           \begin{itemize}[leftmargin=*]
             \item For rasterization to color specific pixels in the window
           \end{itemize}
@@ -949,7 +961,7 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
       \end{center}
       \begin{enumerate}[leftmargin=*, resume]
         \item One endpoint inside all four lines, one outside - Perform intersection
-        \item Both outside $\Rightarrow$ may have some part inside. Do one intersection, reducing to Case 2 or Case 3.
+        \item Both outside $\Rightarrow$ may have some part inside. Do one intersection, reducing to Case 2, Case 3, or even Case 4 again.
       \end{enumerate}
       \begin{center}
         \includegraphics[width=0.8\columnwidth]{L6/cohen-sutherland/case-3-4}
@@ -983,7 +995,7 @@ glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
           \begin{itemize}[leftmargin=*]
             \item Shorten line segment by intersecting with one side of window
             \item Compute outcode of new line segment
-            \item Repeat algorithm. Yields case 2 or case 3
+            \item Repeat algorithm. Yields case 2, 3 or 4
           \end{itemize}
       \end{itemize}
     \subsubsection*{Efficiency}
@@ -1101,10 +1113,15 @@ for (x = x0, y = y0; x <= xe; x++) {
       \item Without hidden-surface removal, objects ``on top'' are the ones that are drawn last
       \item Hidden-surface removal fixes this problem using the z-buffer algorithm
     \end{itemize}
-  \subsection*{Painter's algorithm (Depth sorting)}
+  \subsection*{Painter's algorithm}
     \begin{itemize}[leftmargin=*]
+      \item Assumes we have a valid back-to-front ordering
       \item Render polygons in back-to-front order so that polygons behind others are simply painted over
-      \item Depth-sorting can be done in $O(n \log n)$ time
+    \end{itemize}
+  \subsection*{Depth sorting}
+    \begin{itemize}[leftmargin=*]
+      \item Can be done in $O(n \log n)$ time
+      \item Ran before executing painter's algorithm
       \item Cannot handle cyclic overlap of polygons
         \begin{itemize}[leftmargin=*]
           \item Solution: split original polygons
@@ -1133,6 +1150,9 @@ for (x = x0, y = y0; x <= xe; x++) {
     \subsubsection*{$z$-buffer algorithm}
       \begin{itemize}[leftmargin=*]
         \item Use a $z$-buffer or depth buffer to store depth of closest object at each pixel so far
+          \begin{itemize}[leftmargin=*]
+            \item Even for double buffering, there is only ONE depth buffer, for the currently drawn frame
+          \end{itemize}
         \item As we render each polygon, compare depth of each fragment, to depth in $z$-buffer
         \item If less than, update, placing fragment in color buffer and its depth in $z$-buffer
         \item If not, then discard
@@ -1146,6 +1166,7 @@ glEnable(GL_DEPTH_TEST);
 // Cleared in display callback
 glClear(... | GL_DEPTH_BUFFER_BIT);
         \end{lstlisting}
+\columnbreak
 \section*{Tutorials}
   \vspace{-0.5cm}
   \subsection*{T2 Q7}
@@ -1177,6 +1198,7 @@ glClear(... | GL_DEPTH_BUFFER_BIT);
   \subsection*{T4 Q3 - right handed coordinate system} \noindent
     \vspace{-0.5cm}
     \subsubsection*{Coordinate system}
+      \vspace{-0.5cm}
       \begin{itemize}[leftmargin=*]
         \item By convention we use a right-handed coordinate system
         \item The right thumb points along the z axis in the positive direction and the curl of the fingers represents a motion from the first or x axis to the second or y axis
@@ -1193,6 +1215,8 @@ glClear(... | GL_DEPTH_BUFFER_BIT);
       \end{hlist}
     \subsubsection*{Rotation} \noindent
       When rotating around a vector, let thumb be direction of vector. Use grip rule, direction that fingers wrap in is the direction of rotation
+    \subsubsection*{Cross product} \noindent
+      Refer to Geometry section.
 \columnbreak
   \subsection*{T4 Q5 - camera to NDC} \noindent
     \vspace{-0.5cm}
@@ -1200,9 +1224,15 @@ glClear(... | GL_DEPTH_BUFFER_BIT);
       \item To convert from camera coordinates to NDC, notice that the ratio of the vertex along each axis stays the same after the transformation
       \item For the $z$-axis, the near plane maps to -1, while the far plane maps to 1.
     \end{itemize}
-    \subsubsection*{$x$-axis example}
-      \includegraphics[width=\columnwidth]{T4/convert-to-NDC}
-    \subsubsection*{$z$-axis example}
-      \includegraphics[width=\columnwidth]{T4/convert-z-axis}
+    \subsubsection*{$x$-axis example} \noindent
+      \vspace{-0.5cm}
+      \begin{center}
+        \includegraphics[width=\columnwidth]{T4/convert-to-NDC}
+      \end{center}
+    \subsubsection*{$z$-axis example} \noindent
+      \vspace{-0.5cm}
+      \begin{center}
+        \includegraphics[width=\columnwidth]{T4/convert-z-axis}
+      \end{center}
 \end{multicols}
 \end{document}
