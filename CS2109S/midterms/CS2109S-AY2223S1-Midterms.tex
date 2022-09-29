@@ -205,11 +205,11 @@
   \begin{tabular}{ |c|c|c|c|c| }
     \hline
     \textbf{Search} & \textbf{Complete} & \textbf{Time} & \textbf{Space} & \textbf{Optimal} \\ \hline
-    BFS & Yes if $b$ finite & $1 + b + \cdots + b^d = O(b^{d+1})$ & $O(b^{d+1})$ & Yes if step cost is 1 \\ \hline
+    BFS & Yes if $b$ finite & \makecell{$1 + b + \cdots + b^d = O(b^d)$ if goal test\\when pushing, $O(b^{d+1})$ if goal test when pop} & $O(b^d)$ or $O(b^{d+1})$ & Yes if step cost is 1 \\ \hline
     Uniform-cost & Yes if step cost $\geq \varepsilon$ & \makecell{\# of nodes with $g \leq C^* = O\left(b \left \lceil \frac{C^*}{\varepsilon} \right \rceil \right)$} & $O\left(b \left \lceil \frac{C^*}{\varepsilon} \right \rceil \right)$ & \makecell{Yes, nodes expanded in\\increasing order of $g(n)$} \\ \hline
     DFS & \makecell{No: fails in $\infty$-depth\\spaces, or loops} & \makecell{$O(b^m)$, bad when $m \gg d$, but if\\solution is deep, can be faster than BFS} & $O(bm)$ & No \\ \hline
     Depth-limited & No & $O(b^l)$ & $O(bl)$ & \makecell{No, unless goal happens\\to be within range} \\ \hline
-    Iterative deepening & Yes & $(d+1)b^0 + db^1 + \cdots + b^d = O(b^d)$ & $O(bd)$ & Yes if step cost is 1 \\ \hline \hline
+    \makecell{Iterative\\deepening} & Yes & $(d+1)b^0 + db^1 + \cdots + b^d = O(b^d)$ & $O(bd)$ & Yes if step cost is 1 \\ \hline \hline
     Greedy best-first & No, can get stuck in loops & \makecell{$O(b^m)$, but good heuristic\\may prune paths} & $O(b^m)$ & No \\ \hline
     $A^*$ search & \makecell{Yes, unless infinitely many\\nodes with $f \leq f(G)$} & $O((\text{effective branching factor})^d)$ & $O(b^d)$ & Yes \\ \hline
     RBFS & Yes & ?? & $O(bm)$ & Yes \\ \hline \hline
