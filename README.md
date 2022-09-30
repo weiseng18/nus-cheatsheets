@@ -11,6 +11,7 @@ Cheatsheets made for NUS CS
 
 - AY22/23 S1
   - [CS2109S Midterms](./CS2109S/midterms/CS2109S-AY2223S1-Midterms.pdf)
+  - [CS3230 Midterms](./CS3230/midterms/CS3230-AY2223S1-Midterms.pdf)
   - [CS3241 Midterms](./CS3241/midterms/CS3241-AY2223S1-Midterms.pdf)
 
 - AY21/22 S2
