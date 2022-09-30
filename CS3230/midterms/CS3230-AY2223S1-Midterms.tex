@@ -154,11 +154,11 @@
         f(n) = \omega(g(n)) \land g(n) = \omega(h(n)) & \Rightarrow f(n) = \omega(h(n))
       \end{align*}
     \subsubsection*{Reflexivity} \noindent
-      \begin{align*}
-        f(n) &= \Theta(f(n)) \\
-        f(n) &= O(f(n)) \\
-        f(n) &= \Omega(f(n))
-      \end{align*}
+      \[
+        f(n) = \Theta(f(n)) \quad
+        f(n) = O(f(n)) \quad
+        f(n) = \Omega(f(n))
+      \]
     \subsubsection*{Symmetry} \noindent
       \[ f(n) = \Theta(g(n)) \iff g(n) = \Theta(f(n)) \]
     \subsubsection*{Complementarity} \noindent
@@ -169,19 +169,16 @@
   \subsection*{Useful facts}
     \begin{itemize}[leftmargin=*]
       \item Degree-$k$ polynomials are $O(n^k)$, $o(n^{k+1})$, and $\omega(n^{k-1})$
-      \item Polynomials dominate logs: 
-        \[ (\log n)^{100} = o(n^{.0001}) \]
-      \item Exponentials dominate polys:
-        \[ n^{1000} = o(2^{.001n}) \]
+      \item Polynomials dominate logs: \( (\log n)^{100} = o(n^{.0001}) \)
+      \item Exponentials dominate polys: \( n^{1000} = o(2^{.001n}) \)
       \item $\max(f(n), g(n)) = \Theta(f(n) + g(n))$
     \end{itemize}
     \subsubsection*{Exponentials}
-      \paragraph{Misc}
-        \begin{itemize}[leftmargin=*]
-          \item For constants $k>0, a>1, n^k = o(a^n)$
-          \item Exponentials of different bases differ by an \textbf{exponential factor}
-          \item $2^{n+5} = O(2^n)$, but $2^{5n} \neq O(2^n)$
-        \end{itemize}
+      \begin{itemize}[leftmargin=*]
+        \item For constants $k>0, a>1, n^k = o(a^n)$
+        \item Exponentials of different bases differ by an \textbf{exponential factor}
+        \item $2^{n+5} = O(2^n)$, but $2^{5n} \neq O(2^n)$
+      \end{itemize}
       \paragraph{Properties} \mbox{} \\
         \begin{minipage}{.475 \columnwidth}
           \begin{align*}
@@ -195,25 +192,25 @@
             e^x &\geq 1 + x
           \end{align*}
         \end{minipage}
-    \subsubsection*{Logarithms}
-      \paragraph{Types} \mbox{} \\
-        \begin{minipage}{.45 \columnwidth}
-          \begin{itemize}[leftmargin=*]
-            \item Binary log: $\lg n = \log_2 n$
-            \item Natural log: $\ln n = \log_e n$
-          \end{itemize}
-        \end{minipage}
-        \begin{minipage}{.525 \columnwidth}
-          \begin{itemize}[leftmargin=*]
-            \item Exponentiation: $\lg^k n = (\lg n)^k$
-            \item Composition: $\lg \lg n = \lg (\lg n)$
-          \end{itemize}
-        \end{minipage}
-      \paragraph{Misc}
+    \subsubsection*{Logarithms} \mbox{} \\
+      \begin{minipage}{.45 \columnwidth}
+        \vspace{-0.3cm}
         \begin{itemize}[leftmargin=*]
-          \item Base of log does not matter in asymptotics
-            \[ \lg n = \Theta(\ln n) = \Theta(\log_{10} n) \]
+          \item Binary log: $\lg n = \log_2 n$
+          \item Natural log: $\ln n = \log_e n$
         \end{itemize}
+      \end{minipage}
+      \begin{minipage}{.525 \columnwidth}
+        \vspace{-0.3cm}
+        \begin{itemize}[leftmargin=*]
+          \item Exponentiation: $\lg^k n = (\lg n)^k$
+          \item Composition: $\lg \lg n = \lg (\lg n)$
+        \end{itemize}
+      \end{minipage}
+      \begin{itemize}[leftmargin=*]
+        \item Base of log does not matter in asymptotics:
+          \[ \lg n = \Theta(\ln n) = \Theta(\log_{10} n) \]
+      \end{itemize}
       \paragraph{Properties} \mbox{} \\
         \begin{minipage}{.475 \columnwidth}
           \begin{align*}
@@ -232,21 +229,27 @@
         \end{minipage}
     \subsubsection*{Overview} \noindent
       \[ 1 < \log n < \sqrt{n} < n < n \log n < n^2 < n^3 < 2^n < 2^{2n} < n! < n^n \]
-  \subsection*{Misc}
-    \paragraph{Stirling's approximation}
+    \subsubsection*{Stirling's approximation} \noindent
       \begin{align*}
         n! &= \sqrt{2 \pi n} \left(\dfrac{n}{e}\right)^n \left(1 + \Theta\left(\frac{1}{n}\right)\right) \\
         \log(n!) &= \Theta(n \lg n)
       \end{align*}
-    \paragraph{Arithmetic series}
+    \subsubsection*{Arithmetic series} \noindent
       \[ \sum_{k=1}^n k = \frac{n(n+1)}{2} = \Theta(n^2) \]
-    \paragraph{Geometric series}
+    \subsubsection*{Geometric series} \noindent
       \begin{align*}
         \sum_{k=0}^n x^k &= \frac{x^{n+1} - 1}{x - 1} \\
         \sum_{k=0}^\infty x^k &= \frac{1}{1-x} \text{ when } \lvert x \rvert < 1
       \end{align*}
-    \paragraph{Harmonic series}
+    \subsubsection*{Harmonic series} \noindent
       \[ \sum_{k=1}^\infty \frac{1}{k} = \ln n + O(1) \]
+    \subsubsection*{Misc} \noindent
+      \begin{gather*}
+        \lg(\lg n)! = \Theta(\lg n \lg \lg n) \quad \text{by subbing } \lg n \text{ into Stirling's approx.} \\
+        \sum_{i=1}^{n-2} \lg \lg (n-i) = \Theta(n \lg \lg n) \\
+        \sum_{i=1}^{\lg n-1} \lg \lg \frac{n}{2^i} = \Theta(\lg n \lg \lg n) \\
+        n! > \frac{n}{2}^\frac{n}{2}
+      \end{gather*}
   \subsection*{Limits} \noindent
     Assume $f(n), g(n) > 0$.
     \begin{align*}
@@ -264,6 +267,8 @@
     \paragraph{L'Hopital}
       If $\lim_{x \rightarrow \infty} f(x) = \lim_{x \rightarrow \infty} g(x) = 0 \text{ or } \pm \infty$,
       \[ \lim_{x \rightarrow \infty} \frac{f(x)}{g(x)} = \lim_{x \rightarrow \infty} \frac{f'(x)}{g'(x)} \]
+    \paragraph{Power of $e$}
+      \[ \lim_{n \rightarrow \infty} \left(1 + \frac{a}{n}\right)^{bn+c} = e^{ab} \]
 \section*{Correctness}
   \subsection*{Iterative algorithms}
     \subsubsection*{Loop invariant}
