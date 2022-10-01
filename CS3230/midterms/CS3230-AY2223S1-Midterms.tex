@@ -250,6 +250,10 @@
         \sum_{i=1}^{\lg n-1} \lg \lg \frac{n}{2^i} = \Theta(\lg n \lg \lg n) \\
         n! > \frac{n}{2}^\frac{n}{2}
       \end{gather*}
+      \begin{itemize}[leftmargin=*]
+        \item For $T(n) = 2T(\sqrt{n}) + a$, the recursion tree has height $\lg \lg n$. Visualize by applying $\lg$ to each element of the recursion tree
+        \item To compare two functions, consider taking the $\lg$ of each and compare that instead. This works since $\lg$ is strictly increasing
+      \end{itemize}
   \subsection*{Limits} \noindent
     Assume $f(n), g(n) > 0$.
     \begin{align*}
