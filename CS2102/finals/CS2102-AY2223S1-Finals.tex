@@ -419,12 +419,17 @@ EXECUTE FUNCTION <func_name>();
   \subsection*{Multiple triggers}
     \begin{itemize}[leftmargin=*]
       \item Activation order for the same event on the same table:
-        \begin{enumerate}[leftmargin=*]
-          \item \ic{BEFORE} statement-level triggers
-          \item \ic{BEFORE} row-level triggers
-          \item \ic{AFTER} row-level triggers
-          \item \ic{AFTER} statement-level triggers
-        \end{enumerate}
+    \end{itemize}
+    \begin{multicols*}{2}
+      \begin{enumerate}[leftmargin=*]
+        \item \ic{BEFORE} statement-level triggers
+        \item \ic{BEFORE} row-level triggers
+        \item \ic{AFTER} row-level triggers
+        \item \ic{AFTER} statement-level triggers
+      \end{enumerate}
+    \end{multicols*}
+    \begin{itemize}[leftmargin=*]
+      \item Activation order for the same event on the same table:
       \item Within the same category, triggers are activated in alphabetical order
       \item If \ic{BEFORE} row-level trigger returns \ic{NULL}, then subsequent triggers on the same row are omitted
     \end{itemize}
@@ -464,7 +469,7 @@ EXECUTE FUNCTION <func_name>();
     \end{multicols*}
   \subsection*{FD terminology}
     \paragraph{Closure} Let $\Sigma$ be a set of FDs of a relation $R$. The closure of $\Sigma$, denoted $\Sigma^+$, is the set of all FDs logically entailed by the FDs in $\Sigma$
-    \paragraph{Equivalence} Two FDs are equivalent $\iff$ they have the same closure
+    \paragraph{Equivalence} Two FDs are equivalent $\iff$ have the same closure
     \paragraph{Cover} $\Sigma_1$ is a cover of $\Sigma_2$ (and vice versa) $\iff$ their closure are equivalent
     \paragraph{Closure of a set of attributes} Let $\Sigma$ be a set of FDs of a relation $R$. The closure of a set of attributes $S \subset R$, denoted $S^+$, is the set of all attributes that are functionally dependent on $S$ (i.e. what $S$ implies)
       \[ S^+ = \{ A \in R \;\vert\; \exists (S \rightarrow \{A\}) \in \Sigma^+ \} \]
@@ -482,11 +487,20 @@ EXECUTE FUNCTION <func_name>();
         \( \forall X, Y, Z \subset R \;\quad \Big( (X \rightarrow Y) \Rightarrow (X \cup Z \rightarrow Y \cup Z) \Big) \)
       \paragraph{Transitivity}
         \( \forall X, Y, Z \subset R \;\quad \Big( (X \rightarrow Y) \land (Y \rightarrow Z) \Rightarrow (X \rightarrow Z) \Big) \)
-    \subsubsection*{Remarks}
-      \begin{itemize}[leftmargin=*]
-        \item The three inference rules are sound (i.e. correct and valid)
-        \item The Armstrong axioms are complete
-      \end{itemize}
+    \subsubsection*{Remarks} \noindent
+      \begin{minipage}{0.55\columnwidth}
+        \begin{itemize}[leftmargin=*]
+          \item \textbf{Sound}: The rule only generates elements of $\Sigma^+$ when applied to $\Sigma$
+          \item \textbf{Complete}: The rule(s) generate(s) all elements of $\Sigma^+$ when applied to $\Sigma$
+        \end{itemize}
+      \end{minipage}
+      \hfill\vline\hfill
+      \begin{minipage}{0.4\columnwidth}
+        \begin{itemize}[leftmargin=*]
+          \item The three inference rules are (individually) sound
+          \item The Armstrong axioms are (together) sound and complete
+        \end{itemize}
+      \end{minipage}
   \subsection*{Additional rules} \noindent
     These rules may be useful, but must be derived during exam.
     \begin{multicols*}{2}
@@ -657,3 +671,4 @@ EXECUTE FUNCTION <func_name>();
   \end{multicols*}
 \end{multicols*}
 \end{document}
+
