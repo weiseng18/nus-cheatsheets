@@ -1,6 +1,6 @@
 % ------------ begin cheatsheet
 \documentclass[a4paper]{article}
-\usepackage[a4paper,margin=0.1in]{geometry}
+\usepackage[a4paper,margin=0.05in]{geometry}
 \usepackage{multicol}
 
 \usepackage{amsmath, amssymb}
@@ -29,9 +29,9 @@
 
 \makeatletter
 \renewcommand{\section}{
-  \@startsection{section}{1}{0pt}{1ex}{1.2ex} {\raggedleft\normalfont\large\bfseries\uppercaseandunderline}}
+  \@startsection{section}{1}{0pt}{1ex}{1ex} {\raggedleft\normalfont\normalsize\bfseries\uppercaseandunderline}}
 \renewcommand{\subsection}{
-  \@startsection{subsection}{2}{0pt}{1ex}{1ex} {\raggedleft\normalfont\normalsize\bfseries\fbox}}
+  \@startsection{subsection}{2}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\normalsize\bfseries\fbox}}
 \renewcommand{\subsubsection}{
   \@startsection{subsubsection}{3}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\footnotesize\bfseries\uline}}
 \renewcommand{\paragraph}{
@@ -53,7 +53,7 @@
   belowskip=1mm,
   showstringspaces=false,
   columns=flexible,
-  basicstyle={\small\ttfamily},
+  basicstyle={\footnotesize\ttfamily},
   numberstyle=\color{gray},
   keywordstyle=\color{blue}\textbf,
   commentstyle=\color{dkgreen},
@@ -67,15 +67,215 @@
 
 % ------------ end code
 
+% CS2102 symbols
+\usepackage{ifsym}
+\DeclareMathOperator{\leftjoin}{\scriptscriptstyle \textifsym{d|><|} \displaystyle}
+\DeclareMathOperator{\rightjoin}{\scriptscriptstyle \textifsym{|><|d} \displaystyle}
+\DeclareMathOperator{\fulljoin}{\scriptscriptstyle \textifsym{d|><|d} \displaystyle}
+\newcommand{\dangle}[1]{\mathrm{dangle}(#1)}
+\newcommand{\nullrel}[1]{\mathrm{null}(#1)}
+
 \begin{document}
 \footnotesize
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{0pt}
 \setlength{\abovedisplayshortskip}{0pt}
 \setlength{\belowdisplayshortskip}{0pt}
-\begin{multicols*}{2}
-  \part*{\centering \underline{CS2102}}
-  \lstset{language=SQL}
+\lstset{language=SQL}
+
+\begin{multicols*}{3}
+  \part*{\centering \Large \underline{CS2102}}
+\section*{Relational Algebra}
+  \begin{itemize}[leftmargin=*]
+    \item Relations are closed under the Relational Algebra
+  \end{itemize}
+  \subsection*{Unary operators}
+    \subsubsection*{Selection $\sigma_c$}
+      \begin{itemize}[leftmargin=*]
+        \item For each tuple $t \in R$, $t \in \sigma_c(R) \iff$ selection condition $c$ evaluates to true for tuple $t$.
+        \item Input and output have same schema
+        \item e.g. Find all projects where Judy is the manager:
+          \[ \sigma_{\text{manager=`Judy'}}(\text{Projects}) \]
+      \end{itemize}
+      \paragraph{Selection condition} is a boolean expression of one of the following forms:
+        \vspace{-0.4cm}
+        \begin{center}
+          \resizebox{\hsize}{!}{%
+            \begin{tabular}{ |c|c| }
+              \hline
+              expression & example \\ \hline
+              attribute \textbf{op} constant & $\sigma_{\text{start}=2020}(\text{Projects})$ \\ \hline
+              $attr_1$ \textbf{op} $attr_2$ & $\sigma_{\text{start}=\text{end}}(\text{Projects})$ \\ \hline
+              $expr_1 \land expr_2$ & $\sigma_{\text{start}=2020 \,\land\, \text{end}=2021}(\text{Projects})$ \\ \hline
+              $expr_1 \lor expr_2$ & $\sigma_{\text{start}=2020 \,\lor\, \text{end}=2021}(\text{Projects})$ \\ \hline
+              $\neg \, expr$ & $\sigma_{\neg(\text{start}=2020)}(\text{Projects})$ \\ \hline
+              $(expr)$ & - \\ \hline
+            \end{tabular}
+          }
+        \end{center}
+        where
+        \begin{itemize}[leftmargin=*]
+          \item \textbf{op} $\in \{ =, <>, <, \leq, \geq, > \}$
+          \item Precedence: $(), \textbf{op}, \neg, \land, \lor$
+          \item Comparision with \textbf{null} is \textbf{unknown}, arithmetic with \textbf{null} is \textbf{null}
+        \end{itemize}
+        In boolean expressions, treat unknown as literally unknown. e.g.
+        \begin{itemize}[leftmargin=*]
+          \item false $\land$ unknown = false
+          \item false $\lor$ unknown = unknown
+          \item $\neg$ unknown = unknown
+          \item true $\land$ unknown = unknown
+          \item true $\lor$ unknown = true
+        \end{itemize}
+    \subsubsection*{Projection $\pi_l$}
+      \begin{itemize}[leftmargin=*]
+        \item Projects columns of a table specified in list $l$
+        \item Order of attributes in $l$ matters
+        \item Duplicates are removed, because a relation is a set of tuples
+      \end{itemize}
+      \paragraph{Example} \mbox{} \\
+        \begin{minipage}{0.575 \columnwidth}
+          \begin{center}
+            Teams \\
+            \begin{tabular}{ |c|c|c| }
+              \hline
+              \textbf{en} & \textbf{pn} & \textbf{hours} \\ \hline
+              Sarah & BigAI & 10 \\ \hline
+              Sam & BigAI & 5 \\ \hline
+              Sam & BigAI & 3 \\ \hline
+            \end{tabular}
+          \end{center}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.4 \columnwidth}
+          \begin{center}
+            $\pi_{\text{pn}, \text{en}}(\text{Teams})$ \\
+            \begin{tabular}{ |c|c|c| }
+              \hline
+              \textbf{pn} & \textbf{en} \\ \hline
+              BigAI & Sarah \\ \hline
+              BigAI & Sam \\ \hline
+            \end{tabular}
+          \end{center}
+        \end{minipage}
+    \subsubsection*{Renaming $\rho_l$}
+      \begin{itemize}[leftmargin=*]
+        \item Renames attributes of a relation
+      \end{itemize}
+      Consider $R(\text{ename, pname, hours})$. Rename ename to name, pname to title. Can either specify
+      \begin{itemize}[leftmargin=*]
+        \item list of all attr.: $\rho_{(\text{name, title, hours})}(R)$
+        \item or list of renames: 
+          \[ \rho_{\text{name $\leftarrow$ ename, title $\leftarrow$ pname}}(R) \]
+      \end{itemize}
+  \subsection*{Set operations} \noindent
+    \begin{itemize}[leftmargin=*]
+      \item Union, Intersection, Set difference (all obvious)
+      \item Note: intersection can be expressed with union and set difference:
+        \[ R \cap S = (R \cup S) - ((R-S) \cup (S-R)) \]
+      \item The two relations must be union-compatible
+    \end{itemize}
+    \subsubsection*{Union compatability} \noindent
+      Two relations are union-compatible if
+      \begin{itemize}[leftmargin=*]
+        \item Same number of attributes
+        \item Corresponding attributes have same or compatible domains (different attribute names are ok)
+      \end{itemize}
+      \paragraph{Example}
+        The following are union-compatible.
+        \begin{itemize}[leftmargin=*]
+          \item Employees(name: \textbf{text}, role: \textbf{text}, age: \textbf{integer})
+          \item Teams(ename: \textbf{text}, pname: \textbf{text}, hours: \textbf{integer})
+        \end{itemize}
+    \subsubsection*{Cross product} \noindent
+      Forms all possible pairs of tuples from the two relations
+  \subsection*{Join operations}
+    \begin{itemize}[leftmargin=*]
+      \item Combines $\times, \sigma_c, \pi_l$ into a single op
+      \item Simple relational algebra expressions
+    \end{itemize}
+  \subsection*{Inner joins}
+    \begin{itemize}[leftmargin=*]
+      \item Eliminates tuples that do not satisfy matching criteria (i.e. selection)
+      \item Is a selection from cross product
+    \end{itemize}
+    \subsubsection*{$\theta$-Join} \noindent
+      \[ R \Join_\theta S = \sigma_\theta(R \times S) \]
+    \subsubsection*{Equi Join} \noindent
+      Like $\theta$-Join, but $\theta$ must only involve $=$
+    \subsubsection*{Natural Join} \noindent
+      Like equi join (i.e. only equality operator), but
+      \begin{itemize}[leftmargin=*]
+        \item Join is performed over common attributes of $R$ and $S$
+        \item If there are no common attributes, acts like a cross product, since selection condition $c$ is vacuously true
+        \item Output relation keeps one copy of common attributes
+      \end{itemize}
+      Formally,
+      \[ R \Join S = \pi_l(R \Join_c \rho_{b_i \leftarrow a_i, \cdots, b_k \leftarrow a_k} (S)) \]
+      where
+      \begin{itemize}[leftmargin=*]
+        \item $A = \{a_i, \cdots, a_k\}$ is the set of common attributes of $R$ and $S$
+        \item $c = (a_i = b_i) \land \cdots \land (a_k = b_k)$
+        \item $l =$ list of (attr. of $R$ + attr. of $S$ not in $A$)
+      \end{itemize}
+  \subsection*{Outer joins}
+    \begin{itemize}[leftmargin=*]
+      \item Inner join + dangling tuples
+      \item A \textbf{dangling tuple} is a tuple that doesn't satisfy the inner join condition, i.e. foreign key not referenced in the relation.
+    \end{itemize}
+    \subsubsection*{Steps}
+      \begin{itemize}[leftmargin=*]
+        \item Perform inner join $M = R \Join_\theta S$
+        \item To $M$, add dangling tuples from
+          \[
+            \begin{cases}
+              R & \text{in left outer join} \leftjoin_\theta \\
+              S & \text{in right outer join} \rightjoin_\theta \\
+              R \;\text{and}\; S & \text{in full outer join} \fulljoin_\theta \\
+            \end{cases}
+          \]
+        \item Pad missing attribute values with \textbf{null}
+      \end{itemize}
+    \subsubsection*{Formal definitions}
+      \begin{itemize}[leftmargin=*]
+        \item Set of dangling tuples in $R$, with respect to $R \Join_\theta S$
+          \[ \dangle{R \Join_\theta S} \subseteq R \]
+        \item $null(R)$ is a $n$-compoennt tuple of \textbf{null} values, where $n$ is the number of attributes in $R$
+        \item Left outer join $(R \leftjoin_\theta S)$
+          \[ = (R \Join_\theta S) \cup (\dangle{R \Join_\theta S} \times \{\nullrel{S}\}) \]
+        \item Right outer join $(R \rightjoin_\theta S)$
+          \[ = (R \Join_\theta S) \cup (\{\nullrel{R}\} \times \dangle{S \Join_\theta R}) \]
+        \item Full outer join $(R \fulljoin_\theta S)$
+      \end{itemize}
+      \[
+        \begin{aligned}
+          &= (R \Join_\theta S) \cup \Big( (\dangle{R \Join_\theta S} \times \{\nullrel{S}\}) \\
+          & \cup (\{\nullrel{R}\} \times \dangle{S \Join_\theta R}) \Big)
+        \end{aligned}
+      \]
+    \subsubsection*{Natural outer joins}
+      \begin{itemize}[leftmargin=*]
+        \item Like natural inner joins
+        \item Only equality operator used for condition
+        \item Join is performed over common atributes of $R$ and $S$
+        \item Output relation keeps one copy of common attributes
+      \end{itemize}
+  \subsection*{Complex expressions} \noindent
+    There are multiple ways to formulate a query to get the same result, e.g.
+    \begin{itemize}[leftmargin=*]
+      \item Order of joins
+      \item Order of selection (before/after join)
+      \item Additional projections to minimize intermediate results
+    \end{itemize}
+  \subsection*{Invalid expressions}
+    \begin{itemize}[leftmargin=*]
+      \item Attribute no longer available after projection
+        \[ \sigma_{\text{role=`dev'}} (\pi_\text{name,age} (Employees)) \]
+      \item Attribute no longer available after renaming
+        \[ \sigma_{\text{role=`dev'}} (\rho_{\text{position} \leftarrow \text{role}} (Employees)) \]
+      \item Incompatible attribute types
+        \[ \sigma_{\text{age=role}} (Employees) \]
+    \end{itemize}
 \section*{ER model}
   \subsection*{Entity}
     \begin{itemize}[leftmargin=*]
@@ -85,19 +285,14 @@
   \subsection*{Attribute}
     \begin{itemize}[leftmargin=*]
       \item Specific information describing an entity
+      \item \textbf{Key attr} uniquely identifies each entity
+      \item \textbf{Composite attr} composed of multiple other attributes
+      \item \textbf{Multivalued attr} may consist of more than one value for a given entity
+      \item \textbf{Derived attr} derived from other attributes
     \end{itemize}
-    \begin{multicols*}{2}
-      \begin{itemize}[leftmargin=*]
-        \item \textbf{Key attr} uniquely identifies each entity
-        \item \textbf{Composite attr} composed of multiple other attributes
-        \item \textbf{Multivalued attr} may consist of more than one value for a given entity
-        \item \textbf{Derived attr} derived from other attributes
-      \end{itemize}
-    \columnbreak
-      \begin{center}
-        \includegraphics[width=\columnwidth]{L4/attributes}
-      \end{center}
-    \end{multicols*}
+    \begin{center}
+      \includegraphics[width=\columnwidth]{L4/attributes}
+    \end{center}
   \subsection*{Relationship} \noindent
     Association among two or more entities
     \subsubsection*{Relationship set} \noindent
@@ -127,30 +322,31 @@
       \item \textbf{Upper bound} for entity's participation
     \end{itemize}
     \includegraphics[width=\columnwidth]{L4/cardinality}
+\end{multicols*}
+
+\begin{multicols}{2}
   \subsection*{Participation constraints}
     \begin{itemize}[leftmargin=*]
       \item \textbf{Lower bound} for entity's participation
       \item Partial (default): participation not mandatory
       \item Total: mandatory (at least 1)
     \end{itemize}
-    \begin{minipage}{.475 \columnwidth}
+    \begin{multicols*}{2}
+      \subsubsection*{Standard}
       \begin{center}
         \includegraphics[width=\columnwidth]{L4/participation/at-most-one}
         At most one \\
         \includegraphics[width=\columnwidth]{L4/participation/at-least-one}
         At least one \\
-      \end{center}
-    \end{minipage}
-    \begin{minipage}{.475 \columnwidth}
-      \begin{center}
         \includegraphics[width=\columnwidth]{L4/participation/exactly-one}
         Exactly one \\
       \end{center}
-    \end{minipage}
-    \subsubsection*{Alternative} \noindent
-      \begin{center}
-        \includegraphics[width=0.5\columnwidth]{L4/participation/min-max}
-      \end{center}
+    \columnbreak
+      \subsubsection*{Alternative} \noindent
+        \begin{center}
+          \includegraphics[width=\columnwidth]{L4/participation/min-max}
+        \end{center}
+    \end{multicols*}
     \subsubsection*{Implementation}
       \paragraph{Many-to-Many} Represent relationship set with a table
       \paragraph{Many-to-One}
@@ -192,7 +388,7 @@
     \end{itemize}
   \subsection*{ISA Hierarchies}
     \begin{itemize}[leftmargin=*]
-      \item ``Is a" relationship - used to model generalization/specialization of entity sets
+      \item Used to model generalization/specialization of entity sets
     \end{itemize}
     \subsubsection*{Constraints}
       \paragraph{Overlap} Can a superclass entity belong to multiple subclasses?
@@ -203,7 +399,6 @@
     \begin{minipage}{.5 \columnwidth}
       \includegraphics[width=\columnwidth]{L4/is-a-constraints}
     \end{minipage}
-\columnbreak
   \subsection*{Aggregation}
     \begin{itemize}[leftmargin=*]
       \item Abstraction that treats relationships as higher-level entities
@@ -364,10 +559,12 @@ $$ LANGUAGE plpgsql;
           \item \ic{FOR EACH STATEMENT} (for each statement)
         \end{itemize}
     \end{multicols*}
+    \vspace{-0.3cm}
     \subsubsection*{Effect of return value}
       \begin{itemize}[leftmargin=*]
         \item \ic{OLD} / \ic{NEW}: Modified row before / after the triggering event
       \end{itemize}
+      \vspace{-0.3cm}
       \begin{center}
         \resizebox{\columnwidth}{!}{%
           \begin{tabular}{ |c|l|l| }
@@ -391,6 +588,7 @@ $$ LANGUAGE plpgsql;
         \item e.g. \ic{WHEN (NEW.StuName = 'Adi')}
       \end{itemize}
       \paragraph{Usage} \noindent
+        \vspace{-0.2cm}
         \begin{multicols*}{2}
           \begin{itemize}[leftmargin=*]
             \item No \ic{SELECT} in \ic{WHEN()}
@@ -402,10 +600,11 @@ $$ LANGUAGE plpgsql;
             \item No \ic{WHEN()} for \ic{INSTEAD OF}
           \end{itemize}
         \end{multicols*}
+      \vspace{-0.3cm}
   \subsection*{Deferred triggers}
     \begin{itemize}[leftmargin=*]
       \item Triggers that are checked only at the end of a transaction
-      \item \ic{CONSTRAINT} + \ic{DEFERRABLE} together indicate that the trigger can be deferred
+      \item \ic{CONSTRAINT} + \ic{DEFERRABLE} together indicate that trigger can be deferred
       \item Only works with \ic{AFTER} and \ic{FOR EACH ROW}
       \item Default is \ic{IMMEDIATE}
     \end{itemize}
@@ -421,6 +620,7 @@ EXECUTE FUNCTION <func_name>();
     \begin{itemize}[leftmargin=*]
       \item Activation order for the same event on the same table:
     \end{itemize}
+      \vspace{-0.3cm}
     \begin{multicols*}{2}
       \begin{enumerate}[leftmargin=*]
         \item \ic{BEFORE} statement-level triggers
@@ -429,8 +629,8 @@ EXECUTE FUNCTION <func_name>();
         \item \ic{AFTER} statement-level triggers
       \end{enumerate}
     \end{multicols*}
+      \vspace{-0.3cm}
     \begin{itemize}[leftmargin=*]
-      \item Activation order for the same event on the same table:
       \item Within the same category, triggers are activated in alphabetical order
       \item If \ic{BEFORE} row-level trigger returns \ic{NULL}, then subsequent triggers on the same row are omitted
     \end{itemize}
@@ -448,16 +648,12 @@ EXECUTE FUNCTION <func_name>();
     \paragraph{Valid instance} 
       An instance $r$ of relation $R$ is a valid instance of $R$ with $\Sigma \iff$ it satisfies $\Sigma$
     \paragraph{Violations}
-      \begin{itemize}[leftmargin=*]
-        \item Instance $r$ of rel. $R$ violates a set of FDs $\Sigma \iff$ does not satisfy $\Sigma$
-        \item Instance $r$ of rel. $R$ violates a FD $\sigma \iff$ does not satisfy $\sigma$
-      \end{itemize}
+      An instance $r$ of relation $R$ violates a set of FDs $\Sigma \iff$ does not satisfy $\Sigma$
     \paragraph{Holds}
       \begin{itemize}[leftmargin=*]
         \item A relation $R$ with a set of FDs $\Sigma$, $R$ with $\Sigma$, refers to the set of valid instances of $R$ wrt. to the FDs in $\Sigma$
         \item When a set of FDs $\Sigma$ holds on a relation $R$, only consider the valid instances of $R$ with $\Sigma$
       \end{itemize}
-  \subsection*{Trivial terminology}
     \paragraph{Trivial} $X \rightarrow Y$ is trivial $\iff Y \subset X$
     \paragraph{Non-trivial} $X \rightarrow Y$ is non-trivial $\iff Y \not\subset X$
     \paragraph{Completely non-trivial} $X \rightarrow Y$ is completely non-trivial $\iff Y \neq \emptyset$ and $Y \cap X = \emptyset$
@@ -471,7 +667,11 @@ EXECUTE FUNCTION <func_name>();
     \paragraph{Equivalence} Two FDs are equivalent $\iff$ have the same closure
     \paragraph{Cover} $\Sigma_1$ is a cover of $\Sigma_2$ (and vice versa) $\iff$ their closure are equivalent
     \paragraph{Closure of a set of attributes} Let $\Sigma$ be a set of FDs of a relation $R$. The closure of a set of attributes $S \subset R$, denoted $S^+$, is the set of all attributes that are functionally dependent on $S$ (i.e. what $S$ implies)
+      \\
       \[ S^+ = \{ A \in R \;\vert\; \exists (S \rightarrow \{A\}) \in \Sigma^+ \} \]
+\end{multicols}
+
+\begin{multicols*}{3}
   \subsection*{Computing attribute closures}
     \begin{itemize}[leftmargin=*]
       \item Check if any attribute doesn't appear in the RHS of any FD. These attributes must appear in the key
@@ -481,78 +681,68 @@ EXECUTE FUNCTION <func_name>();
     \end{itemize}
   \subsection*{Armstrong axioms}
       \paragraph{Reflexivity}
-        \( \forall X, Y \subset R \;\quad \Big( (Y \subset X) \Rightarrow (X \rightarrow Y) \Big) \)
+        \( \forall X, Y \subset R \; \Big( (Y \subset X) \Rightarrow (X \rightarrow Y) \Big) \)
       \paragraph{Augmentation}
-        \( \forall X, Y, Z \subset R \;\quad \Big( (X \rightarrow Y) \Rightarrow (X \cup Z \rightarrow Y \cup Z) \Big) \)
+        \[ \forall X, Y, Z \subset R \; \Big( (X \rightarrow Y) \Rightarrow (X \cup Z \rightarrow Y \cup Z) \Big) \]
       \paragraph{Transitivity}
-        \( \forall X, Y, Z \subset R \;\quad \Big( (X \rightarrow Y) \land (Y \rightarrow Z) \Rightarrow (X \rightarrow Z) \Big) \)
+        \[ \forall X, Y, Z \subset R \; \Big( (X \rightarrow Y) \land (Y \rightarrow Z) \Rightarrow (X \rightarrow Z) \Big) \]
     \subsubsection*{Remarks} \noindent
-      \begin{minipage}{0.55\columnwidth}
-        \begin{itemize}[leftmargin=*]
-          \item \textbf{Sound}: The rule only generates elements of $\Sigma^+$ when applied to $\Sigma$
-          \item \textbf{Complete}: The rule(s) generate(s) all elements of $\Sigma^+$ when applied to $\Sigma$
-        \end{itemize}
-      \end{minipage}
-      \hfill\vline\hfill
-      \begin{minipage}{0.4\columnwidth}
-        \begin{itemize}[leftmargin=*]
-          \item The three inference rules are (individually) sound
-          \item The Armstrong axioms are (together) sound and complete
-        \end{itemize}
-      \end{minipage}
+      \begin{itemize}[leftmargin=*]
+        \item \textbf{Sound}: The rule only generates elements of $\Sigma^+$ when applied to $\Sigma$
+        \item \textbf{Complete}: The rule(s) generate(s) all elements of $\Sigma^+$ when applied to $\Sigma$
+        \item The three inference rules are (individually) sound
+        \item The Armstrong axioms are (together) sound and complete
+      \end{itemize}
   \subsection*{Additional rules} \noindent
-    These rules may be useful, but must be derived during exam.
-    \begin{multicols*}{2}
-      \subsubsection*{Weak augmentation} \noindent
-        If $X \rightarrow Y$, then $X \cup Z \rightarrow Y$
-        \paragraph{Proof}
-          \begin{enumerate}[leftmargin=*]
-            \item $X \rightarrow Y$ (given)
-            \item We know that $X \subset X \cup Z$
-            \item $X \cup Z \rightarrow X$ (reflexivity)
-            \item $X \cup Z \rightarrow Y$ (trans. of 3 and 1)
-          \end{enumerate}
-      \subsubsection*{Union} \noindent
-        If $X \rightarrow Y$ and $X \rightarrow Z$, then $X \rightarrow Y \cup Z$
-        \paragraph{Proof}
-          \begin{enumerate}[leftmargin=*]
-            \item $X \rightarrow Y$ (given)
-            \item $X \rightarrow Z$ (given)
-            \item $X \rightarrow X \cup Z$ (aug. 2 and $X$)
-            \item $X \cup Z \rightarrow Y \cup Z$ (aug. 1 and $Z$)
-            \item $X \rightarrow Y \cup Z$ (trans. of 3 and 4)
-          \end{enumerate}
-    \columnbreak
-      \subsubsection*{Decomposition} \noindent
-        If $X \rightarrow Y \cup Z$, then $X \rightarrow Y$ and $X \rightarrow Z$
-        \paragraph{Proof}
-          \begin{enumerate}[leftmargin=*]
-            \item $X \rightarrow Y \cup Z$ (given)
-            \item $Y \cup Z \rightarrow Y$ (reflexivity)
-            \item $X \rightarrow Y$ (trans. of 1 and 2)
-          \end{enumerate}
-      \subsubsection*{Composition} \noindent
-        If $X \rightarrow Y$ and $A \rightarrow B$, then $X \cup A \rightarrow Y \cup B$
-        \paragraph{Proof}
-          \begin{enumerate}[leftmargin=*]
-            \item $X \rightarrow Y$ (given)
-            \item $A \rightarrow B$ (given)
-            \item $X \cup A \rightarrow Y \cup A$ (aug. 1 and $A$)
-            \item $X \cup A \rightarrow Y$ (decomp. of 3)
-            \item $X \cup A \rightarrow X \cup B$ (aug. 2 and $X$)
-            \item $X \cup A \rightarrow B$ (decomp. of 5)
-            \item $X \cup A \rightarrow Y \cup B$ (union 4 and 6)
-          \end{enumerate}
-    \end{multicols*}
-      \subsubsection*{Pseudo-transitivity} \noindent
-        If $X \rightarrow Y$ and $Y \cup Z \rightarrow W$, then $X \cup Z \rightarrow W$
-        \paragraph{Proof}
-          \begin{enumerate}[leftmargin=*]
-            \item $X \rightarrow Y$ (given)
-            \item $Y \cup Z \rightarrow W$ (given)
-            \item $X \cup Z \rightarrow Y \cup Z$ (aug. of 1 and $Z$)
-            \item $X \cup Z \rightarrow W$ (trans. of 3 and 2)
-          \end{enumerate}
+    Must be derived during exam
+    \subsubsection*{Weak augmentation} \noindent
+      If $X \rightarrow Y$, then $X \cup Z \rightarrow Y$
+      \paragraph{Proof}
+        \begin{enumerate}[leftmargin=*]
+          \item $X \rightarrow Y$ (given)
+          \item We know that $X \subset X \cup Z$
+          \item $X \cup Z \rightarrow X$ (reflexivity)
+          \item $X \cup Z \rightarrow Y$ (trans. of 3 and 1)
+        \end{enumerate}
+    \subsubsection*{Union} \noindent
+      If $X \rightarrow Y$ and $X \rightarrow Z$, then $X \rightarrow Y \cup Z$
+      \paragraph{Proof}
+        \begin{enumerate}[leftmargin=*]
+          \item $X \rightarrow Y$ (given)
+          \item $X \rightarrow Z$ (given)
+          \item $X \rightarrow X \cup Z$ (aug. 2 and $X$)
+          \item $X \cup Z \rightarrow Y \cup Z$ (aug. 1 and $Z$)
+          \item $X \rightarrow Y \cup Z$ (trans. of 3 and 4)
+        \end{enumerate}
+    \subsubsection*{Decomposition} \noindent
+      If $X \rightarrow Y \cup Z$, then $X \rightarrow Y$ and $X \rightarrow Z$
+      \paragraph{Proof}
+        \begin{enumerate}[leftmargin=*]
+          \item $X \rightarrow Y \cup Z$ (given)
+          \item $Y \cup Z \rightarrow Y$ (reflexivity)
+          \item $X \rightarrow Y$ (trans. of 1 and 2)
+        \end{enumerate}
+    \subsubsection*{Composition} \noindent
+      If $X \rightarrow Y$ and $A \rightarrow B$, then $X \cup A \rightarrow Y \cup B$
+      \paragraph{Proof}
+        \begin{enumerate}[leftmargin=*]
+          \item $X \rightarrow Y$ (given)
+          \item $A \rightarrow B$ (given)
+          \item $X \cup A \rightarrow Y \cup A$ (aug. 1 and $A$)
+          \item $X \cup A \rightarrow Y$ (decomp. of 3)
+          \item $X \cup A \rightarrow X \cup B$ (aug. 2 and $X$)
+          \item $X \cup A \rightarrow B$ (decomp. of 5)
+          \item $X \cup A \rightarrow Y \cup B$ (union 4 and 6)
+        \end{enumerate}
+    \subsubsection*{Pseudo-transitivity} \noindent
+      If $X \rightarrow Y$ and $Y \cup Z \rightarrow W$, then $X \cup Z \rightarrow W$
+      \paragraph{Proof}
+        \begin{enumerate}[leftmargin=*]
+          \item $X \rightarrow Y$ (given)
+          \item $Y \cup Z \rightarrow W$ (given)
+          \item $X \cup Z \rightarrow Y \cup Z$ (aug. of 1 and $Z$)
+          \item $X \cup Z \rightarrow W$ (trans. of 3 and 2)
+        \end{enumerate}
   \subsection*{Minimal cover}
     \subsubsection*{Definition} \noindent
       A set $\Sigma$ of FDs is minimal if and only if
@@ -579,15 +769,23 @@ EXECUTE FUNCTION <func_name>();
         \item Some minimal covers may be unreachable
         \item To reach all minimal covers, the algorithm needs to start from $\Sigma^+$
       \end{itemize}
-\section*{Anomalies and BCNF}
   \subsection*{Anomalies} \noindent
+    \vspace{-0.5cm}
     \begin{center}
-      \includegraphics[width=\columnwidth]{L11/anomalies}
+      \resizebox{\hsize}{!}{%
+        \begin{tabular}{ |c|c|c|c|c|c| }
+          \hline
+          \textbf{userid} & \textbf{domain} & \textbf{department} & \textbf{faculty} & \textbf{language} \\ \hline
+          tanh & comp.sut.edu & computer science & computing & JavaScript \\ \hline
+          tanh & comp.sut.edu & computer science & computing & Python \\ \hline
+          ami & med.sut.edu & pharmacy & medicine & R \\ \hline
+        \end{tabular}
+      }
     \end{center}
     \begin{itemize}[leftmargin=*]
       \item Department $\rightarrow$ faculty is a FD in this example
       \item \textbf{Redundant storage}: The faculty of a department is repeated for every student of the department, and every time the student is proficient in a language
-      \item \textbf{Update anomaly}: Two rows of the table have the same value for the column \ic{department} but different values for the column \ic{faculty}, violating the FD
+      \item \textbf{Update anomaly}: When 2 rows of the table have the same value for the column \ic{department} but different values for the column \ic{faculty}, violating the FD
       \item \textbf{Deletion anomaly}: If we delete the last row, we may forget that we have a department of pharmacy, and a faculty of medicine
       \item \textbf{Insertion anomaly}: We cannot record that the department of social science exists and the faculty of liberal arts exists, because there is no student from this department or this faculty
     \end{itemize}
@@ -599,7 +797,7 @@ EXECUTE FUNCTION <func_name>();
   \subsection*{Normalization}
     \subsubsection*{Normal forms}
       \begin{itemize}[leftmargin=*]
-        \item Recognize designs that enforce FDs through main SQL constraints (PK, unique, not null, FK constraints)
+        \item Recognize designs that enforce FDs through main SQL constraints (PK, unique, not null, FK)
         \item Protect data against anomalies
       \end{itemize}
     \subsubsection*{Normalization} \noindent
@@ -610,7 +808,7 @@ EXECUTE FUNCTION <func_name>();
       \item either $X \rightarrow \{A\}$ is trivial, or
       \item $X$ is a superkey
     \end{itemize}
-    \subsubsection*{Check if decomposed set of relations is in BCNF}
+    \subsubsection*{Check if decomp. set of relations is in BCNF}
       \begin{enumerate}[leftmargin=*]
         \item Compute attribute closures of the original set, and project FDs to each relation $R_i$
         \item If some $R_i$ is not in BCNF, then FALSE. Else TRUE
@@ -618,16 +816,16 @@ EXECUTE FUNCTION <func_name>();
   \subsection*{Decomposition}
     \subsubsection*{Terminology}
       \paragraph{Decomposition} A decomposition of table $R$ is a set of tables $\{R_1, R_2, \cdots, R_n\}$ such that $R = R_1 \cup \cdots \cup R_n$
-      \paragraph{Binary decomposition} Decomposition with $n=2$
+      \paragraph{Binary decomposition} Decomp with $n=2$
       \paragraph{Lossless-join definitions}
         \begin{itemize}[leftmargin=*]
-          \item A binary decomp is lossless-join $\iff$ full outer natural join of its two fragments (tables resulting from the decomp) equal the initial table. Otherwise it is lossy
+          \item A binary decomp is lossless-join $\iff$ full outer natural join of its two fragments equal the initial table. Otherwise it is lossy
           \item A \uline{binary decomp} of $R$ into $R_1$ and $R_2$ is lossless-join if $R = R_1 \cup R_2$ and either $R_1 \cap R_2 \rightarrow R_1$ or $R_1 \cap R_2 \rightarrow R_2$
           \item A \uline{decomp} is lossless-join if there exists a sequence of binary lossless-join decomp that generates that decomp
         \end{itemize}
       \paragraph{Projected FDs} A set $\Sigma$ of projected FDs on $R'$, from $R$ with $\Sigma$ where $R' \subset R$, is the set of FDs equivalent to the set of FDs $X \rightarrow Y$ in $\Sigma^+$ such that $X \subset R'$ and $Y \subset R'$
       \paragraph{Dependency preserving} A decomp of $R$ with $\Sigma$ into $R_1, R_2, \cdots, R_n$ with respective projected FDs $\Sigma_1, \Sigma_2, \cdots, \Sigma_n$ is dependency preserving $\iff \Sigma^+ = (\Sigma_1 \cup \cdots \cup \Sigma_n)^+$
-    \subsubsection*{Check if decomposed set of relations is lossless-join}
+    \subsubsection*{Check lossless-join}
       \begin{enumerate}[leftmargin=*]
         \item Compute attribute closures of the original set
         \item For some pair $(R_i, R_j), i \neq j$,
@@ -638,7 +836,7 @@ EXECUTE FUNCTION <func_name>();
           \end{itemize}
         \item If there was a sequence of unions that resulted in a single relation that has all attributes, then TRUE. Else FALSE
       \end{enumerate}
-    \subsubsection*{Check if decomposed set of relations is dependency-preserving}
+    \subsubsection*{Check dependency-preserving}
       \begin{enumerate}[leftmargin=*]
         \item Let $R$ be the original set of relations. Can replace $R$ with minimal cover if found. Let $Y$ be the union of projected FDs to each relation
         \item For each FD in $R$, check that we can derive it in $Y$. If some FD could not be derived, then that FD was not preserved, then FALSE. Else TRUE
@@ -654,8 +852,7 @@ EXECUTE FUNCTION <func_name>();
         \item $R_2 = (R - X^+) \cup X$
       \end{itemize}
       Then, check whether $R_1$ and $R_2$ with respective projected FDs $\Sigma_1$ and $\Sigma_2$ are in BCNF. Repeat decomp algo for the fragments which are not.
-\section*{3NF}
-  \subsection*{Definition} \noindent
+  \subsection*{3NF Definition} \noindent
     A relation $R$ with a set of FDs $\Sigma$ is in 3NF $\iff$ for every FD $X \rightarrow \{A\} \in \Sigma^+$,
     \begin{itemize}[leftmargin=*]
       \item $X \rightarrow \{A\}$ is trivial, or
@@ -663,7 +860,7 @@ EXECUTE FUNCTION <func_name>();
       \item $A$ is a prime attribute
     \end{itemize}
     Note that BCNF implies 3NF
-  \subsection*{Synthesis} \noindent
+  \subsection*{3NF Synthesis} \noindent
     Guarantees a lossless, dependency preserving decomp in 3NF
     \begin{itemize}[leftmargin=*]
       \item For each FD $X \rightarrow Y$ in the \uline{compact minimal cover}, create a relation $R_i = X \cup Y$ unless it already exists, or is subsumed by another relation
