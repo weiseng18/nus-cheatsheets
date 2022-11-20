@@ -33,7 +33,7 @@
 \renewcommand{\subsection}{
   \@startsection{subsection}{2}{0pt}{1ex}{1ex} {\raggedleft\normalfont\normalsize\bfseries\fbox}}
 \renewcommand{\subsubsection}{
-  \@startsection{subsubsection}{3}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\small\bfseries\uline}}
+  \@startsection{subsubsection}{3}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\footnotesize\bfseries\uline}}
 \renewcommand{\paragraph}{
   \@startsection{paragraph}{4}{0pt}{1.5ex}{-0.8em}{\normalfont\bfseries}}
 % ------------ end cheatsheet
@@ -68,7 +68,7 @@
 % ------------ end code
 
 \begin{document}
-\small
+\footnotesize
 \setlength{\abovedisplayskip}{0pt}
 \setlength{\belowdisplayskip}{0pt}
 \setlength{\abovedisplayshortskip}{0pt}
@@ -203,6 +203,7 @@
     \begin{minipage}{.5 \columnwidth}
       \includegraphics[width=\columnwidth]{L4/is-a-constraints}
     \end{minipage}
+\columnbreak
   \subsection*{Aggregation}
     \begin{itemize}[leftmargin=*]
       \item Abstraction that treats relationships as higher-level entities
@@ -456,17 +457,15 @@ EXECUTE FUNCTION <func_name>();
         \item A relation $R$ with a set of FDs $\Sigma$, $R$ with $\Sigma$, refers to the set of valid instances of $R$ wrt. to the FDs in $\Sigma$
         \item When a set of FDs $\Sigma$ holds on a relation $R$, only consider the valid instances of $R$ with $\Sigma$
       \end{itemize}
+  \subsection*{Trivial terminology}
     \paragraph{Trivial} $X \rightarrow Y$ is trivial $\iff Y \subset X$
     \paragraph{Non-trivial} $X \rightarrow Y$ is non-trivial $\iff Y \not\subset X$
     \paragraph{Completely non-trivial} $X \rightarrow Y$ is completely non-trivial $\iff Y \neq \emptyset$ and $Y \cap X = \emptyset$
   \subsection*{Key terminology}
-    \begin{multicols*}{2}
-      \paragraph{Superkey} Let $S \subset R$ be a set of attributes of $R$. $S$ is a superkey of $R \iff S \rightarrow R$
-      \paragraph{Candidate key} A superkey such that no proper subset is also a superkey
-    \columnbreak
-      \paragraph{Primary key} Chosen candidate key, or the candidate key if there is only one
-      \paragraph{Prime attribute} An attribute that appears in some candidate key of $R$ with $\Sigma$. If not, then it is a non-prime attribute
-    \end{multicols*}
+    \paragraph{Superkey} Let $S \subset R$ be a set of attributes of $R$. $S$ is a superkey of $R \iff S \rightarrow R$
+    \paragraph{Candidate key} A superkey such that no proper subset is also a superkey
+    \paragraph{Primary key} Chosen candidate key, or the candidate key if there is only one
+    \paragraph{Prime attribute} An attribute that appears in some candidate key of $R$ with $\Sigma$. If not, then it is a non-prime attribute
   \subsection*{FD terminology}
     \paragraph{Closure} Let $\Sigma$ be a set of FDs of a relation $R$. The closure of $\Sigma$, denoted $\Sigma^+$, is the set of all FDs logically entailed by the FDs in $\Sigma$
     \paragraph{Equivalence} Two FDs are equivalent $\iff$ have the same closure
@@ -619,7 +618,7 @@ EXECUTE FUNCTION <func_name>();
   \subsection*{Decomposition}
     \subsubsection*{Terminology}
       \paragraph{Decomposition} A decomposition of table $R$ is a set of tables $\{R_1, R_2, \cdots, R_n\}$ such that $R = R_1 \cup \cdots \cup R_n$
-      \paragraph{Binary decomp} Decomposition with $n=2$
+      \paragraph{Binary decomposition} Decomposition with $n=2$
       \paragraph{Lossless-join definitions}
         \begin{itemize}[leftmargin=*]
           \item A binary decomp is lossless-join $\iff$ full outer natural join of its two fragments (tables resulting from the decomp) equal the initial table. Otherwise it is lossy
@@ -627,7 +626,7 @@ EXECUTE FUNCTION <func_name>();
           \item A \uline{decomp} is lossless-join if there exists a sequence of binary lossless-join decomp that generates that decomp
         \end{itemize}
       \paragraph{Projected FDs} A set $\Sigma$ of projected FDs on $R'$, from $R$ with $\Sigma$ where $R' \subset R$, is the set of FDs equivalent to the set of FDs $X \rightarrow Y$ in $\Sigma^+$ such that $X \subset R'$ and $Y \subset R'$
-      \paragraph{Dependency preserving} A decomposition of $R$ with $\Sigma$ into $R_1, R_2, \cdots, R_n$ with respective projected FDs $\Sigma_1, \Sigma_2, \cdots, \Sigma_n$ is dependency preserving $\iff \Sigma^+ = (\Sigma_1 \cup \cdots \cup \Sigma_n)^+$
+      \paragraph{Dependency preserving} A decomp of $R$ with $\Sigma$ into $R_1, R_2, \cdots, R_n$ with respective projected FDs $\Sigma_1, \Sigma_2, \cdots, \Sigma_n$ is dependency preserving $\iff \Sigma^+ = (\Sigma_1 \cup \cdots \cup \Sigma_n)^+$
     \subsubsection*{Check if decomposed set of relations is lossless-join}
       \begin{enumerate}[leftmargin=*]
         \item Compute attribute closures of the original set
@@ -641,8 +640,8 @@ EXECUTE FUNCTION <func_name>();
       \end{enumerate}
     \subsubsection*{Check if decomposed set of relations is dependency-preserving}
       \begin{enumerate}[leftmargin=*]
-        \item Let $X$ be a minimal cover of the original set of relations. Let $Y$ be the union of projected FDs to each relation
-        \item For each FD in $X$, check that we can derive it in $Y$. If some FD could not be derived, then that FD was not preserved, then FALSE. Else TRUE
+        \item Let $R$ be the original set of relations. Can replace $R$ with minimal cover if found. Let $Y$ be the union of projected FDs to each relation
+        \item For each FD in $R$, check that we can derive it in $Y$. If some FD could not be derived, then that FD was not preserved, then FALSE. Else TRUE
       \end{enumerate}
     \subsubsection*{Decomposition algorithm}
       \begin{itemize}[leftmargin=*]
@@ -654,25 +653,22 @@ EXECUTE FUNCTION <func_name>();
         \item $R_1 = X^+$
         \item $R_2 = (R - X^+) \cup X$
       \end{itemize}
-      Then, check whether $R_1$ and $R_2$ with respective projected FDs $\Sigma_1$ and $\Sigma_2$ are in BCNF. Repeat the decomposition algorithm for the fragments which are not.
+      Then, check whether $R_1$ and $R_2$ with respective projected FDs $\Sigma_1$ and $\Sigma_2$ are in BCNF. Repeat decomp algo for the fragments which are not.
 \section*{3NF}
-  \begin{multicols*}{2}
-    \subsection*{Definition} \noindent
-      A relation $R$ with a set of FDs $\Sigma$ is in 3NF $\iff$ for every FD $X \rightarrow \{A\} \in \Sigma^+$,
-      \begin{itemize}[leftmargin=*]
-        \item $X \rightarrow \{A\}$ is trivial, or
-        \item $X$ is a superkey, or
-        \item $A$ is a prime attribute
-      \end{itemize}
-      Note that BCNF implies 3NF
-  \columnbreak
-    \subsection*{Synthesis} \noindent
-      Guarantees a lossless, dependency preserving decomp in 3NF
-      \begin{itemize}[leftmargin=*]
-        \item For each FD $X \rightarrow Y$ in the \uline{compact minimal cover}, create a relation $R_i = X \cup Y$ unless it already exists, or is subsumed by another relation
-        \item If none of the created relations contains one of the keys, pick a candidate key and create a relation with that candidate key
-      \end{itemize}
-  \end{multicols*}
+  \subsection*{Definition} \noindent
+    A relation $R$ with a set of FDs $\Sigma$ is in 3NF $\iff$ for every FD $X \rightarrow \{A\} \in \Sigma^+$,
+    \begin{itemize}[leftmargin=*]
+      \item $X \rightarrow \{A\}$ is trivial, or
+      \item $X$ is a superkey, or
+      \item $A$ is a prime attribute
+    \end{itemize}
+    Note that BCNF implies 3NF
+  \subsection*{Synthesis} \noindent
+    Guarantees a lossless, dependency preserving decomp in 3NF
+    \begin{itemize}[leftmargin=*]
+      \item For each FD $X \rightarrow Y$ in the \uline{compact minimal cover}, create a relation $R_i = X \cup Y$ unless it already exists, or is subsumed by another relation
+      \item If none of the created relations contains one of the keys, pick a candidate key and create a relation with that candidate key
+    \end{itemize}
 \end{multicols*}
 \end{document}
 
