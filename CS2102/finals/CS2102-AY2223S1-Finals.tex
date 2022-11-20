@@ -619,13 +619,16 @@ EXECUTE FUNCTION <func_name>();
       \begin{enumerate}[leftmargin=*]
         \item Compute attribute closures of the original set, and project FDs to each relation $R_i$
         \item If some $R_i$ is not in BCNF, then FALSE
+      \end{enumerate}
+    \subsubsection*{Check if decomposed set of relations is lossless-join}
+      \begin{enumerate}[leftmargin=*]
         \item For some pair $(R_i, R_j), i \neq j$,
           \begin{itemize}[leftmargin=*]
             \item Check that $R_i \cap R_j \rightarrow R_i$ or $R_i \cap R_j \rightarrow R_j$
             \item If yes, then replace $R_i, R_j$ with $R_i \cup R_j$ and repeat Step 2-5.
             \item If no, then try next pair
           \end{itemize}
-        \item If there was a sequence of unions that respected the BCNF definitions, resulting in a single relation that has all attributes, then TRUE. Else FALSE
+      \item If there was a sequence of unions that resulted in a single relation that has all attributes, then TRUE. Else FALSE
       \end{enumerate}
   \subsection*{Decomposition}
     \subsubsection*{Terminology}
