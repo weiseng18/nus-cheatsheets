@@ -570,8 +570,8 @@ EXECUTE FUNCTION <func_name>();
     \subsubsection*{Algorithm}
       \begin{enumerate}[leftmargin=*]
         \item Simplify RHS of every FD (by splitting FDs so that RHS of each FD is a singleton)
-        \item Simplify LHS of every FD (if a subset of LHS can imply RHS, then replace LHS with the subset)
-        \item Remove redundant FDs (if a FD can be derived from other FDs, then remove it)
+        \item Simplify LHS of every FD (for each FD, if a subset of LHS can imply RHS, then replace LHS with the subset)
+        \item Remove redundant FDs (for each FD, start from LHS. if this FD can be derived using only other FDs, then remove it)
         \item (If \uline{compact cover} is desired) Combine FDs with same LHS
       \end{enumerate}
     \subsubsection*{Reachability}
@@ -587,15 +587,11 @@ EXECUTE FUNCTION <func_name>();
     \end{center}
     \begin{itemize}[leftmargin=*]
       \item Department $\rightarrow$ faculty is a FD in this example
+      \item \textbf{Redundant storage}: The faculty of a department is repeated for every student of the department, and every time the student is proficient in a language
+      \item \textbf{Update anomaly}: Two rows of the table have the same value for the column \ic{department} but different values for the column \ic{faculty}, violating the FD
+      \item \textbf{Deletion anomaly}: If we delete the last row, we may forget that we have a department of pharmacy, and a faculty of medicine
+      \item \textbf{Insertion anomaly}: We cannot record that the department of social science exists and the faculty of liberal arts exists, because there is no student from this department or this faculty
     \end{itemize}
-    \subsubsection*{Redundant storage} \noindent
-      The faculty of a department is repeated for every student of the department, and every time the student is proficient in a language
-    \subsubsection*{Update anomaly} \noindent
-      Two rows of the table have the same value for the column \ic{department} but different values for the column \ic{faculty}, violating the FD
-    \subsubsection*{Deletion anomaly} \noindent
-      If we delete the last row, we may forget that we have a department of pharmacy, and a faculty of medicine
-    \subsubsection*{Insertion anomaly} \noindent
-      We cannot record that the department of social science exists and the faculty of liberal arts exists, because there is no student from this department or this faculty
     \subsubsection*{Solution}
       \begin{itemize}[leftmargin=*]
         \item In all cases, the solution is to remove faculty from the original table, and create a new table with department and faculty
@@ -618,17 +614,7 @@ EXECUTE FUNCTION <func_name>();
     \subsubsection*{Check if decomposed set of relations is in BCNF}
       \begin{enumerate}[leftmargin=*]
         \item Compute attribute closures of the original set, and project FDs to each relation $R_i$
-        \item If some $R_i$ is not in BCNF, then FALSE
-      \end{enumerate}
-    \subsubsection*{Check if decomposed set of relations is lossless-join}
-      \begin{enumerate}[leftmargin=*]
-        \item For some pair $(R_i, R_j), i \neq j$,
-          \begin{itemize}[leftmargin=*]
-            \item Check that $R_i \cap R_j \rightarrow R_i$ or $R_i \cap R_j \rightarrow R_j$
-            \item If yes, then replace $R_i, R_j$ with $R_i \cup R_j$ and repeat Step 2-5.
-            \item If no, then try next pair
-          \end{itemize}
-      \item If there was a sequence of unions that resulted in a single relation that has all attributes, then TRUE. Else FALSE
+        \item If some $R_i$ is not in BCNF, then FALSE. Else TRUE
       \end{enumerate}
   \subsection*{Decomposition}
     \subsubsection*{Terminology}
@@ -642,10 +628,25 @@ EXECUTE FUNCTION <func_name>();
         \end{itemize}
       \paragraph{Projected FDs} A set $\Sigma$ of projected FDs on $R'$, from $R$ with $\Sigma$ where $R' \subset R$, is the set of FDs equivalent to the set of FDs $X \rightarrow Y$ in $\Sigma^+$ such that $X \subset R'$ and $Y \subset R'$
       \paragraph{Dependency preserving} A decomposition of $R$ with $\Sigma$ into $R_1, R_2, \cdots, R_n$ with respective projected FDs $\Sigma_1, \Sigma_2, \cdots, \Sigma_n$ is dependency preserving $\iff \Sigma^+ = (\Sigma_1 \cup \cdots \cup \Sigma_n)^+$
+    \subsubsection*{Check if decomposed set of relations is lossless-join}
+      \begin{enumerate}[leftmargin=*]
+        \item Compute attribute closures of the original set
+        \item For some pair $(R_i, R_j), i \neq j$,
+          \begin{itemize}[leftmargin=*]
+            \item Check that $R_i \cap R_j \rightarrow R_i$ or $R_i \cap R_j \rightarrow R_j$
+            \item If yes, then replace $R_i, R_j$ with $R_i \cup R_j$ and repeat Step 2-3.
+            \item If no, then try next pair
+          \end{itemize}
+        \item If there was a sequence of unions that resulted in a single relation that has all attributes, then TRUE. Else FALSE
+      \end{enumerate}
+    \subsubsection*{Check if decomposed set of relations is dependency-preserving}
+      \begin{enumerate}[leftmargin=*]
+        \item Let $X$ be a minimal cover of the original set of relations. Let $Y$ be the union of projected FDs to each relation
+        \item For each FD in $X$, check that we can derive it in $Y$. If some FD could not be derived, then that FD was not preserved, then FALSE. Else TRUE
+      \end{enumerate}
     \subsubsection*{Decomposition algorithm}
       \begin{itemize}[leftmargin=*]
-        \item Guarantees lossless decomp
-        \item Decomp may not be dependency preserving
+        \item Guarantees lossless decomp, but may not be dependency preserving
         \item Can get different results depending on order of FD chosen
       \end{itemize}
       Let $X \rightarrow Y$ be a FD in $\Sigma$ that violates the BCNF definition (not trivial, and $X$ not superkey). Use it to decompose $R$ into $R_1$ and $R_2$:
