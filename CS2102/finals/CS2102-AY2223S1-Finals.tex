@@ -1,6 +1,6 @@
 % ------------ begin cheatsheet
 \documentclass[a4paper]{article}
-\usepackage[a4paper,margin=0.05in]{geometry}
+\usepackage[a4paper,margin=0.03in]{geometry}
 \usepackage{multicol}
 
 \usepackage{amsmath, amssymb}
@@ -84,7 +84,6 @@
 \lstset{language=SQL}
 
 \begin{multicols*}{3}
-  \part*{\centering \Large \underline{CS2102}}
 \section*{Relational Algebra}
   \begin{itemize}[leftmargin=*]
     \item Relations are closed under the Relational Algebra
@@ -98,7 +97,7 @@
           \[ \sigma_{\text{manager=`Judy'}}(\text{Projects}) \]
       \end{itemize}
       \paragraph{Selection condition} is a boolean expression of one of the following forms:
-        \vspace{-0.4cm}
+        \vspace{-0.5cm}
         \begin{center}
           \resizebox{\hsize}{!}{%
             \begin{tabular}{ |c|c| }
@@ -113,20 +112,13 @@
             \end{tabular}
           }
         \end{center}
-        where
+        \vspace{-0.4cm}
         \begin{itemize}[leftmargin=*]
           \item \textbf{op} $\in \{ =, <>, <, \leq, \geq, > \}$
           \item Precedence: $(), \textbf{op}, \neg, \land, \lor$
           \item Comparision with \textbf{null} is \textbf{unknown}, arithmetic with \textbf{null} is \textbf{null}
         \end{itemize}
-        In boolean expressions, treat unknown as literally unknown. e.g.
-        \begin{itemize}[leftmargin=*]
-          \item false $\land$ unknown = false
-          \item false $\lor$ unknown = unknown
-          \item $\neg$ unknown = unknown
-          \item true $\land$ unknown = unknown
-          \item true $\lor$ unknown = true
-        \end{itemize}
+        In boolean expressions, treat unknown as literally unknown, and use short circuit evaluation where possible.
     \subsubsection*{Projection $\pi_l$}
       \begin{itemize}[leftmargin=*]
         \item Projects columns of a table specified in list $l$
@@ -170,7 +162,7 @@
       \end{itemize}
   \subsection*{Set operations} \noindent
     \begin{itemize}[leftmargin=*]
-      \item Union, Intersection, Set difference (all obvious)
+      \item $\cap, \cup, \times$, Set difference (all obvious)
       \item Note: intersection can be expressed with union and set difference:
         \[ R \cap S = (R \cup S) - ((R-S) \cup (S-R)) \]
       \item The two relations must be union-compatible
@@ -187,8 +179,6 @@
           \item Employees(name: \textbf{text}, role: \textbf{text}, age: \textbf{integer})
           \item Teams(ename: \textbf{text}, pname: \textbf{text}, hours: \textbf{integer})
         \end{itemize}
-    \subsubsection*{Cross product} \noindent
-      Forms all possible pairs of tuples from the two relations
   \subsection*{Join operations}
     \begin{itemize}[leftmargin=*]
       \item Combines $\times, \sigma_c, \pi_l$ into a single op
@@ -206,7 +196,7 @@
     \subsubsection*{Natural Join} \noindent
       Like equi join (i.e. only equality operator), but
       \begin{itemize}[leftmargin=*]
-        \item Join is performed over common attributes of $R$ and $S$
+        \item Join is performed over common attr of $R$ and $S$
         \item If there are no common attributes, acts like a cross product, since selection condition $c$ is vacuously true
         \item Output relation keeps one copy of common attributes
       \end{itemize}
@@ -214,7 +204,7 @@
       \[ R \Join S = \pi_l(R \Join_c \rho_{b_i \leftarrow a_i, \cdots, b_k \leftarrow a_k} (S)) \]
       where
       \begin{itemize}[leftmargin=*]
-        \item $A = \{a_i, \cdots, a_k\}$ is the set of common attributes of $R$ and $S$
+        \item $A = \{a_i, \cdots, a_k\}$ is the set of common attr of $R$ and $S$
         \item $c = (a_i = b_i) \land \cdots \land (a_k = b_k)$
         \item $l =$ list of (attr. of $R$ + attr. of $S$ not in $A$)
       \end{itemize}
@@ -238,7 +228,7 @@
       \end{itemize}
     \subsubsection*{Formal definitions}
       \begin{itemize}[leftmargin=*]
-        \item Set of dangling tuples in $R$, with respect to $R \Join_\theta S$
+        \item Set of dangling tuples in $R$, wrt $R \Join_\theta S$
           \[ \dangle{R \Join_\theta S} \subseteq R \]
         \item $null(R)$ is a $n$-compoennt tuple of \textbf{null} values, where $n$ is the number of attributes in $R$
         \item Left outer join $(R \leftjoin_\theta S)$
@@ -257,7 +247,7 @@
       \begin{itemize}[leftmargin=*]
         \item Like natural inner joins
         \item Only equality operator used for condition
-        \item Join is performed over common atributes of $R$ and $S$
+        \item Join is performed over common attr of $R$ and $S$
         \item Output relation keeps one copy of common attributes
       \end{itemize}
   \subsection*{Complex expressions} \noindent
@@ -276,11 +266,41 @@
       \item Incompatible attribute types
         \[ \sigma_{\text{age=role}} (Employees) \]
     \end{itemize}
+  \subsection*{RA equivalence rules} \noindent
+    \begin{gather*}
+      \sigma_{\theta_1 \land \theta_2} (E) = \sigma_{\theta_1} ( \sigma_{\theta_2}(E) ) \\
+      \sigma_{\theta_1} ( \sigma_{\theta_2}(E) ) = \sigma_{\theta_2} ( \sigma_{\theta_1}(E) ) \\
+      \pi_{L_1} ( \pi_{L_2} ( \cdots ( \pi_{L_n} (E) ))) = \pi_{L_1} (E) \\
+      \sigma_\theta (E_1 \times E_2) = E_1 \Join_\theta E_2 \\
+      \sigma_{\theta_1} (E_1 \Join_{\theta_2} E_2) = E_1 \Join_{\theta_1 \land \theta_2} E_2 \\
+      E_1 \Join_\theta E_2 = E_2 \Join_\theta E_1 \\
+      (E_1 \Join E_2) \Join E_3 = E_1 \Join (E_2 \Join E_3) \\
+    \end{gather*}
+    \vspace{-0.8cm}
+    \begin{itemize}[leftmargin=*]
+      \item Selection distributes over $\cap, \cup$, set difference
+      \item Projection distributes over union
+      \item $\cap, \cup$ are commutative and associative
+    \end{itemize}
+    \hrule \hfill
+    \begin{itemize}[leftmargin=*]
+      \item Theta joins are associative in the following way
+    \end{itemize}
+    \begin{gather*}
+      (E_1 \Join_{\theta_1} E_2) \Join_{\theta_2 \land \theta_3} E_3 = E_1 \Join_{\theta_1 \land \theta_3} (E_2 \Join_{\theta_2} E_3), \\
+      \text{where } \theta_2 \text{ involves attributes from } E_2 \text{ and } E_3 \text{ only}
+    \end{gather*}
+    \hrule
+    \vspace{-0.3cm}
+    \begin{center}
+      \includegraphics[width=0.9\columnwidth]{RA}
+    \end{center}
+\vspace{-0.5cm}
 \section*{ER model}
   \subsection*{Entity}
     \begin{itemize}[leftmargin=*]
-      \item Objects that are distinguishable from other objects
-      \item \textbf{Entity set:} Collection of entities of the same type
+      \item Objs that are distinguishable from other objs
+      \item \textbf{Entity set:} Collection of ent. of the same type
     \end{itemize}
   \subsection*{Attribute}
     \begin{itemize}[leftmargin=*]
@@ -290,9 +310,11 @@
       \item \textbf{Multivalued attr} may consist of more than one value for a given entity
       \item \textbf{Derived attr} derived from other attributes
     \end{itemize}
+  \vspace{-0.5cm}
     \begin{center}
-      \includegraphics[width=\columnwidth]{L4/attributes}
+      \includegraphics[width=0.8\columnwidth]{L4/attributes}
     \end{center}
+  \vspace{-0.5cm}
   \subsection*{Relationship} \noindent
     Association among two or more entities
     \subsubsection*{Relationship set} \noindent
@@ -303,28 +325,30 @@
       \end{itemize}
       \paragraph{Role}
         \begin{itemize}[leftmargin=*]
-          \item Describes an entity set's participation in a relationship
+          \item Describes an entity set's participation
           \item Explicit role label only in case of ambiguities (e.g. same entity set participates in same relationship more than once)
         \end{itemize}
       \paragraph{Degree}
         \begin{itemize}[leftmargin=*]
           \item An $n$-ary relationship set involves $n$ entity roles, where $n$ is the degree of the relationship set
-          \item Typically binary or ternary
+          \item Typically binary \\
+            or ternary
         \end{itemize}
+      \vspace{-0.7cm}
       \begin{minipage}{.5 \columnwidth}
         \includegraphics[width=\columnwidth]{L4/role}
       \end{minipage}
       \begin{minipage}{.475 \columnwidth}
         \includegraphics[width=\columnwidth]{L4/relationship-set}
       \end{minipage}
+\end{multicols*}
+
+\begin{multicols}{2}
   \subsection*{Cardinality constraints}
     \begin{itemize}[leftmargin=*]
       \item \textbf{Upper bound} for entity's participation
     \end{itemize}
     \includegraphics[width=\columnwidth]{L4/cardinality}
-\end{multicols*}
-
-\begin{multicols}{2}
   \subsection*{Participation constraints}
     \begin{itemize}[leftmargin=*]
       \item \textbf{Lower bound} for entity's participation
@@ -351,12 +375,12 @@
       \paragraph{Many-to-Many} Represent relationship set with a table
       \paragraph{Many-to-One}
         \begin{enumerate}[leftmargin=*]
-          \item Represent relationship set between $A$ and $B$ with a table ($A_{id}$, $B_{id}$). Make the ID of the total participation entity set the primary key
+          \item Represent relationship set between $A$ and $B$ with a table ($A_{id}$, $B_{id}$). Make the ID of the total participation entity set the primary key, OR
           \item Combine rel. set and total participiation entity set into one table
         \end{enumerate}
       \paragraph{One-to-One}
         \begin{enumerate}[leftmargin=*]
-          \item Represent relationship set between $A$ and $B$ with a table ($A_{id}$, $B_{id}$). One is unique not null, and the other is the primary key
+          \item Represent relationship set between $A$ and $B$ with a table ($A_{id}$, $B_{id}$). One is unique not null, and the other is the primary key, OR
           \item Combine relationship set and either entity set into one table
         \end{enumerate}
   \subsection*{Dependency constraints}
@@ -381,8 +405,8 @@
       \item Entity set $\rightarrow$ table
       \item Composite/multivalued attributes:
         \begin{enumerate}[leftmargin=*]
-          \item Convert to single-valued attributes
-          \item Additional table with FK constraint
+          \item Convert to single-valued attributes, OR
+          \item Additional table with FK constraint, OR
           \item Convert to a single-valued attribute (e.g. comma separated string)
         \end{enumerate}
     \end{itemize}
@@ -399,10 +423,12 @@
     \begin{minipage}{.5 \columnwidth}
       \includegraphics[width=\columnwidth]{L4/is-a-constraints}
     \end{minipage}
+    \vspace{-0.5cm}
   \subsection*{Aggregation}
     \begin{itemize}[leftmargin=*]
       \item Abstraction that treats relationships as higher-level entities
     \end{itemize}
+    \vspace{-0.5cm}
     \includegraphics[width=\columnwidth]{L4/aggregation}
 \section*{Functions and Procedures} \noindent
     \begin{minipage}{0.57\columnwidth}
@@ -428,7 +454,6 @@ $$ LANGUAGE <sql | plpgsql>;
         \item Call a procedure: \ic{CALL transfer('Alice', 'Bob', 100);}
       \end{itemize}
     \end{minipage}
-  \subsection*{Return types}
     \begin{center}
       \begin{tabular}{ |c|c| }
         \hline
@@ -441,7 +466,6 @@ $$ LANGUAGE <sql | plpgsql>;
         Trigger & \ic{TRIGGER} \\ \hline
       \end{tabular}
     \end{center}
-  \subsection*{Control structures}
     \begin{multicols*}{2}
       \paragraph{Variables}
         \begin{itemize}[leftmargin=*]
@@ -770,7 +794,7 @@ EXECUTE FUNCTION <func_name>();
         \item To reach all minimal covers, the algorithm needs to start from $\Sigma^+$
       \end{itemize}
   \subsection*{Anomalies} \noindent
-    \vspace{-0.5cm}
+    \vspace{-0.8cm}
     \begin{center}
       \resizebox{\hsize}{!}{%
         \begin{tabular}{ |c|c|c|c|c|c| }
