@@ -1,0 +1,271 @@
+% ------------ begin cheatsheet
+\documentclass[a4paper]{article}
+\usepackage[a4paper,margin=0.1in,landscape]{geometry}
+\usepackage{multicol}
+
+\usepackage{amsmath, amssymb}
+\usepackage[inline]{enumitem}
+\usepackage{graphicx}
+
+\usepackage{ulem}
+\usepackage{makecell}
+\usepackage{adjustbox}
+
+% horizontal list
+\newlist{hlist}{enumerate*}{1}
+\setlist[hlist]{label={}, afterlabel={}, itemjoin={{ \textbar{} }}}
+
+% math
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+
+% envs
+\newcommand{\oli}[1]{\begin{enumerate*}[label=(\arabic*)]#1\end{enumerate*}}
+
+\graphicspath{ {./images/} }
+\pagestyle{empty}
+\setlength{\columnseprule}{0.3pt}
+
+% reduce spacing before and after headers
+\newcommand{\uppercaseandunderline}[1]{\uline{\uppercase{#1}}}
+
+\makeatletter
+\renewcommand{\section}{
+  \@startsection{section}{1}{0pt}{1ex}{1.2ex} {\raggedleft\normalfont\large\bfseries\uppercaseandunderline}}
+\renewcommand{\subsection}{
+  \@startsection{subsection}{2}{0pt}{1ex}{1.2ex} {\raggedleft\normalfont\normalsize\bfseries\fbox}}
+\renewcommand{\subsubsection}{
+  \@startsection{subsubsection}{3}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\small\bfseries\uline}}
+\renewcommand{\paragraph}{
+  \@startsection{paragraph}{4}{0pt}{1.5ex}{-0.8em}{\normalfont\bfseries}}
+% ------------ end cheatsheet
+
+% ------------ begin code
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lg}{rgb}{0.9,0.9,0.9}
+
+% code environment
+\usepackage{listings}
+\lstset{
+  %frame=tb, % adds top and bottom border
+  aboveskip=1mm,
+  belowskip=1mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numberstyle=\color{gray},
+  keywordstyle=\color{blue}\textbf,
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+\newcommand{\ic}[1]{\lstinline{#1}}
+
+% ------------ end code
+
+\begin{document}
+\lstset{language=Python}
+\small
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\begin{multicols*}{4}
+  \part*{\centering \underline{CS2109S}}
+\section*{AI}
+  \subsection*{BFS}
+    \begin{enumerate}[leftmargin=*]
+      \item Define state representation
+      \item Identify initial state
+      \item Identify goal state(s) / goal test
+      \item Identify transitions
+    \end{enumerate}
+    \begin{lstlisting}
+from collections import deque
+
+def search(...):
+  def is_goal(node):
+    state, steps = node
+    # DEFINE GOAL STATE TESTS HERE
+    return state == GOAL_STATE
+
+  def expand(node):
+    next_nodes = []
+    state, steps = node
+    # DEFINE TRANSITIONS HERE
+    return next_nodes
+  
+  q = deque()
+  visited = set()
+  q.append(INITIAL_STATE)
+
+  while len(q) > 0:
+    cur = q.popleft()
+
+    if is_goal(cur):
+      return cur[1]
+    
+    for move in expand(cur):
+      state, steps = move
+      if state not in visited:
+        visited.add(state)
+        q.append(move)
+
+  return False
+    \end{lstlisting}
+  \subsection*{Tuple operations}
+    \begin{lstlisting}
+t = 3,5,7
+
+# Indexing
+print(t[1]) # 5
+print(t[-1]) # 7
+
+# Appending a tuple
+print (t + ((1,2),)) # (3, 5, 7, (1, 2))
+    \end{lstlisting}
+\section*{Problem Sets}
+  \subsection*{PS1 (Informed Search)}
+    \begin{itemize}[leftmargin=*]
+      \item Tree: Q1 (BFS), Q2 (DFS)
+      \item Graph: Q3 (BFS), Q5 (DFS)
+      \item A${}^*$: Q6
+    \end{itemize}
+  \subsection*{PS3 (Regression)}
+    \subsubsection*{Linear Regression}
+      \begin{itemize}[leftmargin=*]
+        \item MSE: Q1
+        \item MAE: Q2
+        \item Bias column: Q3
+        \item Get bias and weights: Q4
+        \item Prediction line: Q5
+        \item Gradient descent: Q6 (one-var), Q7 (multi-var)
+      \end{itemize}
+    \subsubsection*{Polynomial Regression}
+      \begin{itemize}[leftmargin=*]
+        \item Create matrix: Q9
+        \item Prediction line: Q10
+        \item Feature scaling: Q11
+        \item Find iterations for convergence: Q12
+      \end{itemize}
+  \subsection*{PS4 (Logistic Regression and SVM)}
+    \subsubsection*{Logistic Regression (binary)}
+      \begin{itemize}[leftmargin=*]
+        \item Undersampling: Q2, oversampling: Q3
+        \item Train-test split: Q4
+        \item Cost function: Q5
+        \item Weight update for BGD: Q6
+        \item Classification: Q7
+        \item BGD: Q8
+        \item SGD: Q9
+      \end{itemize}
+    \subsubsection*{Logistic Regression (multi)}
+      \begin{itemize}[leftmargin=*]
+        \item BGD: Q12
+        \item Classification: Q13
+      \end{itemize}
+    \subsubsection*{Support Vector Machines}
+      \begin{itemize}[leftmargin=*]
+        \item Linear kernel: Q14
+        \item Gaussian kernel: Q15
+      \end{itemize}
+  \subsection*{PS5 (PyTorch and Neural Networks)}
+    \subsubsection*{PyTorch}
+      \begin{itemize}[leftmargin=*]
+        \item Fit polynomial: Q2
+      \end{itemize}
+    \subsubsection*{Neural Networks (Fit $y = \lvert x - 1 \rvert$)}
+      \begin{itemize}[leftmargin=*]
+        \item Manual: Q4 (forward pass), Q5 (backprop)
+        \item PyTorch: Q7 (forward pass), Task 3.2 (backprop), Q8 (obtain model weights)
+      \end{itemize}
+    \subsubsection*{DigitNet}
+      \begin{itemize}[leftmargin=*]
+        \item Model architecture and forward pass: Q9
+        \item Training loop: Q10
+        \item Accuracy of model: Q11
+      \end{itemize}
+  \subsection*{PS6 (ConvNets)}
+    \subsubsection*{Manual implementations}
+      \begin{itemize}[leftmargin=*]
+        \item Convolution: Q1
+        \item Max pool: Q2
+      \end{itemize}
+    \subsubsection*{ConvNet (digits)}
+      \begin{itemize}[leftmargin=*]
+        \item Vanilla: Q3 (architecture), Q5 (training)
+        \item Dropout: Q4 (architecture), Q6 (training)
+      \end{itemize}
+    \subsubsection*{CIFAR-10 (image)}
+      \begin{itemize}[leftmargin=*]
+        \item Augmentations: Q9
+        \item Architecture: Q11
+        \item Training: Q12
+        \item CAM (class activation mapping) heatmap: Q13
+      \end{itemize}
+  \subsection*{PS7 (Clustering)}
+    \subsubsection*{K-Means}
+      \begin{itemize}[leftmargin=*]
+        \item Assing points to clusters: Q1
+        \item Update centroids: Q2
+        \item Check convergence: Q3
+        \item K-Means: Q4 (one iteration), Q6 (full)
+        \item Loss: Q5
+        \item Compress image: Q7
+      \end{itemize}
+    \subsubsection*{Image classification}
+      \begin{itemize}[leftmargin=*]
+        \item Predict labels using K-Means: Q9
+        \item PCA with SVD: Q10
+        \item No. of components for $\geq 99\%$ explained variance for PCA: Task 2.2.3
+        \item K-Means with PCA: Q13
+        \item Predict labels using K-Means with PCA: Q15
+      \end{itemize}
+  \subsection*{Mock Paper}
+    \begin{itemize}[leftmargin=*]
+      \item AI
+      \item Regression
+      \item Classification
+    \end{itemize}
+    \begin{enumerate}[leftmargin=*]
+      \item Missionaries and Cannibals
+      \item 2A: Feature engineering
+      \item 2B: Feature scaling
+      \item 2C: Loss function
+      \item 2D: Gradient descent
+      \item 2E: Guess equation
+      \item 3A: Split train/test
+      \item 3B: Loss function
+      \item 3C: Gradient loss function
+      \item 3D: Logistic regression classification
+      \item 3E: Confusion matrix
+      \item 3F: Metrics (Precision, Recall, F1)
+    \end{enumerate}
+\section*{ML}
+  \subsection*{Backpropagation}
+    \begin{lstlisting}
+# reset gradients to 0
+optimiser.zero_grad()
+# get predictions
+y_pred = model(x)
+# compute loss
+loss = loss_fn(y_pred, y)
+# backpropagate
+loss.backward()
+# update the model weights
+optimiser.step()
+    \end{lstlisting}
+  \subsection*{Print PyTorch NN weights}
+    \begin{lstlisting}
+print(model.state_dict())
+    \end{lstlisting}
+  \subsection*{Explained variance of PCA}
+    \begin{lstlisting}
+print(sum(pca.explained_variance_ratio_))
+    \end{lstlisting}
+\end{multicols*}
+\end{document}

@@ -14,6 +14,7 @@ Cheatsheets made for NUS CS
   - [CS2102 Finals](./CS2102/finals/CS2102-AY2223S1-Finals.pdf)
   - [CS2104 Midterms](./CS2104/midterms/CS2104-AY2223S1-Midterms.pdf)
   - [CS2109S Midterms](./CS2109S/midterms/CS2109S-AY2223S1-Midterms.pdf)
+  - [CS2109S Finals](./CS2109S/finals/CS2109S-AY2223S1-Finals.pdf)
   - [CS3230 Midterms](./CS3230/midterms/CS3230-AY2223S1-Midterms.pdf)
   - [CS3241 Midterms](./CS3241/midterms/CS3241-AY2223S1-Midterms.pdf)
   - [CS3241 Finals](./CS3241/finals/CS3241-AY2223S1-Finals.pdf)
