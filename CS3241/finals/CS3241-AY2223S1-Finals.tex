@@ -774,14 +774,14 @@ For each pixel
         \item Provide smoother and more continuous primitives than straight lines / planar polygons
         \item Animation and collision detection may become simpler and faster
       \end{itemize}
-    \subsubsection*{Design criteria}
-      \begin{itemize}[leftmargin=*]
+    \subsubsection*{Design criteria} \noindent
+      \begin{hlist}
         \item Local control of shape
         \item Smoothness and continuity
         \item Ability to evaluate derivatives
         \item Stability
         \item Ease of rendering
-      \end{itemize}
+      \end{hlist}
   \subsection*{Representation}
     \subsubsection*{Explicit}
       \paragraph{2D curves} $y=f(x)$
@@ -828,7 +828,7 @@ For each pixel
         \begin{itemize}[leftmargin=*]
           \item Uses two parameters
         \end{itemize}
-        \[ p(u,v) = \begin{bmatrix} x(u,v) \\ y(u,v) \\ z(u,v) \end{bmatrix} \]
+        \[ p(u,v) = \begin{bmatrix} x(u,v) & y(u,v) & z(u,v) \end{bmatrix}^T \]
         \begin{itemize}[leftmargin=*]
           \item Normal vector
         \end{itemize}
@@ -953,5 +953,65 @@ For each pixel
       \item Define an average plane of the 4 corner control points $p_{00}, p_{03}, p_{30}, p_{33}$
       \item Find the maximum distance from the 16 control points to the average plane
     \end{itemize}
+\section*{\normalsize Solving curve questions}
+  \subsection*{$p(u) \rightarrow$ cubic interpolating}
+    \begin{itemize}[leftmargin=*]
+      \item Solve the following equations
+    \end{itemize}
+    \vspace{-0.5cm}
+    \begin{align*}
+      p_0 &= p(0) \\
+      p_1 &= p(1/3) \\
+      p_2 &= p(2/3) \\
+      p_3 &= p(1)
+    \end{align*}
+  \subsection*{$p(u) \rightarrow$ bezier}
+    \begin{itemize}[leftmargin=*]
+      \item Obtain $p'(u)$
+      \item Solve the following equations
+    \end{itemize}
+    \vspace{-0.5cm}
+    \begin{align*}
+      p_0 &= p(0) \\
+      p_1 &= (p'(0) + 3p_0) / 3 \\
+      p_2 &= (3p_3 - p'(1)) / 3 \\
+      p_3 &= p(1)
+    \end{align*}
+  \subsection*{$p(u), q(u) \rightarrow$ bezier that joins with $C^1$}
+    \begin{itemize}[leftmargin=*]
+      \item Assume $p$ joins to $s$ joins to $q$
+      \item Obtain $p'(u), q'(u)$
+      \item Compute $s'(0) = p'(1)$ and $s'(1) = q'(0)$
+      \item Solve the following equations
+    \end{itemize}
+    \vspace{-0.5cm}
+    \begin{align*}
+      s_0 &= p(1) \\
+      s_1 &= (s'(0) + 3s_0) / 3 \\
+      s_2 &= (3s_3 - s'(1)) / 3 \\
+      s_3 &= q(0)
+    \end{align*}
+  \subsection*{bezier $\rightarrow$ split into two bezier}
+    \begin{itemize}[leftmargin=*]
+      \item Run De Casteljau's algorithm with approriate $t$
+    \end{itemize}
+  \subsection*{Continuity}
+    \begin{itemize}[leftmargin=*]
+      \item $C^0 \iff p(1) = q(0)$
+      \item $C^1 \iff p'(1) = q'(0)$
+      \item $G^1 \iff p'(1) = \alpha q'(0)$ for $\alpha > 0$
+    \end{itemize}
+  \subsection*{Derivatives}
+    \vspace{-0.5cm}
+    \begin{align*}
+      p(u) &= (1-u)^3 A + 3u(1-u)^2 B \\
+           &+ 3u^2(1-u) C + u^3 D \\
+      p'(u) &= -3(1-u)^2 A \\
+            &+ \Big( 3(1-u)^2 - 6u(1-u) \Big) B \\
+            &+ \Big( 6u(1-u) - 3u^2 \Big) C + 3u^2 D \\
+      p'(0) &= -3A + 3B \\
+      p'(1) &= -3C + 3D
+    \end{align*}
 \end{multicols*}
 \end{document}
+
