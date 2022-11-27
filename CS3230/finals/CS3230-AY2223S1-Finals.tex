@@ -214,6 +214,35 @@
       \[ \lim_{x \rightarrow \infty} \frac{f(x)}{g(x)} = \lim_{x \rightarrow \infty} \frac{f'(x)}{g'(x)} \]
     \paragraph{Power of $e$}
       \[ \lim_{n \rightarrow \infty} \left(1 + \frac{a}{n}\right)^{bn+c} = e^{ab} \]
+  \subsection*{Recursive algorithms} \noindent
+    Express time complexity in terms of recurrence:
+    \[ T(n) = a T\left(\frac{n}{b}\right) + f(n) \]
+    \subsubsection*{Master method} \noindent
+      Comparing $f(n)$ with $n^{\log_b(a)}$ as polynomials, for $a \geq 1, b > 1, k \geq 0, \epsilon > 0$ and $f$ is asymptotically positive,
+      \resizebox{\columnwidth}{!}{%
+        \begin{math}
+        \begin{aligned}
+          & T(n) = a T\left( \frac{n}{b} \right) + f(n) & \\
+          &= \begin{cases}
+               \Theta(n^{\log_b(a)}) & f(n) = O(n^{\log_b(a) - \epsilon}) \\
+               \Theta(n^{\log_b(a)} \log^{k+1} n) & f(n) = \Theta(n^{\log_b(a)} \log^k n) \\
+               \Theta(f(n)) & f(n) = \Omega(n^{\log_b(a) + \epsilon})
+             \end{cases}
+        \end{aligned}
+        \end{math}
+      } \\
+      For case 3, $f(n)$ must satisfy the regularity condition that $a f(n/b) \leq c f(n)$ for some $c < 1$, which guarantees that the sum of subproblems is smaller than $f(n)$. But this is typically satisified anyway.
+    \subsubsection*{Substitution method}
+      \begin{itemize}[leftmargin=*]
+        \item Guess the form of the solution
+        \item Verify by induction
+      \end{itemize}
+  \subsection*{Induction}
+    \begin{itemize}[leftmargin=*]
+      \item Verify base case
+      \item Show that if the statement is true for the $k$th case (regular induction) or all cases up to the $k$th case (strong induction), then it is also true for the $(k+1)$th case
+      \item Conclude that the statement is true for all cases
+    \end{itemize}
 \section*{Amortized analysis} \noindent
   Guarantees the average performance of each op in the worst case 
   \subsection*{Aggregate method}
@@ -627,18 +656,15 @@
   \subsection*{Problem definitions}
     \subsubsection*{Independent-Set} \noindent
       Given a graph $G=(V,E)$ and an integer $k$, is there a subset of $\geq k$ vertices such that no two are adjacent?
-      \begin{center}
-        \includegraphics[width=\columnwidth]{L12/independent_set}
-      \end{center}
     \subsubsection*{Vertex-Cover} \noindent
       Given a graph $G=(V,E)$ and an integer $k$, is there a subset of $\leq k$ vertices such that each edge is incident to at least one vertex in the subset?
       \begin{center}
-        \includegraphics[width=\columnwidth]{L12/vertex_cover}
+        \includegraphics[width=\columnwidth]{L12/independent_set}
       \end{center}
     \subsubsection*{Set-Cover} \noindent
       Given integers $k$ and $n$, and a collection $\mathcal{S}$ of subsets of $\{1, \cdots, n\}$, are there $\leq k$ of these subsets whose union equal $\{1, \cdots, n\}$?
       \begin{center}
-        \includegraphics[width=\columnwidth]{L12/set_cover}
+        \includegraphics[width=0.8\columnwidth]{L12/set_cover}
       \end{center}
     \subsubsection*{3-SAT} \noindent
       \begin{itemize}[leftmargin=*]
@@ -665,7 +691,7 @@
     \subsubsection*{Dir-Ham-Cycle} \noindent
       Given a directed graph $G=(V,E)$, is there a simple directed cycle $\Gamma$ that contains every node in $V$ exactly once?
       \begin{center}
-        \includegraphics[width=\columnwidth]{L12/dir_ham_cycle}
+        \includegraphics[width=0.8\columnwidth]{L12/dir_ham_cycle}
       \end{center}
     \subsubsection*{Ham-Cycle} \noindent
       Given an undirected graph $G=(V,E)$, is there a simple cycle that contains every node in $V$ exactly once?
@@ -677,17 +703,14 @@
     \begin{center}
       \includegraphics[width=\columnwidth]{L12/problems_in_p}
     \end{center}
+    \vspace{-0.5cm}
   \subsection*{NP}
     \begin{itemize}[leftmargin=*]
       \item Short for non-deterministic polynomial
-      \item Defined as the class of problems for which polynomial time verifiable certificates of YES-instances exist
+      \item Defined as the class of problems for which polynomial time verifiable certs of YES-instances exist
       \item There is a verification algo $V(x,y)$ that takes in an instance $x$ and certificate $y$ with $\lvert y \rvert = poly(\lvert x \rvert)$ such that
         \[ \exists y \text{ s.t. } V(x,y) = 1 \iff x \text{ is a YES-instance} \]
-      \item P $\subseteq$ NP because
-        \begin{itemize}[leftmargin=*]
-          \item Certificate can be anything
-          \item Verifier $V(x, \cdot)$ can solve for the instance $x$ by itself and check if it is a YES-instance
-        \end{itemize}
+      \item P $\subseteq$ NP because certificate can be anything, while verifier $V(x, \cdot)$ can solve for the instance $x$ by itself and check if it is a YES-instance
     \end{itemize}
     \paragraph{Subset-Sum} Certificate is the subset $S' \subseteq S$ that sums up to $T$. Verifier checks whether the sum of elements of $S'$ is $t$, in polynomial time. Hence Subset-Sum is in NP.
   \subsection*{co-NP}
@@ -708,22 +731,15 @@
       Any problem in NP poly-time reduces to 3-SAT. Hence, 3-SAT is NP-hard and NP-complete.
     \subsubsection*{Likely relationships}
       \begin{center}
-        \includegraphics[width=\columnwidth]{L12/likely_relationships}
+        \includegraphics[width=0.8\columnwidth]{L12/likely_relationships}
       \end{center}
 \section*{Approximation}
-  \subsection*{Minimization} \noindent
-    Given an instance, find a solution that has minimum cost.
+  \subsection*{Minimization / \red{Maximization}} \noindent
+    Given an instance, find a solution that has min / \red{max} cost.
     \begin{itemize}[leftmargin=*]
       \item $C^*$ - cost of optimal solution
       \item $C$ - cost of solution found by your algorithm
-      \item $\dfrac{C}{C^*}$ - approximation ratio, always larger than 1
-    \end{itemize}
-  \subsection*{Maximization} \noindent
-    Given an instance, find a solution that has maximum cost.
-    \begin{itemize}[leftmargin=*]
-      \item $C^*$ - cost of optimal solution
-      \item $C$ - cost of solution found by your algorithm
-      \item $\dfrac{C^*}{C}$ - approximation ratio, always larger than 1
+      \item $\dfrac{C}{C^*}$ / \red{$\dfrac{C}{C^*}$} - approx. ratio, always larger than 1
     \end{itemize}
   \subsection*{PTAS} \noindent
     \subsubsection*{Polynomial-time approximation scheme} \noindent
