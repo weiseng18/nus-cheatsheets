@@ -258,11 +258,11 @@
       \end{itemize}
   \subsection*{Accounting method}
     \begin{itemize}[leftmargin=*]
-      \item Charge $i$th operation a fictitious amoritzed cost $c(i)$, that satisfies
+      \item Charge $i$th operation a fictitious amortized cost $c(i)$, that satisfies
         \[ \sum_{i=1}^n t(i) \leq \sum_{i=1}^n c(i) \quad \forall n \]
         where $t(i)$ is the true cost of the $i$th operation
       \item Usually $c(i) > t(i)$, with the extra amount paid stored as credit for future, rare, expensive operations
-      \item Analysis should ensure that there's always enough credit to pay for ture cost
+      \item Analysis should ensure that there's always enough credit to pay for true cost
       \item Always \textbf{identify the expensive operation}, which you try to do ``free of cost'' using stored credit
     \end{itemize}
     \subsubsection*{Queues}
@@ -314,7 +314,8 @@
           \item Starting from $t$ ones, actual cost for $n$ increments is $O(n+t)$
         \end{itemize}
 \section*{DP}
-  \subsection*{\yellow{SRTBOT}}
+  \subsection*{\yellow{SRTBOT}} \noindent
+    SRTBOT + optimal substructure sufficient to show correctness
     \begin{enumerate}[leftmargin=*]
       \item Subproblem definition
       \item Relate subproblem solutions recursively
