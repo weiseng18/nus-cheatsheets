@@ -995,6 +995,11 @@ For each pixel
     \begin{itemize}[leftmargin=*]
       \item Run De Casteljau's algorithm with approriate $t$
     \end{itemize}
+  \subsection*{Joining 2 bezier curves $p$ and $q$}
+    \begin{itemize}[leftmargin=*]
+      \item $C^0$ continuity: $p_3 = q_0$
+      \item $C^1$ continuity: we need the two tangent vectors to be the same magnitude and opposite direction - $p_3 - p_2 = q_1 - q_0$
+    \end{itemize}
   \subsection*{Continuity}
     \begin{itemize}[leftmargin=*]
       \item $C^0 \iff p(1) = q(0)$
