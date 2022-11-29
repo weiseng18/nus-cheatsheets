@@ -1,0 +1,43 @@
+father(john, mary).
+male(john).
+female(mary).
+
+res(X) :- male(X); female(X).
+
+% List append
+append([],Y,Y).
+append([X|Xs],Y,[X|Rs]) :- append(Xs,Y,Rs).
+
+% List reverse
+rev([],[]).
+rev([X|Xs],Y):- rev(Xs,Y2),append(Y2,[X],Y).
+
+% List membership
+sel(X,[X|_]).
+sel(X,[_|T]) :- sel(X,T).
+
+% Factorial
+fact(0,1).
+fact(N,R) :- N>0, M is N-1, fact(M, R1), R is N*R1.
+
+% Cut
+teach(dr_X, compsci).
+teach(dr_X, math).
+teach(dr_X, physics).
+teach(dr_Y, chemistry).
+study(alice, chemistry).
+study(bob, math).
+study(charlie, physics).
+
+% Logic puzzle
+:- use_module(library(clpfd)).
+
+puzzle([S,E,N,D]+[M,O,R,E]=[M,O,N,E,Y]) :-
+  Vars=[S,E,N,D,M,O,R,Y],
+  Vars ins 0..9,
+  all_different(Vars),
+            S*1000 + E*100 + N*10 + D +
+            M*1000 + O*100 + R*10 + E #=
+  M*10000 + O*1000 + N*100 + E*10 + Y,
+  M #\= 0, S #\= 0.
+
