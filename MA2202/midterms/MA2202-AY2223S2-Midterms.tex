@@ -1,0 +1,477 @@
+% ------------ begin cheatsheet
+\documentclass[a4paper]{article}
+\usepackage[a4paper,margin=0.1in]{geometry}
+\usepackage{multicol}
+
+\usepackage{amsmath, amssymb}
+\usepackage[inline]{enumitem}
+\usepackage{graphicx}
+
+\usepackage{ulem}
+\usepackage{makecell}
+
+% math-mode version of "c" column type
+\newcolumntype{C}{>{$}c<{$}}
+
+\newcommand{\Z}{\mathbb{Z}}
+
+% horizontal list
+\newlist{hlist}{enumerate*}{1}
+\setlist[hlist]{label={}, afterlabel={}, itemjoin={{ \textbar{} }}}
+
+% math
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+
+% envs
+\newcommand{\oli}[1]{\begin{enumerate*}[label=(\arabic*)]#1\end{enumerate*}}
+
+\graphicspath{ {./images/} }
+\pagestyle{empty}
+\setlength{\columnseprule}{0.2pt}
+
+% reduce spacing before and after headers
+\newcommand{\uppercaseandunderline}[1]{\uline{\uppercase{#1}}}
+
+\makeatletter
+\renewcommand{\section}{
+  \@startsection{section}{1}{0pt}{1ex}{1.2ex} {\raggedleft\normalfont\large\bfseries\uppercaseandunderline}}
+\renewcommand{\subsection}{
+  \@startsection{subsection}{2}{0pt}{1ex}{1.2ex} {\raggedleft\normalfont\normalsize\bfseries\fbox}}
+\renewcommand{\subsubsection}{
+  \@startsection{subsubsection}{3}{0pt}{1ex}{0.8ex} {\raggedleft\normalfont\footnotesize\bfseries\uline}}
+\renewcommand{\paragraph}{
+  \@startsection{paragraph}{4}{0pt}{1.5ex}{-0.8em}{\normalfont\bfseries}}
+% ------------ end cheatsheet
+
+\begin{document}
+\footnotesize
+\setlength{\abovedisplayskip}{2pt}
+\setlength{\belowdisplayskip}{2pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\begin{multicols*}{2}
+  \section*{\centering \underline{MA2202}}
+\subsection*{Misc}
+  \begin{itemize}[leftmargin=*]
+    \item To prove uniqueness, suppose not unique and try to show equality.
+    \item To prove equality of two sets, show that each is a subset of the other.
+    \item To show multiple, use Euclidean algorithm, then show $r=0$.
+  \end{itemize}
+\subsection*{Basic Set Theory} \noindent
+  A set is a collection of objects called elements.
+  \subsubsection*{Examples of sets}
+    \begin{itemize}[leftmargin=*]
+      \item $\mathbb{N}$ is the set of positive integers.
+      \item $\Z^\times$ is the set of integers excluding 0.
+      \item $\mathbb{Q}^\times$ is the set of rational numbers excluding 0.
+    \end{itemize}
+  \subsubsection*{Set operations} \noindent
+    Let $A, B$ be sets.
+    \begin{enumerate}[leftmargin=*]
+      \item If $B$ is a subset of $A$, write $B \subseteq A$.
+      \item $A \cup B = \{ x: x \in A \text{ or } x \in B \}$.
+      \item $A \cap B = \{ x: x \in A \text{ and } x \in B \}$.
+      \item $A \setminus B = \{ x: x \in A \text{ and } x \not\in B \}$.
+      \item $A \times B = \{ (a,b): a \in A \text{ and } b \in B \}$.
+    \end{enumerate}
+  \subsubsection*{Functions} \noindent
+    Let $A, B$ be sets, and let $f: A \rightarrow B$ be a function.
+    \begin{itemize}[leftmargin=*]
+      \item For $a \in A$, denote $f(a) = b \in B$.
+      \item The set $A$ is called the domain, and the set $B$ is called the co-domain.
+      \item The range/image of $f$ is
+        \[ \{b \in B : b = f(a) \text{ for some } a \in A\} \]
+      \item Let $B' \subseteq B$. Define
+        \[ f^{-1}(B') = \{ a \in A : f(a) \in B' \} \]
+      \item If $g: C \rightarrow D$ is another function, then we say $f=g \iff A=C, B=D$ and $f(a) = g(a) \; \forall a \in A$
+      \item If $S \subseteq A$, then $f \vert_S$ denotes the same function except that the domain $A$ is replaced by $S$. This function $f \vert_S$ is called the restriction of $f$ to $S$.
+      \item If $h: B \rightarrow C$, then the composite of $h$ and $f$ is a function $h \circ f: A \rightarrow C$ given by
+        \[ (h \circ f)(a) = h(f(a)) \quad \forall a \in A \]
+    \end{itemize}
+    \paragraph{Notable examples}
+      \begin{itemize}[leftmargin=*]
+        \item The identity function on $A$ is $f: A \rightarrow A$ defined by
+          \[ f(x) = x \quad \forall x \in A \]
+          We also denote the identity function on $A$ by $\mathrm{id}_A$.
+        \item The inclusion function on $Y$ for some $Y \subset X$ is the function $h: Y \rightarrow X$ defined by $h(y) = y \; \forall y \in Y$.
+      \end{itemize}
+    \paragraph{Injection/Surjection/Bijection}
+      Let $f: A \rightarrow B$ be a function.
+      \begin{enumerate}[leftmargin=*]
+        \item $f$ is an injection if $f(a) = f(a') \implies a = a'$.
+        \item $f$ is a surjection if $\forall b \in B, \exists a \in A$ such that $f(a) = b$.
+        \item $f$ is a bijection if it is both an injection and a surjection.
+        \item If $f$ is a bijection, we can define the inverse function $f^{-1}: B \rightarrow A$ in the following way: \\
+          For every $b \in B$, we have a unique $a \in A$ such that $f(a) = b$. Then $f^{-1}(b) = a$.
+        \item A function is a bijection $\iff$ its inverse function exists.
+      \end{enumerate}
+\subsection*{Integers}
+  \subsubsection*{Divisbility} \noindent
+    Given $a, b \in \Z$ where $a \neq 0$.
+    \begin{itemize}[leftmargin=*]
+      \item We say $a$ divides $b$ if $b = ma$ for some $m \in \Z$. The integer $b$ is called a multiple of $a$, and we write $a|b$.
+      \item An integer $n$ is called a unit if it divides 1. Hence $n = 1$ or $-1$.
+      \item Transitivity holds, i.e. $a|b$ and $b|c \implies a|c$
+    \end{itemize}
+  \subsubsection*{Prime} \noindent
+    A nonzero $p \in \Z$ is called a prime integer if:
+    \begin{enumerate}[leftmargin=*]
+      \item $p$ is not a unit (i.e $p \neq \pm 1$), and
+      \item if $p$ divides $ab$ for some $a,b \in \Z$, then $p|a$ or $p|b$.
+    \end{enumerate}
+    A positive prime integer is called a prime number.
+  \subsubsection*{Irreducible} \noindent
+    A nonzero $p \in \Z$ is called a irreducible integer if:
+    \begin{enumerate}[leftmargin=*]
+      \item $p$ is not a unit (i.e $p \neq \pm 1$), and
+      \item if $p$ divides $xy$ for some $x,y \in \Z$, then either $x$ or $y$ is a unit, i.e. $x$ or $y$ is $\pm 1$.
+    \end{enumerate}
+  \subsubsection*{Prime vs irreducible} \noindent
+    Let $p$ be an integer. It is an irreducible integer $\iff$ it is a prime integer.
+\subsection*{The Euclidean algorithm} \noindent
+  Let $x, y \in \Z$ with $y \neq 0$. Then there exist unique integers $q$ and $r$ such that
+    \[ x = qy + r \text{ and } 0 \le r < \abs{y} \]
+  This is also known as the division algorithm.
+  \subsubsection*{Common divisor} \noindent
+    Given two integers $x$ and $y$ where $y \neq 0$.
+    \begin{itemize}[leftmargin=*]
+      \item A nonzero integer $m$ is called a common divisor if $m|x$ and $m|y$.
+      \item $1$ is always a common divisor.
+      \item If $m$ is a common divisor, $-m$ is also a common divisor.
+      \item Every common divisor lies bewtween $-\abs{y}$ and $\abs{y}$.
+      \item There are only finitely many common divisors.
+    \end{itemize}
+  \subsubsection*{Greatest common divisor} \noindent
+    There is a largest number $d$ among the common divisors of $x$ and $y$, which we call the GCD of $x$ and $y$. Denote it by $d = \gcd(x, y)$.
+    \begin{itemize}[leftmargin=*]
+      \item Since $1$ is always a common factor, $d \ge 1$
+      \item $\gcd(0, y) = \abs{y}$
+      \item $\gcd(x, y) = \gcd(y, x) = \gcd(x, \abs{y}) = \gcd(\abs{x}, y) = \gcd(\abs{x}, \abs{y})$
+      \item $\gcd(cx, cy) = \abs{c} \gcd(x, y)$
+      \item $\gcd(x, y) = \gcd(x+y, y) = \gcd(x-y, y)$
+    \end{itemize}
+    \paragraph{Connection with Euclidean algorithm} Let $x, y$ be integers where $y \neq 0$. Let $x = qy + r$ where $0 \le r < \abs{y}$. Then
+      \[ \gcd(x, y) = \gcd(y, r) \]
+  \subsubsection*{Computing GCD} \noindent
+    Given $x_1, x_2 \in \Z$.
+    \begin{itemize}[leftmargin=*]
+      \item If $x_2 = 0$, then $\gcd(x_1, x_2) = \abs{x_1}$.
+      \item Else, $x_2 \ne 0$.
+    \end{itemize}
+    Assume $x_2 \ne 0$. Since $\gcd(x_1, x_2) = \gcd(x_1, \abs{x_2})$, suppose $x_2 > 0$. By the division algorithm,
+    \[ x_1 = qx_2 + x_3 \quad \text{for some } 0 \le x_3 < x_2 \]
+    By the lemma above,
+    \[ \gcd(x_1, x_2) = \gcd(x_2, x_3) \]
+    Doing this repeatedly, we get
+    \[ \gcd(x_1, x_2) = \gcd(x_2, x_3) = \cdots = \gcd(x_m, 0) = x_m \]
+    where $\abs{x_2} > x_3 > x_4 > \cdots \geq 0$.
+    \paragraph{Example} $\gcd(6804, -930) = \gcd(6804, 930)$.
+      \begin{align*}
+        6804 &= 7(930) + 294 \\
+        930 &= 3(294) + 48 \\
+        294 &= 6(48) + 6\\
+        48 &= 8(6) + 0
+      \end{align*}
+      Hence,
+      \begin{align*}
+        &\gcd(6804, -930) = \gcd(6804, 930) = \gcd(930, 294) \\
+        &= \gcd(294, 48) = \gcd(48, 6) = \gcd(6, 0) = 6
+      \end{align*}
+      Then, by reverse engineering,
+      \begin{align*}
+        6 &= 294 - 6(48) \\
+          &= 294 - 6(930 - 3(294)) \\
+          &= -6(930) + (19)(294) \\
+          &= -6(930) + (19)(6804 - 7(930)) \\
+          &= 19(6804) - 139(930) \\
+          &= (19)(6804) + 139(-930)
+      \end{align*}
+      Hence, $6 = a(6804) + b(-930)$ for some $a, b \in \Z$.
+    \paragraph{Proposition} Let $d = \gcd(x, y)$ where $y \neq 0$. Then
+      \begin{enumerate}[leftmargin=*]
+        \item We have $d = ax+by$ for some $a, b \in \Z$
+        \item Let $I = \{mx + ny \in \Z : m, b \in \Z\}$. Then $I = d \Z$ is the set of all the multiples of $d$.
+        \item If an integer $c$ divides both $x$ and $y$, then $c$ divides $d$.
+      \end{enumerate}
+  \subsubsection*{GCD of 3 or more integers} \noindent
+    Let $x, y, z \in \Z$, and not all are 0. We say $c$ is a common divisor of $x,y,z$ if $c$ divides $x,y,z$. The GCD of $x,y,z$ is denoted by $d = \gcd(x,y,z)$.
+    \begin{enumerate}[leftmargin=*]
+      \item If $c$ divides $x,y,z$ then $c$ divides $\gcd(x,y)$ and $z$.
+      \item $\gcd(x,y,z) = \gcd(\gcd(x,y), z)$
+      \item $d = mx + ny + pz$ for some $m,n,p \in \Z$
+      \item $I = \{mx+ny+pz : m,n,p \in \Z\} = d\Z$
+    \end{enumerate}
+  \subsubsection*{Tut 1 Q2 (GCD given prime factorization)} \noindent
+    Suppose
+    \[ x = p_1^{e_1} p_2^{e_2} \cdots p_s^{e_s}, y = p_1^{f_1} p_2^{f_2} \cdots p_s^{f_s}, d = p_1^{g_1} p_2^{g_2} \cdots p_s^{g_s} \]
+    are prime factorizations of $x$ and $y$, with $p_i$ being distinct positive prime integers, and $e_i, f_i \ge 0$. Then
+    \begin{itemize}[leftmargin=*]
+      \item The integer $d$ divides $x \iff g_i \le e_i$ for all $i$.
+      \item If $d|x$ and $d|y$, then $g_i \le \min\{e_i,f_i\}$ for all $i$.
+      \item GCD is
+        \[ gcd(x,y) = p_1^{\min\{e_1,f_1\}} p_2^{\min\{e_2,f_2\}} \cdots p_s^{\min\{e_s,f_s\}} \]
+      \item If $d|x$ and $d|y$, then $d|\gcd(x,y)$
+    \end{itemize}
+  \subsubsection*{The fundamental theorem of arithmetic} \noindent
+    Let $n > 1$ be a positive integer. Then there exists a factorization
+    \[ n = p_1 p_2 \cdots p_s \]
+    where $p_i$ is a (positive) prime number for all $i$, and $p_1 \le p_2 \le \cdots \le p_s$. This factorization is unique.
+\subsection*{Mathematical induction}
+  \subsubsection*{Mathematical induction} \noindent
+    Let $P(1)$ be a property that depends on $n \in \mathbb{N}$. If
+    \begin{enumerate}[leftmargin=*]
+      \item $P(1)$ holds and
+      \item if $P(k)$ holds, then $P(k+1)$ holds
+    \end{enumerate}
+    then $P(n)$ holds $\forall n \in \mathbb{N}$.
+  \subsubsection*{Strong MI} \noindent
+    Let $P(1)$ be a property that depends on $n \in \mathbb{N}$. If
+    \begin{enumerate}[leftmargin=*]
+      \item $P(1)$ holds and
+      \item if $P(i)$ holds for $1 \le i \le k$, then $P(k+1)$ holds
+    \end{enumerate}
+    then $P(n)$ holds $\forall n \in \mathbb{N}$.
+  \subsubsection*{Binomial theorem} \vspace{-0.3cm}
+    \[ (a+b)^n = \sum_{i=0}^n {n \choose i} a^{n-i} b^i \quad \forall n \in \mathbb{N} \]
+  \subsubsection*{Fermat's little theorem} \noindent
+    Let $p$ be a prime number. Then
+    \[ p|(n^p - n) \quad \forall n \in \Z \]
+    i.e.
+    \[ n^p \equiv n \pmod{p} \]
+\subsection*{Equivalence relations}
+  \subsubsection*{Relation} \noindent
+    Let $A$ be a set. A subset $R$ of $A \times A$ is a relation on $A$. For $a, b \in A$, $a \sim b \iff (a,b) \in R$. We may write it as $a \sim_{R} b$.
+  \subsubsection*{Equivalence relation} \noindent
+    Let $A$ be a set. A relation $R$ on $A$ (i.e. $R \subseteq A \times A$) is an equivalence relation on $A$ if for all $a,b,c$,
+    \begin{itemize}[leftmargin=*]
+      \item (E1) $a \sim a$ (reflexive)
+      \item (E2) $a \sim b \implies b \sim a$ (symmetric)
+      \item (E3) $a \sim b \land b \sim c \implies a \sim c$ (transitive)
+    \end{itemize}
+  \subsubsection*{Equivalence class} \noindent
+    Let $R$ be an equivalence relation on a set $A$. Let $a \in A$. The equivalence class of $a \in A$ is the subset
+    \[ \{x \in A: a \sim x\} \]
+    and we denote it by $Cl(a)$.
+  \subsubsection*{Partition} \noindent
+    Let $A$ be a set and let $\{A_i: i \in I, A_i \subseteq A\}$ be a collection of subsets of $A$. We say that the collection $\{A_i: i \in I\}$ forms a partition of $A$ if
+    \begin{itemize}[leftmargin=*]
+      \item (P1) $A = \bigcup_{i \in I} A_i$, and
+      \item (P2) $A_i \cap A_j = \emptyset$ for all $i,j \in I$ and $i \neq j$
+    \end{itemize}
+    Alternatively, P2 can be stated as: If $A_i \cap A_j$ is a nonempty subset, then $A_i = A_j$.
+  \subsubsection*{Collection of all equivalence classes} \noindent
+    Let $R$ be an equivalence relation on a set $A$. The set of equivalence classes $\{Cl(a): a \in A\}$ is denoted by $A / R$, $A /_{\sim_R}$, or simply $A/\sim$.
+    \begin{itemize}[leftmargin=*]
+      \item The collection of all equivalence classes forms a partition of $A$.
+      \item The map $p: A \rightarrow A/R$ given by $p(a) = Cl(a)$ is called the quotient map.
+    \end{itemize}
+\subsection*{Linear Congruences}
+  \subsubsection*{Congruent modulo $m$} \noindent
+    Let $m$ be a positive integer. Let $a, b \in \Z$. Then $a \equiv b \pmod{m}$ if $m \vert (a-b)$.
+\subsection*{Simultaneous congruence equations}
+  \subsubsection*{Solution to congruence equation} \noindent
+    Suppose $\gcd(a,m) = 1$. For $b \in \Z$, the congruence equation
+    \[ ax \equiv b \pmod{m} \]
+    has a solution $x \in \Z$, that is unique modulo $m$, i.e. $x' \in \Z$ is another solution iff
+    \[ x \equiv x' \pmod{m} \]
+  \subsubsection*{Chinese Remainder Theorem} \noindent
+    Suppose $\gcd(m, m') = 1$. Then the congruence equations
+    \begin{align*}
+      x &\equiv b \pmod{m} \\
+      x &\equiv b' \pmod{m'}
+    \end{align*}
+    have a common solution $x \in \Z$, that is unique modulo $mm'$, i.e. if $x' \in \Z$ is another solution, then
+    \[ x \equiv x' \pmod{mm'} \]
+  \subsubsection*{Solving simultaneous congruence equations} \noindent
+    Solve the simultaneous congruence equations
+    \begin{align*}
+      x &\equiv 3 \pmod{13} \\
+      x &\equiv 5 \pmod{11}
+    \end{align*}
+    By the division algorithm, we have $13 = 11 + 2$ and $11 = 5(2) + 1$. Hence,
+    \begin{align*}
+      \gcd(13, 11) &= 1 = 11 - 5(2) \\
+                   &= 11 - 5(13-11) = -5(13) + 6(11)
+    \end{align*}
+    This implies
+    \begin{align*}
+      6(11) &\equiv 1 \pmod{13} \\
+      -5(13) &\equiv 1 \pmod{11}
+    \end{align*}
+    Consider $x = 5(-5)(13) + 3(6)(11) = -127$. We can show that this is a solution, and then by the Chinese Remainder Theorem, all solutions are of the form $x = -127 + k(13)(11)$.
+\end{multicols*}
+\begin{multicols*}{2}
+\subsection*{Binary operations}
+  \subsubsection*{Definition} \noindent
+    Let $G$ be a set. A binary op $*$ on $G$ is a function
+    \[ *: G \times G \rightarrow G \]
+    \begin{itemize}[leftmargin=*]
+      \item For $(x,y) \in G$, we denote $*(x,y)$ by $x*y$.
+      \item Associative if $\forall a,b,c \in G$, $(a*b)*c = a*(b*c)$.
+      \item Commutative/abelian if $\forall a,b \in G$, $a*b=b*a$.
+    \end{itemize}
+  \subsubsection*{Multiplication table} \noindent
+    Let $G = \{a,b,c\}$. We can represent a binary operation $*$ with a multiplication table:
+    \begin{center}
+      \begin{tabular}{ C|CCC }
+        x*y & y=a & b & c \\
+        \hline
+        x=a & a & a & b \\
+        b & a & c & c \\
+        c & b & a & c
+      \end{tabular}
+    \end{center}
+    For $*$ to be abelian, the multiplication table should be symmetric along the diagonal.
+  \subsubsection*{Identity} \noindent
+    Let $(G,*)$ be a set with a binary op. Let $e \in G$.
+    \begin{itemize}[leftmargin=*]
+      \item $e$ is a left identity element if $\forall a \in G$, $e*a = a$.
+      \item $e$ is a right identity element if $\forall a \in G$, $a*e = a$.
+      \item $e$ is an identity element if $\forall a \in G$, $e*a = a*e = a$.
+    \end{itemize}
+\subsection*{Groups}
+  \subsubsection*{Group axioms} \noindent
+    A group $(G, *)$ consists of a set $G$ and a binary operation $*$ on $G$ which satisfies four axioms:
+    \begin{itemize}[leftmargin=*]
+      \item (G1) (Closure) For all $a,b \in G$, $a*b \in G$.
+      \item (G2) (Associativity) For all $a,b,c \in G$,
+        \[ (a*b)*c = a*(b*c) \]
+      \item (G3) (Existence of identity element) $\exists e \in G$ such that for all $a \in G$,
+        \[ e*a = a*e = a \]
+        Note that the identity element is unique.
+      \item (G4) (Existence of inverse element) For each $a \in G$, $\exists b \in G$ such that
+        \[ a*b = b*a = e \]
+        where $e$ is the identity element in (G3). Note that the inverse of an element is unique.
+    \end{itemize}
+  \subsubsection*{Order} \noindent
+    The number of elements in $G$ is called the order of $G$. We denote it by $\lvert G \rvert$. If $\lvert G \rvert$ is finite, then we call $G$ a finite group. Otherwise it is an infinite group.
+  \subsubsection*{Abelian group} \noindent
+    A group $(G,*)$ is called an abelian group if $a*b=b*a$ for all $a,b \in G$.
+  \subsubsection*{Some theorems} \noindent
+    Let $(G,*)$ be a group. Let $a,b,c \in G$. Then
+    \begin{itemize}[leftmargin=*]
+      \item $(a^{-1})^{-1} - a$
+      \item $(a*b)^{-1} = b^{-1} * a^{-1}$
+      \item $a^{-1} * \cdots * a^{-1} = (a*\cdots*a)^{-1}$ where there are $n$ copies of $a^{-1}$ and $a$ on both sides.
+      \item (Cancellation Law) If $a*c = b*c$, then $a=b$. If $c*a = c*b$, then $a=b$.
+      \item Given $a,b \in G$, the equation $a*x=b$ (and respectively $x*a=b$) has a unique solution $x \in G$.
+      \item $a^n * a^m = a^{n+m}$ for $n,m \in \Z$.
+    \end{itemize}
+  \subsubsection*{Weakened axioms} \noindent
+    For (G3) and (G4), if we show either
+    \begin{itemize}[leftmargin=*]
+      \item just right identity + right inverse,
+      \item or just left identity + left inverse,
+    \end{itemize}
+    and if (G1) and (G2) are already proven, then we have a group.
+\subsection*{Examples of groups}
+  \subsubsection*{$n$th roots of unity} \noindent
+    Given a positive integer $n$. Let
+    \[ \mu_n = \left\{ e^\frac{2k \pi i}{n} : k = 0, \cdots, n-1 \right\} \]
+    Then $(\mu_n, \times)$ forms a finite abelian group of order $n$, where $\times$ is the usual complex number multiplication.
+    \begin{itemize}[leftmargin=*]
+      \item Identity is $1$.
+      \item Inverse of $e^\frac{2k\pi i}{n}$ is $e^\frac{2(n-k)\pi i}{n}$.
+    \end{itemize}
+    If we set $a=e^\frac{2\pi i}{n}$, then $G$ could be written as
+    \[ \mu_n = \left\{ 1=a^n, a, a^2, \cdots, a^{n-1} \right\} \]
+    and we call $\mu_n$ a cyclic group of order $n$.
+  \subsubsection*{Integers modulo $n$} \noindent
+    Let $\Z / n\Z = \{0, 1, 2, \cdots, n-1\}$. The binary operation $*$ is given by
+    \[ x*y = \begin{cases}
+      x+y & \text{if } x+y < n \\
+      x+y-n & \text{if } x+y \ge n
+    \end{cases} \]
+    $(\Z / n\Z)$ forms a group and is also a cyclic group of order $n$.
+    \begin{itemize}[leftmargin=*]
+      \item Identity is $0$.
+      \item Inverse element is $0$ for $0$, $n-x$ for positive $x$.
+    \end{itemize}
+  \subsubsection*{Set of bijections} \noindent
+    Let $Y$ be a set (could be \textbf{infinite}) and let
+    \[ S_Y = \{f : Y \rightarrow Y: f \text{ is a bijection.} \} \]
+    The binary operation $\circ$ is the composite of functions. Then $(S_Y, \circ)$ is a group.
+    \begin{itemize}[leftmargin=*]
+      \item Identity is the identity function on $Y$.
+      \item Inverse of a function $f$ is its inverse function.
+    \end{itemize}
+  \subsubsection*{Symmetric group on $n$ letters} \noindent
+    Consider $S_Y$ where $Y = \{1, 2, \cdots, n\}$. Then $S_Y$ is a finite group of order $n!$.
+  \subsubsection*{Product group} \noindent
+    Let $(G,*)$ and $(H,\star)$ be two groups. Consider the Cartesian product $G \times H = \{(g,h): g \in G, h \in H\}$. Define binary operation $\cdot$ on $G \times H$ by
+    \[ (g,h) \cdot (g', h') = (g*g', h\star h') \]
+    for all $(g,h), (g',h') \in G \times H$. Then $(G \times H, \cdot)$ forms a group, called the product group of $(G, *)$ and $(H, \star)$.
+    \begin{itemize}[leftmargin=*]
+      \item Identity element is $(e_G, e_H)$ where $e_G$ and $e_H$ are the identity elements of $G$ and $H$ respectively.
+      \item Inverse element of $(g,h)$ is $(g^{-1}, h^{-1})$.
+    \end{itemize}
+  \subsubsection*{General linear group} \noindent
+    Let $G$ be the set of invertible $n$ by $n$ matrices with entries in a field $F$. The binary operation $\times$ is the usual matrix multiplication. Then $(G, \times)$ is a group called the general linear group of rank $n$ and we denote $G$ by $\mathrm{GL}(n, F)$.
+    \begin{itemize}[leftmargin=*]
+      \item Identity is the $n$ by $n$ identity matrix.
+      \item Inverse of a matrix $A$ is the usual inverse $A^{-1}$.
+    \end{itemize}
+  \subsubsection*{Special linear group} \noindent
+    $\mathrm{SL}(n,F)$ is defined in the same way as in ``General linear group'', except we only have matrices with determinant 1.
+  \subsubsection*{Orthogonal group} \noindent
+    $\mathrm{O}(n)$ is defined in the same way as in ``General linear group'', except we only have orthogonal matrices.
+\subsection*{Group isomorphisms}
+  \subsubsection*{Definition} \noindent
+    Let $(G,*)$ and $(H,\star)$ be two groups. We say that these two groups are isomorphic if there exists a bijection $\phi: G \rightarrow H$ such that
+    \[ \phi(g_1 * g_2) = \phi(g_1) \star \phi(g_2) \]
+    for all $g_1, g_2 \in G$.
+    \begin{itemize}[leftmargin=*]
+      \item The bijection $\phi$ is called a group isomorphism.
+      \item We denote $(G,*) \simeq (H, \star)$ and $\phi: (G,*) \overset{\sim}{\rightarrow} (H,\star)$.
+      \item If $(G,*)$ and $(H,\star)$ are isomorphic finite groups, then they have the same order.
+      \item If $(G,*)$ is an abelian group, then $(H,\star)$ is an abelian group.
+      \item $\phi: G \rightarrow G$ given by $\phi(g) = g^{-1}$ is a group isomorphism $\iff G$ is an abelian group.
+    \end{itemize}
+  \subsubsection*{Two isomorphisms} \noindent
+    Suppose $\phi: (G,*) \rightarrow (H,\star)$ and $\psi: (H, \star) \rightarrow (K, \cdot)$ are two isomorphisms of groups. Then
+    \begin{itemize}[leftmargin=*]
+      \item the inverse function $\phi^{-1}: (H,\star) \rightarrow (G,*)$ and
+      \item the composite function $\psi \circ \phi: (G,*) \rightarrow (K,\cdot)$
+    \end{itemize}
+    are group isomorphisms.
+  \subsubsection*{Group homomorphism} \noindent
+    Let $(G,*)$ and $(H,\star)$ be two groups. A function $\phi: G \rightarrow H$ is called a group homomorphism if
+    \[ \phi(x*y) = \phi(x) \star \phi(y) \]
+    for all $x,y \in G$. \\\\
+    There is no requirement on $\phi$ to be injective or surjective. But if $\phi$ is a bijection, then we have a group isomorphism instead.
+\subsection*{Subgroups}
+  \subsubsection*{Definition} \noindent
+    Let $(G,*)$ be a group. Let $H \subseteq G$ be a nonempty subset. Suppose $(H,*)$ forms a group, i.e. it satisfies the four group axioms. Then $(H,*)$ is called a subgroup of $(G,*)$. Note that the binary operation is the same for $G$ and $H$.
+  \subsubsection*{Integer multiple} \noindent
+    Suppose $(I,+)$ is a subgroup of $(\Z, +)$. Then $I=d\Z$ for some non-negative integer $d$.
+  \subsubsection*{Roots of unity} \noindent
+    $(\mu_m, \times)$ is a subgroup of $(\mu_n, \times)$ if $m \vert n$.
+\subsection*{Properties of subgroups}
+  \subsubsection*{Proposition 30} \noindent
+    Let $(G,*)$ be a group and let $H \subseteq G$ be a nonempty subset. Then $(H,*)$ is a subgroup iff:
+    \begin{itemize}[leftmargin=*]
+      \item (S1) For all $a,b \in H$, we have $a*b \in H$.
+      \item (S2) For all $a \in H$, we have $a^{-1} \in H$.
+    \end{itemize}
+  \subsubsection*{Proposition 31} \noindent
+    Let $(G,*)$ be a group and let $H \subseteq G$ be a nonempty subset. Then $(H,*)$ is a subgroup iff:
+    \begin{itemize}[leftmargin=*]
+      \item (S) For all $a,b \in H$, we have $a * b^{-1} \in H$.
+    \end{itemize}
+  \subsubsection*{Cyclic group} \noindent
+    Let $(G,*)$ be a group and let $x \in G$. We call $H = \{x^n \in G: n \Z\}$ the cyclic subgroup of $G$ generated by $x$, and we denote $H$ by $\langle x \rangle$. \\\\
+    A group $(G,*)$ is called a cyclic group if $G = \langle x \rangle$ for some $x \in G$, i.e.
+    \[ G = \langle x \rangle = \{x^n \in G : n \in \Z\} \]
+  \subsubsection*{Proposition 32} \noindent
+    Let $(G,*)$ be a group and let $H \subseteq G$ be a nonempty finite subset. Then $(H,*)$ is a subgroup iff
+    \begin{itemize}[leftmargin=*]
+      \item (S1) For all $a,b \in H$, we have $a*b \in H$.
+    \end{itemize}
+  \subsubsection*{Intersection of subgroups} \noindent
+    If $\{ (H_i, *): i \in I \}$ is a collection of subgroups of $(G,*)$, then
+    \[ \left( \bigcap_{i \in I} H_i, * \right) \]
+    is a non-empty subgroup of $(G,*)$.
+  \subsubsection*{Proposition 34} \noindent
+    Let $(H,*)$ and $(K,*)$ be subgroups of $(G,*)$. If $(H \cup K, *)$ is a subgroup, then either $H \subseteq K$ or $K \subseteq H$.
+\end{multicols*}
+\end{document}
