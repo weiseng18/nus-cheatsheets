@@ -9,10 +9,10 @@ Cheatsheets made for NUS CS
 
 ## Contents
 
-- AY22/23 S2
+- AY22/23 S2 (standalone)
   - [MA2202 Midterms](./MA2202/midterms/MA2202-AY2223S2-Midterms.pdf)
 
-- AY22/23 S1
+- AY22/23 S1 (standalone)
   - [CS2102 Midterms](./CS2102/midterms/CS2102-AY2223S1-Midterms.pdf)
   - [CS2102 Finals](./CS2102/finals/CS2102-AY2223S1-Finals.pdf)
   - [CS2104 Midterms](./CS2104/midterms/CS2104-AY2223S1-Midterms.pdf)
@@ -24,7 +24,7 @@ Cheatsheets made for NUS CS
   - [CS3241 Midterms](./CS3241/midterms/CS3241-AY2223S1-Midterms.pdf)
   - [CS3241 Finals](./CS3241/finals/CS3241-AY2223S1-Finals.pdf)
 
-- AY21/22 S2
+- AY21/22 S2 (dependent on ./headers)
   - [CS2040S Midterms](./CS2040S/midterms/CS2040S-AY2122S2-Midterms.pdf)
   - [CS2040S Finals](./CS2040S/finals/CS2040S-AY2122S2-Finals.pdf)
   - [CS2106 Midterms](./CS2106/midterms/CS2106-AY2122S2-Midterms.pdf)
@@ -35,7 +35,8 @@ Cheatsheets made for NUS CS
   - [PC1201 Mechanics](./PC1201/mechanics/PC1201-AY2122S2-Mechanics.pdf)
   - [PC1201 E & M](./PC1201/electricity_magnetism/PC1201-AY2122S2-E_and_M.pdf)
   - [PC1201 Finals](./PC1201/finals/PC1201-AY2122S2-Finals.pdf)
-- AY21/22 S1
+
+- AY21/22 S1 (dependent on ./headers)
   - [CS1231S Finals](./CS1231S/CS1231S-AY2122S1-Finals.pdf)
   - [CS2030S Finals](./CS2030S/CS2030S-AY2122S1-Finals.pdf)
   - [CS2100 Finals](./CS2100/CS2100-AY2122S1-Finals.pdf)
