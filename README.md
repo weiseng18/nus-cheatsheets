@@ -11,6 +11,7 @@ Cheatsheets made for NUS CS
 
 - AY22/23 S2 (standalone)
   - [MA2202 Midterms](./MA2202/midterms/MA2202-AY2223S2-Midterms.pdf)
+  - [MA2202 Finals](./MA2202/finals/MA2202-AY2223S2-Finals.pdf)
 
 - AY22/23 S1 (standalone)
   - [CS2102 Midterms](./CS2102/midterms/CS2102-AY2223S1-Midterms.pdf)
