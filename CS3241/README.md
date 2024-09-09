@@ -1,4 +1,4 @@
-# CS1231S
+# CS3241
 
 ## Midterm
 
